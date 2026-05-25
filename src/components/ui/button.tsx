@@ -1,0 +1,27 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
+
+type ButtonProps = {
+  href: string;
+  children: ReactNode;
+  variant?: "gold" | "ghost";
+  className?: string;
+};
+
+export function Button({ href, children, variant = "gold", className }: ButtonProps) {
+  return (
+    <Link
+      className={cn(
+        "inline-flex min-h-12 items-center justify-center gap-2 rounded-mstry border px-5 text-sm font-black transition duration-200 hover:-translate-y-0.5",
+        variant === "gold"
+          ? "border-transparent bg-gradient-to-br from-[#fff0b7] via-mstry-gold to-mstry-deepGold text-black"
+          : "border-white/15 bg-transparent text-mstry-silver hover:border-mstry-gold/60",
+        className
+      )}
+      href={href}
+    >
+      {children}
+    </Link>
+  );
+}
