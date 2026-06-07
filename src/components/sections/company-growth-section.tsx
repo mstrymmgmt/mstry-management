@@ -177,7 +177,7 @@ export function CompanyGrowthSection() {
             <div className="rounded-mstry border border-white/10 bg-white/[.035] p-4">
               <strong className="text-white">Client value</strong>
               <p className="mt-2 text-sm leading-6 text-mstry-muted">
-                The displayed data shows {latest.cumulativeGrowth}% cumulative index growth, {projectLift} additional projects, and {partnershipLift} additional partnerships, reinforcing MSTRY's ability to support larger, more complex mandates over time.
+                The displayed data shows {latest.cumulativeGrowth}% cumulative index growth, {projectLift} additional projects, and {partnershipLift} additional partnerships, reinforcing MSTRY&apos;s ability to support larger, more complex mandates over time.
               </p>
             </div>
           </div>

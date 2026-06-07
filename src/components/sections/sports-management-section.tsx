@@ -284,7 +284,7 @@ export function SportsManagementSection() {
                 <span className="pb-2 text-xl font-black text-[#A1A1AA]">/100</span>
               </div>
               <p className="mt-3 text-sm leading-6 text-[#A1A1AA]">
-                A reflection of MSTRY's ability to deliver integrated management solutions across strategy, business development, partnerships, project execution, commercial growth, stakeholder management, brand, and international expansion.
+                A reflection of MSTRY&apos;s ability to deliver integrated management solutions across strategy, business development, partnerships, project execution, commercial growth, stakeholder management, brand, and international expansion.
               </p>
             </div>
 
@@ -382,7 +382,7 @@ export function SportsManagementSection() {
             <div>
               <strong className="text-white">Executive Insight</strong>
               <p className="mt-2 text-sm leading-6 text-[#A1A1AA]">
-                MSTRY's capability profile demonstrates balanced expertise across strategic leadership, business development, project management, partnership strategy, commercial growth, stakeholder management, brand development, and international expansion.
+                MSTRY&apos;s capability profile demonstrates balanced expertise across strategic leadership, business development, project management, partnership strategy, commercial growth, stakeholder management, brand development, and international expansion.
               </p>
             </div>
             <div>
