@@ -3,15 +3,80 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Book Consultation | MSTRY MANAGEMENT</title>
-  <meta name="description" content="Book a private consultation for UAE company formation, European business setup, corporate structuring, relocation, banking support, compliance, and outsourced operations management.">
+  <title>Book a Call | MSTRY MANAGEMENT</title>
+  <meta name="description" content="Choose a date and time to book a call with a MSTRY team member.">
   <link rel="stylesheet" href="styles.css?v=6">
+  <style>
+    body.booking-page { background:#0A0A0A; color:#fff; }
+    .booking-main { position:relative; overflow:hidden; }
+    .booking-main:before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 78% 8%,rgba(212,175,55,.15),transparent 32%),linear-gradient(180deg,#0A0A0A 0%,#111827 54%,#0A0A0A 100%); pointer-events:none; }
+    .booking-hero, .booking-section { position:relative; z-index:1; }
+    .booking-hero { padding:110px 0 48px; border-bottom:1px solid rgba(212,175,55,.14); }
+    .booking-hero .container { max-width:1040px; }
+    .booking-hero h1 { max-width:860px; margin:16px 0 0; font-size:clamp(3rem,7vw,6.4rem); line-height:.92; letter-spacing:-.04em; }
+    .booking-hero .lead { max-width:780px; color:#D9D9D9; font-size:clamp(1.02rem,1.8vw,1.28rem); line-height:1.65; }
+    .booking-section { padding:64px 0 92px; }
+    .booking-shell { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr); gap:28px; align-items:start; }
+    .booking-card { border:1px solid rgba(212,175,55,.2); border-radius:12px; background:linear-gradient(180deg,rgba(17,24,39,.94),rgba(10,10,10,.92)); box-shadow:0 30px 100px rgba(0,0,0,.38); padding:26px; }
+    .booking-card h2 { margin:8px 0 0; font-size:clamp(2rem,4vw,3.2rem); line-height:1; letter-spacing:-.03em; }
+    .booking-card p { color:#A1A1AA; line-height:1.7; }
+    .calendar-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:24px; }
+    .calendar-controls { display:flex; gap:8px; }
+    .calendar-btn { min-width:44px; min-height:44px; border:1px solid rgba(255,255,255,.12); border-radius:9px; background:#0A0A0A; color:#fff; cursor:pointer; transition:border-color .2s ease, transform .2s ease; }
+    .calendar-btn:hover { border-color:#D4AF37; transform:translateY(-1px); }
+    .calendar-weekdays, .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
+    .calendar-weekdays { margin-bottom:8px; color:#A1A1AA; font-size:.74rem; font-weight:950; letter-spacing:.12em; text-transform:uppercase; text-align:center; }
+    .calendar-day { min-height:68px; border:1px solid rgba(255,255,255,.1); border-radius:9px; background:#0A0A0A; color:#fff; cursor:pointer; font-weight:950; transition:transform .22s ease,border-color .22s ease,background .22s ease,opacity .22s ease; }
+    .calendar-day small { display:block; margin-top:4px; color:#A1A1AA; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; }
+    .calendar-day.available:hover { border-color:#D4AF37; background:rgba(212,175,55,.1); transform:scale(1.04); }
+    .calendar-day.selected { border-color:#D4AF37; background:#D4AF37; color:#090909; }
+    .calendar-day.selected small { color:#090909; }
+    .calendar-day.unavailable, .calendar-day.booked { cursor:not-allowed; opacity:.48; background:rgba(255,255,255,.035); }
+    .calendar-day.outside { opacity:.25; }
+    .time-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px; }
+    .time-slot { min-height:48px; border:1px solid rgba(255,255,255,.12); border-radius:9px; background:#0A0A0A; color:#fff; font-weight:950; cursor:pointer; transition:transform .22s ease,border-color .22s ease,background .22s ease; }
+    .time-slot.available:hover { border-color:#D4AF37; transform:scale(1.04); }
+    .time-slot.selected { border-color:#D4AF37; background:#D4AF37; color:#090909; }
+    .time-slot.unavailable { cursor:not-allowed; opacity:.45; }
+    .booking-form { display:grid; gap:14px; margin-top:20px; }
+    .booking-field { display:grid; gap:8px; }
+    .booking-field label { color:#F3F4F6; font-weight:950; font-size:.86rem; }
+    .booking-field small { color:#A1A1AA; }
+    .booking-field input, .booking-field textarea { width:100%; min-height:52px; border:1px solid rgba(255,255,255,.14); border-radius:9px; background:#0A0A0A; color:#fff; padding:0 15px; font:inherit; outline:none; transition:border-color .2s ease,box-shadow .2s ease; }
+    .booking-field textarea { min-height:104px; padding:14px 15px; resize:vertical; }
+    .booking-field input:focus, .booking-field textarea:focus { border-color:#D4AF37; box-shadow:0 0 0 3px rgba(212,175,55,.12); }
+    .booking-summary { border:1px solid rgba(255,255,255,.1); border-radius:9px; background:rgba(10,10,10,.55); padding:15px; color:#A1A1AA; font-size:.94rem; line-height:1.65; }
+    .booking-submit { width:100%; min-height:54px; border:1px solid #D4AF37; border-radius:9px; background:#D4AF37; color:#090909; font-weight:950; cursor:pointer; transition:transform .22s ease,background .22s ease,box-shadow .22s ease; }
+    .booking-submit:hover { transform:translateY(-2px); background:#E6C35C; box-shadow:0 16px 34px rgba(212,175,55,.2); }
+    .booking-submit:disabled { cursor:not-allowed; opacity:.65; transform:none; box-shadow:none; }
+    .booking-status { min-height:24px; margin:14px 0 0; color:#A1A1AA; line-height:1.6; }
+    .booking-status.error { border:1px solid rgba(248,113,113,.32); border-radius:9px; background:rgba(127,29,29,.28); padding:14px; color:#FECACA; }
+    .confirmation-panel { display:none; border:1px solid rgba(212,175,55,.26); border-radius:10px; background:rgba(212,175,55,.1); padding:18px; margin-top:18px; color:#A1A1AA; line-height:1.6; }
+    .confirmation-panel.visible { display:block; animation:confirmIn .28s ease both; }
+    .confirmation-panel h3 { margin:0 0 8px; color:#fff; font-size:1.6rem; }
+    .calendar-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px; }
+    .calendar-actions a, .calendar-actions button { min-height:46px; border:1px solid rgba(255,255,255,.14); border-radius:9px; background:transparent; color:#fff; font-weight:950; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:border-color .22s ease,transform .22s ease; }
+    .calendar-actions a:first-child { border-color:#D4AF37; background:#D4AF37; color:#090909; }
+    .calendar-actions button { grid-column:1 / -1; }
+    .calendar-actions a:hover, .calendar-actions button:hover { border-color:#D4AF37; transform:translateY(-1px); }
+    .hidden-field { position:absolute; left:-10000px; opacity:0; height:0; width:0; overflow:hidden; }
+    @keyframes confirmIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width:980px) { .booking-shell { grid-template-columns:1fr; } }
+    @media (max-width:640px) {
+      .booking-hero { padding:84px 0 38px; }
+      .booking-card { padding:20px; }
+      .calendar-day { min-height:54px; font-size:.88rem; }
+      .calendar-day small { display:none; }
+      .time-grid, .calendar-actions { grid-template-columns:1fr 1fr; }
+      .calendar-weekdays, .calendar-grid { gap:5px; }
+    }
+  </style>
 </head>
-<body>
+<body class="booking-page">
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="index.html" aria-label="MSTRY MANAGEMENT home"><img class="brand-logo" src="assets/mstry-logo.png" alt="MSTRY MANAGEMENT"></a>
-      <button class="menu-toggle" aria-label="Open navigation">☰</button>
+      <button class="menu-toggle" aria-label="Open navigation">Menu</button>
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
@@ -21,49 +86,98 @@
         <a href="faq.html">FAQ</a>
         <a href="contact.html">Contact</a>
         <a class="nav-email" href="mailto:team@themstry.com">team@themstry.com</a>
-        <a class="btn gold active" href="book-consultation.html">Book</a>
+        <a class="btn gold active" href="book-consultation.html">Book a Call</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="page-hero">
+  <main class="booking-main">
+    <section class="booking-hero">
       <div class="container" data-animate>
-        <div class="eyebrow">Book consultation</div>
-        <h1>Build Your Business Infrastructure.</h1>
-        <p class="lead">Use this consultation to clarify UAE or European setup, Free Zone vs Mainland, holding company architecture, visas, banking, compliance, relocation, and outsourced operations management. Reach MSTRY directly at <a href="mailto:team@themstry.com">team@themstry.com</a>.</p>
+        <div class="eyebrow">Book a call</div>
+        <h1>Book a Call With MSTRY</h1>
+        <p class="lead">Choose a date and time to speak with a MSTRY team member about your objectives, ideas, opportunities, or next steps.</p>
       </div>
     </section>
 
-    <section>
-      <div class="container grid-2">
-        <form class="form" data-animate>
-          <div class="field"><label for="fullName">Full name</label><input id="fullName" required></div>
-          <div class="field"><label for="workEmail">Work email</label><input id="workEmail" type="email" required></div>
-          <div class="field"><label for="clientType">Client type</label><select id="clientType"><option>Entrepreneur or founder</option><option>Investor or family office</option><option>Startup or agency</option><option>E-commerce brand</option><option>Consultant or professional firm</option><option>International corporation</option></select></div>
-          <div class="field"><label for="service">Primary need</label><select id="service"><option>UAE company formation</option><option>European business setup</option><option>Free Zone vs Mainland advice</option><option>Holding company or corporate structuring</option><option>Business relocation services</option><option>Operational management outsourcing</option><option>VIP business concierge</option></select></div>
-          <div class="field"><label for="timeline">Preferred timeline</label><select id="timeline"><option>Immediately</option><option>Within 30 days</option><option>Within 90 days</option><option>Planning stage</option></select></div>
-          <div class="field"><label for="notes">Private notes</label><textarea id="notes" placeholder="Tell us what you want built, structured, relocated, or handled behind the scenes"></textarea></div>
-          <a class="contact-line" href="mailto:team@themstry.com">team@themstry.com</a>
-          <button class="btn gold" type="submit">Speak With MSTRY</button>
-        </form>
-        <div data-animate>
-          <div class="visual-panel"><img src="assets/global-network.svg" alt="International business setup network"></div>
-          <div class="card featured">
-            <h3>What MSTRY will map</h3>
-            <ul class="compare-list">
-              <li>Best structure for ownership, tax, visas, banking, and operating flexibility.</li>
-              <li>Licensing and paperwork route for UAE or European setup.</li>
-              <li>Operational responsibilities you can outsource while keeping control.</li>
-              <li>Relocation, staffing, accounting, compliance, and expansion priorities.</li>
-            </ul>
+    <section class="booking-section" data-call-booking-page>
+      <div class="container booking-shell">
+        <div class="booking-card" data-animate>
+          <div class="calendar-head">
+            <div>
+              <div class="eyebrow">Calendar</div>
+              <h2 data-calendar-title>Month Year</h2>
+              <p data-timezone-label>Times shown in your local timezone.</p>
+            </div>
+            <div class="calendar-controls">
+              <button class="calendar-btn" type="button" data-prev-year aria-label="Previous year">YY-</button>
+              <button class="calendar-btn" type="button" data-prev-month aria-label="Previous month">‹</button>
+              <button class="calendar-btn" type="button" data-next-month aria-label="Next month">›</button>
+              <button class="calendar-btn" type="button" data-next-year aria-label="Next year">YY+</button>
+            </div>
           </div>
+          <div class="calendar-weekdays" aria-hidden="true">
+            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          </div>
+          <div class="calendar-grid" data-calendar-grid></div>
+          <p class="booking-status" data-calendar-status>Choose an available day to view call times.</p>
         </div>
+
+        <form class="booking-card" data-call-booking-form data-endpoint="/api/bookings" data-animate novalidate>
+          <input type="hidden" name="startedAt" value="">
+          <input type="hidden" name="timezone" data-timezone-field value="">
+          <input type="hidden" name="serviceInterest" value="Consultation Call">
+          <input type="hidden" name="selectedDate" data-selected-date value="">
+          <input type="hidden" name="selectedTime" data-selected-time value="">
+          <label class="hidden-field" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+
+          <div class="eyebrow">Available times</div>
+          <h2>Select a call time.</h2>
+          <p>Meeting format: Zoom / Online Call. Duration: 30 minutes.</p>
+          <div class="time-grid" data-time-grid>
+            <button class="time-slot unavailable" type="button" disabled>Select a date first</button>
+          </div>
+
+          <div class="booking-form">
+            <div class="booking-field">
+              <label for="fullName">Full name</label>
+              <input id="fullName" name="fullName" type="text" autocomplete="name" required>
+            </div>
+            <div class="booking-field">
+              <label for="email">Email address</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="booking-field">
+              <label for="phone">Phone number <small>(optional)</small></label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+            <div class="booking-field">
+              <label for="message">Short note <small>(optional)</small></label>
+              <textarea id="message" name="message" placeholder="Optional context for the call."></textarea>
+            </div>
+          </div>
+
+          <div class="booking-summary" data-booking-summary>Choose a date and time to continue.</div>
+          <button class="booking-submit" type="submit" disabled data-booking-submit>Confirm Call</button>
+          <p class="booking-status" data-form-status aria-live="polite"></p>
+
+          <div class="confirmation-panel" data-confirmation-panel>
+            <h3>Your call is booked.</h3>
+            <p data-confirmation-time>Your selected time will appear here.</p>
+            <p>You can now add this meeting to your calendar.</p>
+            <div class="calendar-actions">
+              <a href="#" data-google-calendar target="_blank" rel="noreferrer">Add to Google Calendar</a>
+              <a href="#" data-outlook-calendar target="_blank" rel="noreferrer">Add to Outlook Calendar</a>
+              <button type="button" data-download-ics>Download Calendar Invite</button>
+            </div>
+            <p data-meeting-note>Meeting format: Zoom / Online Call.</p>
+          </div>
+        </form>
       </div>
     </section>
   </main>
 
-  <footer><div class="container footer-grid"><div>MSTRY MANAGEMENT © 2026</div><a href="mailto:team@themstry.com">team@themstry.com</a><div>Premium consultation requests</div></div></footer>
+  <footer><div class="container footer-grid"><div>MSTRY MANAGEMENT © 2026</div><a href="mailto:team@themstry.com">team@themstry.com</a><a href="contact.html">Contact MSTRY</a></div></footer>
   <script src="script.js"></script>
 </body>
 </html>

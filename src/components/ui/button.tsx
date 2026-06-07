@@ -15,7 +15,7 @@ export function Button({ href, children, variant = "gold", className }: ButtonPr
       className={cn(
         "inline-flex min-h-12 items-center justify-center gap-2 rounded-mstry border px-5 text-sm font-black transition duration-200 hover:-translate-y-0.5",
         variant === "gold"
-          ? "border-transparent bg-gradient-to-br from-[#fff0b7] via-mstry-gold to-mstry-deepGold text-black"
+          ? "border-mstry-gold bg-mstry-gold text-black hover:bg-[#C19D2C]"
           : "border-white/15 bg-transparent text-mstry-silver hover:border-mstry-gold/60",
         className
       )}

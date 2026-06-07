@@ -10,17 +10,17 @@ const config: Config = {
     extend: {
       colors: {
         mstry: {
-          black: "#050505",
-          charcoal: "#0d0d0e",
-          panel: "#141414",
-          gold: "#d6ad55",
-          deepGold: "#8e681f",
-          silver: "#d8d8d8",
-          muted: "#b8b2a8"
+          black: "#0A0A0A",
+          charcoal: "#111827",
+          panel: "#111827",
+          gold: "#D4AF37",
+          deepGold: "#8E681F",
+          silver: "#FFFFFF",
+          muted: "#B8B8B8"
         }
       },
       fontFamily: {
-        display: ["var(--font-display)", "Georgia", "serif"],
+        display: ["var(--font-display)", "Inter", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "Inter", "system-ui", "sans-serif"]
       },
       boxShadow: {

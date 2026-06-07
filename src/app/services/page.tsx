@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CTA } from "@/components/sections/cta";
 import { Operations } from "@/components/sections/operations";
 import { PageHero } from "@/components/sections/page-hero";
 import { ServiceGrid } from "@/components/sections/service-grid";
@@ -12,11 +13,12 @@ export default function ServicesPage() {
     <>
       <PageHero
         eyebrow="Services"
-        title="Business infrastructure for setup, structure, operations, and expansion."
-        body="MSTRY is a full-service operational partner for entrepreneurs, investors, startups, e-commerce brands, agencies, consultants, holding companies, family offices, and international corporations entering the UAE and Europe."
+        title="Executive solutions for strategy, operations, growth, and execution."
+        body="MSTRY helps clients clarify complex objectives, build the operating structure around them, unlock strategic relationships, and execute with discipline across business, investment, partnerships, sports, and international mandates."
       />
       <ServiceGrid />
       <Operations />
+      <CTA />
     </>
   );
 }

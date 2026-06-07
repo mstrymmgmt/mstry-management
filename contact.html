@@ -4,14 +4,95 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact | MSTRY MANAGEMENT</title>
-  <meta name="description" content="Contact MSTRY MANAGEMENT for UAE and Europe business setup, operational management, corporate structuring, banking support, compliance coordination, and VIP business concierge services.">
+  <meta name="description" content="Request a private strategic consultation with MSTRY MANAGEMENT for business management, consulting, partnerships, project leadership, business development, and sports management solutions.">
   <link rel="stylesheet" href="styles.css?v=6">
+  <style>
+    body.consultation-page { background:#0A0A0A; color:#fff; }
+    .consultation-main { position:relative; overflow:hidden; }
+    .consultation-main:before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 72% 8%, rgba(212,175,55,.16), transparent 32%), linear-gradient(180deg,#0A0A0A 0%,#111827 58%,#0A0A0A 100%); pointer-events:none; }
+    .consultation-hero, .consultation-section { position:relative; z-index:1; }
+    .consultation-hero { padding:110px 0 54px; border-bottom:1px solid rgba(212,175,55,.14); }
+    .consultation-hero .container { max-width:1120px; }
+    .consultation-hero h1 { max-width:880px; margin:16px 0 0; font-size:clamp(3rem,7vw,6.6rem); line-height:.92; letter-spacing:-.04em; }
+    .consultation-hero .lead { max-width:840px; color:#D9D9D9; font-size:clamp(1.02rem,1.8vw,1.34rem); line-height:1.65; }
+    .consultation-hero a { color:#D4AF37; font-weight:800; }
+    .consultation-benefits { position:relative; display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:34px; }
+    .consultation-benefits:before { content:""; position:absolute; inset:-22px; border-radius:18px; background:radial-gradient(circle at 50% 20%, rgba(212,175,55,.16), transparent 54%); opacity:0; filter:blur(4px); transition:opacity .28s ease, filter .28s ease; pointer-events:none; }
+    .consultation-benefits.has-active:before { opacity:1; filter:blur(9px); }
+    .consultation-benefit { position:relative; z-index:1; min-height:116px; border:1px solid rgba(212,175,55,.18); border-radius:10px; background:rgba(17,24,39,.78); padding:18px; box-shadow:0 18px 54px rgba(0,0,0,.22); color:inherit; cursor:pointer; text-align:left; overflow:hidden; transition:transform .28s ease, opacity .25s ease, border-color .25s ease, box-shadow .25s ease, background .25s ease; }
+    .consultation-benefit:before { content:""; position:absolute; inset:-26px; background:radial-gradient(circle at 50% 0%, rgba(230,195,92,.25), transparent 54%); opacity:0; transition:opacity .25s ease; pointer-events:none; }
+    .consultation-benefit:after { content:""; position:absolute; inset:0; border-radius:10px; border:1px solid rgba(230,195,92,.52); opacity:0; transform:scale(.985); transition:opacity .25s ease, transform .25s ease; pointer-events:none; }
+    .consultation-benefits.has-active .consultation-benefit:not(.is-active) { opacity:.65; }
+    .consultation-benefit:hover, .consultation-benefit:focus-visible, .consultation-benefit.is-active { transform:scale(1.04); border-color:rgba(212,175,55,.5); background:rgba(17,24,39,.94); box-shadow:0 28px 76px rgba(0,0,0,.45), 0 0 36px rgba(212,175,55,.16); outline:none; }
+    .consultation-benefit:hover:before, .consultation-benefit:focus-visible:before, .consultation-benefit.is-active:before, .consultation-benefit:hover:after, .consultation-benefit:focus-visible:after, .consultation-benefit.is-active:after { opacity:1; transform:scale(1); }
+    .benefit-accent { position:relative; display:block; width:34px; height:2px; margin-bottom:14px; background:#D4AF37; transition:width .25s ease, background .25s ease, box-shadow .25s ease; }
+    .consultation-benefit.is-active .benefit-accent, .consultation-benefit:hover .benefit-accent, .consultation-benefit:focus-visible .benefit-accent { width:56px; background:#E6C35C; box-shadow:0 0 18px rgba(230,195,92,.45); }
+    .benefit-content { position:relative; z-index:1; }
+    .benefit-title { display:block; font-size:.9rem; line-height:1.35; color:#F8F8F8; font-weight:950; }
+    .benefit-details { display:grid; gap:10px; max-height:0; opacity:0; transform:translateY(-6px); overflow:hidden; transition:max-height .32s ease, opacity .25s ease, transform .25s ease, margin-top .25s ease; }
+    .consultation-benefit.is-active .benefit-details, .consultation-benefit:hover .benefit-details, .consultation-benefit:focus-visible .benefit-details { max-height:520px; opacity:1; transform:translateY(0); margin-top:14px; }
+    .benefit-details .benefit-text { display:block; margin:0; color:#C8CBD2; font-size:.86rem; line-height:1.58; }
+    .benefit-insight { display:block; border:1px solid rgba(212,175,55,.16); border-radius:8px; background:rgba(212,175,55,.08); padding:10px; }
+    .benefit-insight strong { display:block; margin-bottom:5px; color:#D4AF37; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; }
+    .consultation-section { padding:70px 0 92px; }
+    .consultation-shell { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(340px,.92fr); gap:30px; align-items:start; }
+    .consultation-card, .advisory-card { border:1px solid rgba(212,175,55,.2); border-radius:12px; background:linear-gradient(180deg,rgba(17,24,39,.94),rgba(10,10,10,.92)); box-shadow:0 30px 100px rgba(0,0,0,.38); }
+    .consultation-card { position:relative; overflow:hidden; padding:34px; }
+    .consultation-card:before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 18% 0%, rgba(212,175,55,.13), transparent 34%); pointer-events:none; }
+    .consultation-card > * { position:relative; z-index:1; }
+    .form-intro h2 { margin:10px 0 10px; font-size:clamp(2rem,4vw,3.35rem); line-height:1; letter-spacing:-.03em; }
+    .form-intro p, .advisory-card p, .form-note { color:#A1A1AA; line-height:1.7; }
+    .premium-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:28px; }
+    .premium-field { display:grid; gap:8px; }
+    .premium-field.full { grid-column:1 / -1; }
+    .premium-field label { color:#F3F4F6; font-weight:900; font-size:.86rem; }
+    .premium-field small { color:#A1A1AA; font-weight:700; }
+    .premium-field input, .premium-field select, .premium-field textarea { width:100%; min-height:52px; border:1px solid rgba(255,255,255,.14); border-radius:9px; background:#0A0A0A; color:#fff; padding:0 15px; font:inherit; outline:none; transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+    .premium-field textarea { min-height:156px; padding:14px 15px; resize:vertical; }
+    .premium-field input:focus, .premium-field select:focus, .premium-field textarea:focus { border-color:#D4AF37; box-shadow:0 0 0 3px rgba(212,175,55,.12); }
+    .booking-scheduler { border:1px solid rgba(212,175,55,.15); border-radius:10px; background:rgba(10,10,10,.55); padding:16px; }
+    .booking-scheduler-header { display:flex; justify-content:space-between; gap:14px; align-items:flex-end; margin-bottom:16px; }
+    .booking-scheduler-header strong { display:block; color:#D4AF37; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; }
+    .booking-scheduler-header span, .availability-status { color:#A1A1AA; font-size:.9rem; line-height:1.6; }
+    .booking-scheduler-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .availability-status { margin:12px 0 0; }
+    .availability-status.error { color:#FECACA; }
+    .hidden-field { position:absolute; left:-10000px; opacity:0; height:0; width:0; overflow:hidden; }
+    .form-note { margin:20px 0 0; border:1px solid rgba(255,255,255,.1); border-radius:9px; background:rgba(10,10,10,.58); padding:16px; font-size:.94rem; }
+    .form-note a, .advisory-card a { color:#D4AF37; font-weight:900; }
+    .consultation-submit { width:100%; margin-top:18px; min-height:54px; border-radius:9px; border:1px solid #D4AF37; background:#D4AF37; color:#090909; font-weight:950; cursor:pointer; transition:transform .22s ease, background .22s ease, box-shadow .22s ease; }
+    .consultation-submit:hover { transform:translateY(-2px); background:#E6C35C; box-shadow:0 16px 34px rgba(212,175,55,.2); }
+    .consultation-submit:disabled { cursor:not-allowed; opacity:.72; transform:none; }
+    .form-status { min-height:24px; margin:16px 0 0; color:#A1A1AA; font-size:.94rem; line-height:1.55; }
+    .form-status.success { border:1px solid rgba(212,175,55,.26); border-radius:9px; background:rgba(212,175,55,.1); padding:14px; color:#F5E7B7; }
+    .form-status.error { border:1px solid rgba(248,113,113,.32); border-radius:9px; background:rgba(127,29,29,.28); padding:14px; color:#FECACA; }
+    .advisory-stack { display:grid; gap:18px; }
+    .advisory-card { padding:28px; }
+    .advisory-card h3 { margin:8px 0 12px; font-size:1.7rem; line-height:1.05; }
+    .next-steps { display:grid; gap:0; margin-top:12px; }
+    .next-step { border-top:1px solid rgba(255,255,255,.1); padding:18px 0; }
+    .next-step:last-child { padding-bottom:0; }
+    .next-step span { color:#D4AF37; font-size:.72rem; font-weight:950; letter-spacing:.18em; text-transform:uppercase; }
+    .next-step strong { display:block; margin-top:7px; color:#fff; }
+    .next-step p { margin:.35rem 0 0; font-size:.92rem; }
+    .confidential-card { border-color:rgba(212,175,55,.24); background:rgba(212,175,55,.1); }
+    @media (max-width:980px) {
+      .consultation-benefits { grid-template-columns:repeat(2,1fr); }
+      .consultation-shell { grid-template-columns:1fr; }
+    }
+    @media (max-width:640px) {
+      .consultation-hero { padding:84px 0 42px; }
+      .consultation-benefits, .premium-form-grid, .booking-scheduler-grid { grid-template-columns:1fr; }
+      .consultation-card, .advisory-card { padding:22px; }
+      .consultation-section { padding:42px 0 72px; }
+    }
+  </style>
 </head>
-<body>
+<body class="consultation-page">
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="index.html" aria-label="MSTRY MANAGEMENT home"><img class="brand-logo" src="assets/mstry-logo.png" alt="MSTRY MANAGEMENT"></a>
-      <button class="menu-toggle" aria-label="Open navigation">☰</button>
+      <button class="menu-toggle" aria-label="Open navigation">Menu</button>
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
@@ -21,40 +102,179 @@
         <a href="faq.html">FAQ</a>
         <a class="active" href="contact.html">Contact</a>
         <a class="nav-email" href="mailto:team@themstry.com">team@themstry.com</a>
-        <a class="btn gold" href="book-consultation.html">Book</a>
+        <a class="btn gold" href="book-consultation.html">Strategic Review</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="page-hero">
+  <main class="consultation-main">
+    <section class="consultation-hero">
       <div class="container" data-animate>
         <div class="eyebrow">Contact</div>
-        <h1>Speak With MSTRY.</h1>
-        <p class="lead">Tell us what you want to build, where you want to operate, and which responsibilities you want removed from your desk. For direct contact, email <a href="mailto:team@themstry.com">team@themstry.com</a>.</p>
+        <h1>Let's Discuss Your Objectives</h1>
+        <p class="lead">Whether you're seeking management support, strategic partnerships, business development, project leadership, or sports management solutions, our team is ready to explore how we can help.</p>
+        <div class="consultation-benefits" aria-label="Consultation benefits" data-capability-group>
+          <button class="consultation-benefit" type="button" data-capability-card aria-expanded="false">
+            <span class="benefit-content">
+              <span class="benefit-accent"></span>
+              <strong class="benefit-title">Strategic Guidance</strong>
+              <span class="benefit-details">
+                <span class="benefit-text">Receive executive-level guidance designed to align operations, partnerships, growth initiatives, and long-term objectives.</span>
+                <span class="benefit-insight"><strong>Strategic Value</strong><span class="benefit-text">Provides clarity, direction, and decision-making support during periods of growth, transition, or opportunity.</span></span>
+                <span class="benefit-insight"><strong>Client Benefit</strong><span class="benefit-text">Helps organizations make informed decisions while reducing risk and improving execution.</span></span>
+              </span>
+            </span>
+          </button>
+          <button class="consultation-benefit" type="button" data-capability-card aria-expanded="false">
+            <span class="benefit-content">
+              <span class="benefit-accent"></span>
+              <strong class="benefit-title">Tailored Management Solutions</strong>
+              <span class="benefit-details">
+                <span class="benefit-text">Every organization faces unique challenges. We develop customized management frameworks aligned with your goals, stakeholders, and operating environment.</span>
+                <span class="benefit-insight"><strong>Strategic Value</strong><span class="benefit-text">Creates practical solutions that fit your specific needs rather than generic recommendations.</span></span>
+                <span class="benefit-insight"><strong>Client Benefit</strong><span class="benefit-text">Improves efficiency, accountability, and long-term organizational performance.</span></span>
+              </span>
+            </span>
+          </button>
+          <button class="consultation-benefit" type="button" data-capability-card aria-expanded="false">
+            <span class="benefit-content">
+              <span class="benefit-accent"></span>
+              <strong class="benefit-title">Partnership Opportunities</strong>
+              <span class="benefit-details">
+                <span class="benefit-text">Leverage strategic relationships, commercial opportunities, and collaborative networks that support growth and long-term value creation.</span>
+                <span class="benefit-insight"><strong>Strategic Value</strong><span class="benefit-text">Strengthens market positioning through mutually beneficial partnerships.</span></span>
+                <span class="benefit-insight"><strong>Client Benefit</strong><span class="benefit-text">Unlocks new opportunities, expands reach, and accelerates growth.</span></span>
+              </span>
+            </span>
+          </button>
+          <button class="consultation-benefit" type="button" data-capability-card aria-expanded="false">
+            <span class="benefit-content">
+              <span class="benefit-accent"></span>
+              <strong class="benefit-title">Growth &amp; Development Support</strong>
+              <span class="benefit-details">
+                <span class="benefit-text">Support for organizational growth, capability development, expansion planning, and performance improvement initiatives.</span>
+                <span class="benefit-insight"><strong>Strategic Value</strong><span class="benefit-text">Creates a foundation for sustainable and scalable growth.</span></span>
+                <span class="benefit-insight"><strong>Client Benefit</strong><span class="benefit-text">Helps organizations strengthen operations while preparing for future opportunities.</span></span>
+              </span>
+            </span>
+          </button>
+          <button class="consultation-benefit" type="button" data-capability-card aria-expanded="false">
+            <span class="benefit-content">
+              <span class="benefit-accent"></span>
+              <strong class="benefit-title">International Network Access</strong>
+              <span class="benefit-details">
+                <span class="benefit-text">Benefit from global relationships, cross-border opportunities, and international strategic connections.</span>
+                <span class="benefit-insight"><strong>Strategic Value</strong><span class="benefit-text">Expands access to markets, partnerships, and growth opportunities.</span></span>
+                <span class="benefit-insight"><strong>Client Benefit</strong><span class="benefit-text">Supports international expansion and broader business development initiatives.</span></span>
+              </span>
+            </span>
+          </button>
+        </div>
       </div>
     </section>
-    <section>
-      <div class="container grid-2">
-        <form class="form" data-animate>
-          <div class="field"><label for="name">Name</label><input id="name" required></div>
-          <div class="field"><label for="email">Email</label><input id="email" type="email" required></div>
-          <div class="field"><label for="region">Region of interest</label><select id="region"><option>UAE</option><option>Europe</option><option>UAE and Europe</option></select></div>
-          <div class="field"><label for="topic">Topic</label><select id="topic"><option>Business setup</option><option>Operational management</option><option>International company structuring</option><option>Banking and compliance coordination</option><option>Business relocation</option><option>VIP concierge support</option></select></div>
-          <div class="field"><label for="message">Message</label><textarea id="message" placeholder="Describe your company setup, structuring, relocation, or management requirements"></textarea></div>
-          <a class="contact-line" href="mailto:team@themstry.com">team@themstry.com</a>
-          <button class="btn gold" type="submit">Speak With MSTRY</button>
+
+    <section class="consultation-section">
+      <div class="container consultation-shell">
+        <form class="consultation-card" data-consultation-form data-endpoint="/api/bookings" data-animate novalidate>
+          <div class="form-intro">
+            <div class="eyebrow">Private consultation request</div>
+            <h2>Start a professional client conversation.</h2>
+            <p>Tell us what you are trying to build, improve, manage, or expand. A member of the MSTRY team will review your request and respond with next steps if there is a strategic fit.</p>
+          </div>
+
+          <input type="hidden" name="startedAt" value="">
+          <label class="hidden-field" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+
+          <div class="premium-form-grid">
+            <div class="premium-field">
+              <label for="fullName">Full Name</label>
+              <input id="fullName" name="fullName" type="text" autocomplete="name" required>
+            </div>
+            <div class="premium-field">
+              <label for="organization">Organization / Company</label>
+              <input id="organization" name="organization" type="text" autocomplete="organization">
+            </div>
+            <div class="premium-field">
+              <label for="email">Email Address</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="premium-field">
+              <label for="phone">Phone Number <small>(optional)</small></label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+            <div class="premium-field full">
+              <label for="serviceInterest">Service Interest</label>
+              <select id="serviceInterest" name="serviceInterest" required>
+                <option value="">Select a service area</option>
+                <option>Business Management</option>
+                <option>Strategic Consulting</option>
+                <option>Project Management</option>
+                <option>Strategic Partnerships</option>
+                <option>Business Development</option>
+                <option>Sports Management</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <input type="hidden" name="timezone" data-timezone-field value="">
+            <div class="premium-field full booking-scheduler" data-booking-scheduler>
+              <div class="booking-scheduler-header">
+                <div>
+                  <strong>Schedule consultation</strong>
+                  <span data-timezone-label>Times shown in your local timezone</span>
+                </div>
+                <span>Live availability</span>
+              </div>
+              <div class="booking-scheduler-grid">
+                <div class="premium-field">
+                  <label for="selectedDate">Selected Date</label>
+                  <select id="selectedDate" name="selectedDate" required data-date-select disabled>
+                    <option value="">Loading available dates</option>
+                  </select>
+                </div>
+                <div class="premium-field">
+                  <label for="selectedTime">Selected Time</label>
+                  <select id="selectedTime" name="selectedTime" required data-time-select disabled>
+                    <option value="">Select a date first</option>
+                  </select>
+                </div>
+              </div>
+              <p class="availability-status" data-availability-status>Times shown in your local timezone.</p>
+            </div>
+            <div class="premium-field full">
+              <label for="message">Message / Project Details</label>
+              <textarea id="message" name="message" required placeholder="Briefly describe your objective, timeline, market, organization, and the type of support you are seeking."></textarea>
+            </div>
+          </div>
+
+          <p class="form-note">All consultation requests are routed to <a href="mailto:onboarding@themstry.com">onboarding@themstry.com</a>. For general enquiries, contact <a href="mailto:team@themstry.com">team@themstry.com</a>.</p>
+          <button class="consultation-submit" type="submit">Schedule a Strategic Discussion</button>
+          <p class="form-status" data-form-status aria-live="polite"></p>
         </form>
-        <div data-animate>
-          <h2>Build Your Business Infrastructure.</h2>
-          <p class="lead">The MSTRY private desk reviews each enquiry. We prioritize clarity, discretion, and the fastest route to a practical next step.</p>
-          <div class="card featured"><h3>MSTRY command desk</h3><p>UAE company formation · European setup · Holding structures · Banking preparation · Compliance coordination · Operations outsourcing · Business relocation · VIP business concierge</p><a class="contact-line" href="mailto:team@themstry.com">team@themstry.com</a></div>
+
+        <div class="advisory-stack" data-animate>
+          <div class="advisory-card">
+            <div class="eyebrow">What happens next</div>
+            <h3>A controlled path from inquiry to engagement.</h3>
+            <p>The form is designed to reduce friction while giving our team the context needed to assess your objective professionally.</p>
+            <div class="next-steps">
+              <div class="next-step"><span>Step 01</span><strong>Inquiry review</strong><p>We review your objective, service interest, urgency, and required level of support.</p></div>
+              <div class="next-step"><span>Step 02</span><strong>Strategic qualification</strong><p>We identify whether MSTRY can support through management, consulting, partnerships, project leadership, business development, or sports management.</p></div>
+              <div class="next-step"><span>Step 03</span><strong>Private response</strong><p>If there is a fit, a member of our team contacts you with the appropriate next step.</p></div>
+              <div class="next-step"><span>Step 04</span><strong>Engagement planning</strong><p>Qualified opportunities move into scope definition, responsibilities, communication rhythm, and execution structure.</p></div>
+            </div>
+          </div>
+
+          <div class="advisory-card confidential-card">
+            <div class="eyebrow">Discreet by design</div>
+            <h3>Share only what is necessary.</h3>
+            <p>Commercial details, stakeholder names, and sensitive project information can be discussed privately when the engagement path is clear.</p>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer><div class="container footer-grid"><div>MSTRY MANAGEMENT © 2026</div><a href="mailto:team@themstry.com">team@themstry.com</a><a href="book-consultation.html">Build Your Business Infrastructure</a></div></footer>
+  <footer><div class="container footer-grid"><div>MSTRY MANAGEMENT © 2026</div><a href="mailto:team@themstry.com">team@themstry.com</a><a href="book-consultation.html">Request a Strategic Review</a></div></footer>
   <script src="script.js"></script>
 </body>
 </html>

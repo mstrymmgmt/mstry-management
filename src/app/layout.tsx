@@ -6,7 +6,7 @@ import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: {
-    default: "MSTRY MANAGEMENT | UAE & Europe Business Infrastructure",
+    default: "MSTRY MANAGEMENT | Global Management, Consulting and Strategic Execution",
     template: "%s | MSTRY MANAGEMENT"
   },
   description: siteConfig.description,
