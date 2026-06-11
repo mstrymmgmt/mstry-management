@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AnimatedCounter } from "@/components/sections/animated-counter";
 import { executiveMetrics, siteConfig } from "@/config/site";
@@ -13,99 +14,173 @@ const commandRows = [
   ["Create visible progress", "Leadership receives clearer priorities, controlled movement, and a stronger route toward measurable outcomes."]
 ];
 
+function InvestmentCounter() {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    let frame = 0;
+    const duration = 9000;
+    const startedAt = performance.now();
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(eased * 65);
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  return <>{value.toFixed(1)}M+</>;
+}
+
 export function Hero() {
+  const introRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: introRef,
+    offset: ["start start", "end start"]
+  });
+  const videoOpacity = useTransform(scrollYProgress, [0, 0.72, 1], [1, 0.82, 0]);
+  const videoY = useTransform(scrollYProgress, [0, 1], [0, -70]);
+
   return (
-    <section id="home" className="relative overflow-hidden border-b border-white/10 bg-[#0A0A0A] py-20 lg:py-28">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.035)_1px,transparent_1px)] bg-[size:80px_80px]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(212,175,55,.12),transparent_34%)]" />
-      <div className="relative mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-        <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-mstry-gold">Premium management, consulting, partnerships and execution</p>
-          <h1 className="mt-5 max-w-4xl font-display text-[clamp(3rem,6vw,6.5rem)] font-black leading-[.95] text-white">
-            Build, manage, and scale with a private execution partner.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-mstry-muted">
-            MSTRY MANAGEMENT helps founders, investors, companies, sports organizations, talent, and international operators turn important objectives into structured strategy, managed execution, strategic partnerships, business development, and operational control.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Button href="/book-consultation">Request a Strategic Review</Button>
-            <Button href="/#proof" variant="ghost">Explore Management Solutions</Button>
-          </div>
-          <a className="mt-5 inline-flex font-black text-mstry-gold" href={`mailto:${siteConfig.email}`}>
-            {siteConfig.email}
-          </a>
+    <section id="home" className="relative overflow-hidden border-b border-white/10 bg-[#0A0A0A]">
+      <div ref={introRef} className="relative h-screen min-h-[760px] overflow-hidden">
+        <motion.div className="pointer-events-none absolute inset-0 z-0" style={{ opacity: videoOpacity, y: videoY }}>
+          <video
+            aria-label="MSTRY global management animation"
+            autoPlay
+            className="h-full w-full object-cover"
+            loop
+            muted
+            playsInline
+            poster="/assets/mstry-logo.png"
+            preload="auto"
+            src="/videos/mstry-hero.mp4"
+          />
         </motion.div>
-
+        <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(10,10,10,.02)_0%,rgba(10,10,10,.10)_54%,rgba(10,10,10,.78)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(circle_at_50%_45%,rgba(212,175,55,.08),transparent_38%)]" />
         <motion.div
-          className="relative overflow-hidden rounded-mstry border border-mstry-gold/15 bg-[#111827] p-5 shadow-luxury sm:p-7"
-          initial={{ opacity: 0, y: 26, scale: 0.985 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+          className="pointer-events-none relative z-[5] mx-auto flex h-full w-[min(1320px,calc(100%_-_40px))] items-end justify-between gap-6 pb-8 sm:pb-10 lg:pb-14"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(212,175,55,.12),transparent_32%)]" />
-          <div className="relative">
-            <div className="flex flex-wrap items-start justify-between gap-4 border-b border-mstry-gold/15 pb-5">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-mstry-gold">How MSTRY creates value</p>
-                <h2 className="mt-3 max-w-xl font-display text-3xl font-black text-white sm:text-4xl">
-                  Senior thinking and disciplined follow-through in one engagement model.
-                </h2>
-              </div>
-              <div className="rounded-mstry border border-mstry-gold/25 bg-[#0B0B0B] px-4 py-3 text-right">
-                <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-mstry-muted">Inquiry path</span>
-                <strong className="mt-1 block text-mstry-gold">Strategic Review</strong>
-              </div>
-            </div>
-
-            <div className="mt-5 grid gap-3">
-              {commandRows.map(([title, body], index) => (
-                <motion.div
-                  className="rounded-mstry border border-white/10 bg-[#0A0A0A]/70 p-4"
-                  key={title}
-                  initial={{ opacity: 0, x: 18 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.45, delay: 0.25 + index * 0.07 }}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <span className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">0{index + 1}</span>
-                      <h3 className="mt-2 font-display text-xl font-black text-white">{title}</h3>
-                    </div>
-                    <span className="rounded-full border border-mstry-gold/25 px-3 py-1 text-xs font-black text-mstry-gold">Client value</span>
-                  </div>
-                  <p className="mt-2 text-sm leading-6 text-mstry-muted">{body}</p>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              {["Management", "Consulting", "Partnerships"].map((item) => (
-                <div className="rounded-mstry border border-mstry-gold/15 bg-mstry-gold/10 p-4 text-center" key={item}>
-                  <span className="text-xs font-black uppercase tracking-[0.16em] text-mstry-gold">{item}</span>
-                </div>
-              ))}
-            </div>
+          <div className="rounded-mstry border border-mstry-gold/25 bg-[#0A0A0A]/62 p-5 shadow-luxury backdrop-blur-md sm:p-6">
+            <span className="block text-[10px] font-black uppercase tracking-[0.22em] text-white/62">Global Investment Activity</span>
+            <strong className="mt-2 block font-display text-[clamp(2.6rem,7vw,5.4rem)] font-black leading-none text-mstry-gold drop-shadow-[0_0_18px_rgba(212,175,55,.22)]">
+              $<InvestmentCounter />
+            </strong>
+          </div>
+          <div className="hidden w-fit items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-white/55 sm:inline-flex">
+            <span className="h-px w-10 bg-mstry-gold" />
+            Scroll to enter
           </div>
         </motion.div>
       </div>
 
-      <div className="relative mx-auto mt-12 grid w-[min(1320px,calc(100%_-_40px))] gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {heroStats.map((metric, index) => (
-          <motion.article
-            className="rounded-mstry border border-white/10 bg-[#111827]/72 p-5"
-            key={metric.label}
-            initial={{ opacity: 0, y: 18 }}
+      <div className="relative z-10 border-t border-white/10 bg-[#0A0A0A] py-20 lg:py-28">
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,.032)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.032)_1px,transparent_1px)] bg-[size:80px_80px]" />
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_82%_12%,rgba(212,175,55,.10),transparent_34%)]" />
+        <div className="relative z-10 mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.05 }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <strong className="block text-4xl text-mstry-gold">
-              <AnimatedCounter value={metric.value} suffix={metric.suffix} decimals={metric.value % 1 ? 1 : 0} />
-            </strong>
-            <span className="mt-3 block font-black text-white">{metric.label}</span>
-            <p className="mt-2 text-sm leading-6 text-mstry-muted">{metric.detail}</p>
-          </motion.article>
-        ))}
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-mstry-gold">Premium management, consulting, partnerships and execution</p>
+            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3rem,6vw,6.5rem)] font-black leading-[.95] text-white">
+              Build, manage, and scale with a private execution partner.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-mstry-muted">
+              MSTRY MANAGEMENT helps founders, investors, companies, sports organizations, talent, and international operators turn important objectives into structured strategy, managed execution, strategic partnerships, business development, and operational control.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button href="/book-consultation">Request a Strategic Review</Button>
+              <Button href="/#proof" variant="ghost">Explore Management Solutions</Button>
+            </div>
+            <a className="mt-5 inline-flex font-black text-mstry-gold" href={`mailto:${siteConfig.email}`}>
+              {siteConfig.email}
+            </a>
+          </motion.div>
+
+          <motion.div
+            className="relative overflow-hidden rounded-mstry border border-mstry-gold/15 bg-[#111827]/92 p-5 shadow-luxury backdrop-blur-md sm:p-7"
+            initial={{ opacity: 0, y: 26, scale: 0.985 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(212,175,55,.12),transparent_32%)]" />
+            <div className="relative">
+              <div className="flex flex-wrap items-start justify-between gap-4 border-b border-mstry-gold/15 pb-5">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-mstry-gold">How MSTRY creates value</p>
+                  <h2 className="mt-3 max-w-xl font-display text-3xl font-black text-white sm:text-4xl">
+                    Senior thinking and disciplined follow-through in one engagement model.
+                  </h2>
+                </div>
+                <div className="rounded-mstry border border-mstry-gold/25 bg-[#0B0B0B] px-4 py-3 text-right">
+                  <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-mstry-muted">Inquiry path</span>
+                  <strong className="mt-1 block text-mstry-gold">Strategic Review</strong>
+                </div>
+              </div>
+
+              <div className="mt-5 grid gap-3">
+                {commandRows.map(([title, body], index) => (
+                  <motion.div
+                    className="rounded-mstry border border-white/10 bg-[#0A0A0A]/70 p-4"
+                    key={title}
+                    initial={{ opacity: 0, x: 18 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.45, delay: 0.15 + index * 0.07 }}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <span className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">0{index + 1}</span>
+                        <h3 className="mt-2 font-display text-xl font-black text-white">{title}</h3>
+                      </div>
+                      <span className="rounded-full border border-mstry-gold/25 px-3 py-1 text-xs font-black text-mstry-gold">Client value</span>
+                    </div>
+                    <p className="mt-2 text-sm leading-6 text-mstry-muted">{body}</p>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                {["Management", "Consulting", "Partnerships"].map((item) => (
+                  <div className="rounded-mstry border border-mstry-gold/15 bg-mstry-gold/10 p-4 text-center" key={item}>
+                    <span className="text-xs font-black uppercase tracking-[0.16em] text-mstry-gold">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="relative z-10 mx-auto mt-12 grid w-[min(1320px,calc(100%_-_40px))] gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {heroStats.map((metric, index) => (
+            <motion.article
+              className="rounded-mstry border border-white/10 bg-[#111827]/72 p-5"
+              key={metric.label}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+            >
+              <strong className="block text-4xl text-mstry-gold">
+                <AnimatedCounter value={metric.value} suffix={metric.suffix} decimals={metric.value % 1 ? 1 : 0} />
+              </strong>
+              <span className="mt-3 block font-black text-white">{metric.label}</span>
+              <p className="mt-2 text-sm leading-6 text-mstry-muted">{metric.detail}</p>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   );

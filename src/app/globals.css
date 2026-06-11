@@ -31,3 +31,312 @@ body {
 a {
   text-decoration: none;
 }
+
+.hero-cinema {
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.hero-cinema__map {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+.hero-cinema__back-grid line {
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 1;
+}
+
+.hero-cinema__globe > circle:nth-child(2),
+.hero-cinema__globe > ellipse {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+}
+
+.hero-cinema__globe > circle:nth-child(2) {
+  stroke: rgba(212, 175, 55, 0.32);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.16));
+}
+
+.hero-cinema__land path {
+  animation: mstry-map-fade 14s ease-in-out infinite;
+  fill: rgba(212, 175, 55, 0.12);
+  stroke: rgba(230, 195, 92, 0.28);
+  stroke-width: 1.1;
+}
+
+.hero-cinema__routes path {
+  animation: mstry-route-pulse 8s ease-in-out infinite;
+  fill: none;
+  stroke: rgba(212, 175, 55, 0.78);
+  stroke-linecap: round;
+  stroke-width: 2.1;
+  filter: drop-shadow(0 0 7px rgba(212, 175, 55, 0.4));
+}
+
+.hero-cinema__route-particles circle {
+  fill: #e6c35c;
+}
+
+.hero-cinema__hubs g {
+  transition: opacity 0.25s linear;
+}
+
+.hero-cinema__hubs .halo {
+  animation: mstry-node-glow 3s ease-in-out infinite;
+  fill: rgba(212, 175, 55, 0.14);
+  stroke: rgba(212, 175, 55, 0.48);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.hero-cinema__hubs .node {
+  fill: #d4af37;
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.85));
+}
+
+.hero-cinema__hubs text {
+  fill: rgba(255, 255, 255, 0.86);
+  font-size: 15px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-cinema__metric-card {
+  animation: mstry-dashboard-reveal 14s ease-in-out infinite;
+  background: rgba(17, 24, 39, 0.68);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 10px;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.45), 0 0 34px rgba(212, 175, 55, 0.12);
+  color: #fff;
+  left: min(8vw, 110px);
+  padding: 18px 20px;
+  position: absolute;
+  top: 18%;
+  width: min(330px, 78vw);
+  z-index: 2;
+}
+
+.hero-cinema__metric-card span,
+.hero-cinema__metric-card small {
+  color: rgba(255, 255, 255, 0.64);
+  display: block;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.hero-cinema__metric-card strong {
+  color: #d4af37;
+  display: block;
+  font-size: clamp(2.4rem, 4.8vw, 4.8rem);
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1;
+  margin: 10px 0;
+  text-shadow: 0 0 22px rgba(212, 175, 55, 0.2);
+}
+
+.hero-cinema__side-card {
+  animation: mstry-dashboard-reveal 14s ease-in-out infinite;
+  background: rgba(17, 24, 39, 0.58);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.34);
+  display: grid;
+  gap: 12px;
+  padding: 18px 20px;
+  position: absolute;
+  right: min(8vw, 110px);
+  top: 21%;
+  width: min(280px, 74vw);
+  z-index: 2;
+}
+
+.hero-cinema__side-card span {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.hero-cinema__side-card span:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.hero-cinema__logo {
+  animation: mstry-logo-float 14s ease-in-out infinite;
+  filter: drop-shadow(0 0 42px rgba(212, 175, 55, 0.42));
+  left: 50%;
+  max-width: min(18vw, 260px);
+  opacity: 0.84;
+  position: absolute;
+  top: 47.5%;
+  transform: translate(-50%, -50%);
+  width: 18vw;
+  z-index: 2;
+}
+
+.hero-cinema__logo img {
+  height: auto;
+  width: 100%;
+}
+
+.hero-cinema__shade {
+  background:
+    linear-gradient(90deg, rgba(10, 10, 10, 0.22) 0%, rgba(10, 10, 10, 0.08) 45%, rgba(10, 10, 10, 0.18) 100%),
+    linear-gradient(180deg, rgba(10, 10, 10, 0.01) 0%, rgba(10, 10, 10, 0.06) 58%, rgba(10, 10, 10, 0.58) 100%);
+  inset: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.hero-cinema__glow {
+  background: radial-gradient(circle at 58% 46%, rgba(212, 175, 55, 0.08), transparent 34%);
+  inset: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+@keyframes mstry-logo-float {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: translate(-50%, -48%) scale(0.98);
+  }
+  36%,
+  72% {
+    opacity: 0.96;
+    transform: translate(-50%, -52%) scale(1.01);
+  }
+}
+
+@keyframes mstry-sigil-reveal {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45%,
+  72% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes mstry-route-pulse {
+  0%,
+  100% {
+    opacity: 0.32;
+    stroke-dashoffset: 90;
+  }
+  45%,
+  82% {
+    opacity: 0.92;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes mstry-node-glow {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.92);
+  }
+  48%,
+  82% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-cinema__hubs g:nth-child(2n) .halo,
+.hero-cinema__hubs g:nth-child(2n) .node {
+  animation-delay: 0.4s;
+}
+
+@keyframes mstry-map-fade {
+  0%,
+  100% {
+    opacity: 0.36;
+  }
+  24%,
+  88% {
+    opacity: 0.78;
+  }
+}
+
+@keyframes mstry-center-lines {
+  0%,
+  100% {
+    opacity: 0.1;
+    stroke-dashoffset: 80;
+  }
+  44%,
+  86% {
+    opacity: 0.62;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes mstry-dashboard-reveal {
+  0%,
+  22%,
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  36%,
+  86% {
+    opacity: 0.82;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mstry-chart-draw {
+  0%,
+  28% {
+    stroke-dashoffset: 520;
+  }
+  58%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-cinema__logo {
+    left: 50%;
+    max-width: 190px;
+    opacity: 0.66;
+    width: 38vw;
+  }
+
+  .hero-cinema__metric-card {
+    left: 20px;
+    padding: 14px;
+    top: 16%;
+    width: min(280px, calc(100vw - 40px));
+  }
+
+  .hero-cinema__side-card {
+    display: none;
+  }
+
+  .hero-cinema__hubs text {
+    font-size: 12px;
+  }
+}
