@@ -14,6 +14,8 @@ const commandRows = [
   ["Create visible progress", "Leadership receives clearer priorities, controlled movement, and a stronger route toward measurable outcomes."]
 ];
 
+const HERO_VIDEO_START_SECONDS = 2.8;
+
 function InvestmentCounter() {
   const [value, setValue] = useState(0);
 
@@ -38,12 +40,43 @@ function InvestmentCounter() {
 
 export function Hero() {
   const introRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { scrollYProgress } = useScroll({
     target: introRef,
     offset: ["start start", "end start"]
   });
   const videoOpacity = useTransform(scrollYProgress, [0, 0.72, 1], [1, 0.82, 0]);
   const videoY = useTransform(scrollYProgress, [0, 1], [0, -70]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const startFromGlobe = () => {
+      if (video.currentTime < HERO_VIDEO_START_SECONDS - 0.05) {
+        video.currentTime = HERO_VIDEO_START_SECONDS;
+      }
+      void video.play().catch(() => undefined);
+    };
+
+    const loopFromGlobe = () => {
+      if (video.duration && video.currentTime >= video.duration - 0.18) {
+        video.currentTime = HERO_VIDEO_START_SECONDS;
+        void video.play().catch(() => undefined);
+      }
+    };
+
+    video.addEventListener("loadedmetadata", startFromGlobe);
+    video.addEventListener("timeupdate", loopFromGlobe);
+    video.addEventListener("ended", startFromGlobe);
+    startFromGlobe();
+
+    return () => {
+      video.removeEventListener("loadedmetadata", startFromGlobe);
+      video.removeEventListener("timeupdate", loopFromGlobe);
+      video.removeEventListener("ended", startFromGlobe);
+    };
+  }, []);
 
   return (
     <section id="home" className="relative overflow-hidden border-b border-white/10 bg-[#0A0A0A]">
@@ -56,9 +89,9 @@ export function Hero() {
             loop
             muted
             playsInline
-            poster="/assets/mstry-logo.png"
             preload="auto"
-            src="/videos/mstry-hero.mp4"
+            ref={videoRef}
+            src={`/videos/mstry-hero.mp4#t=${HERO_VIDEO_START_SECONDS}`}
           />
         </motion.div>
         <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(10,10,10,.02)_0%,rgba(10,10,10,.10)_54%,rgba(10,10,10,.78)_100%)]" />

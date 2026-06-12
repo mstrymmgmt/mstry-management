@@ -44,8 +44,8 @@
   <main>
     <section id="home" class="hero">
       <div class="hero-intro">
-        <video class="hero-video" autoplay loop muted playsinline preload="auto" poster="assets/mstry-logo.png" aria-label="MSTRY global management animation">
-          <source src="public/videos/mstry-hero.mp4" type="video/mp4">
+        <video class="hero-video" id="heroVideo" autoplay loop muted playsinline preload="auto" aria-label="MSTRY global management animation">
+          <source src="public/videos/mstry-hero.mp4#t=2.8" type="video/mp4">
         </video>
         <div class="hero-video-shade"></div>
         <div class="hero-intro-content">
@@ -198,6 +198,27 @@
     updateHeroCinemaOpacity();
     window.addEventListener('scroll',updateHeroCinemaOpacity,{passive:true});
     window.addEventListener('resize',updateHeroCinemaOpacity);
+
+    const heroVideo=document.getElementById('heroVideo');
+    const heroVideoStart=2.8;
+    function startHeroVideoFromGlobe(){
+      if(!heroVideo)return;
+      if(heroVideo.currentTime<heroVideoStart-.05)heroVideo.currentTime=heroVideoStart;
+      heroVideo.play?.().catch?.(()=>{});
+    }
+    function loopHeroVideoFromGlobe(){
+      if(!heroVideo||!heroVideo.duration)return;
+      if(heroVideo.currentTime>=heroVideo.duration-.18){
+        heroVideo.currentTime=heroVideoStart;
+        heroVideo.play?.().catch?.(()=>{});
+      }
+    }
+    if(heroVideo){
+      heroVideo.addEventListener('loadedmetadata',startHeroVideoFromGlobe);
+      heroVideo.addEventListener('timeupdate',loopHeroVideoFromGlobe);
+      heroVideo.addEventListener('ended',startHeroVideoFromGlobe);
+      startHeroVideoFromGlobe();
+    }
 
     const globeShell=document.getElementById('staticGlobeShell');
     const backGrid=document.getElementById('staticBackGrid');
