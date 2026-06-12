@@ -21,7 +21,10 @@
     .hero-cinema__back-grid line{stroke:rgba(255,255,255,.05);stroke-width:1}.hero-cinema__globe>circle:nth-child(2),.hero-cinema__globe>ellipse{fill:none;stroke:rgba(255,255,255,.08);stroke-width:1}.hero-cinema__globe>circle:nth-child(2){stroke:rgba(212,175,55,.32);stroke-width:1.5;filter:drop-shadow(0 0 20px rgba(212,175,55,.16))}.hero-cinema__land path{animation:mstry-map-fade 14s ease-in-out infinite;fill:rgba(212,175,55,.12);stroke:rgba(230,195,92,.28);stroke-width:1.1}.hero-cinema__routes path{animation:mstry-route-pulse 8s ease-in-out infinite;fill:none;stroke:rgba(212,175,55,.78);stroke-linecap:round;stroke-width:2.1;filter:drop-shadow(0 0 7px rgba(212,175,55,.4))}.hero-cinema__route-particles circle{fill:#e6c35c}.hero-cinema__hubs g{transition:opacity .25s linear}.hero-cinema__hubs .halo{animation:mstry-node-glow 3s ease-in-out infinite;fill:rgba(212,175,55,.14);stroke:rgba(212,175,55,.48);transform-box:fill-box;transform-origin:center}.hero-cinema__hubs .node{fill:#d4af37;filter:drop-shadow(0 0 12px rgba(212,175,55,.85))}.hero-cinema__hubs text{fill:rgba(255,255,255,.86);font-size:15px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}.hero-cinema__side-card{animation:mstry-dashboard-reveal 14s ease-in-out infinite;background:rgba(17,24,39,.58);border:1px solid rgba(212,175,55,.2);border-radius:10px;box-shadow:0 26px 70px rgba(0,0,0,.34);display:grid;gap:12px;padding:18px 20px;position:absolute;right:min(8vw,110px);top:21%;width:min(280px,74vw);z-index:2}.hero-cinema__side-card span{border-bottom:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.76);font-size:11px;font-weight:900;letter-spacing:.14em;padding-bottom:10px;text-transform:uppercase}.hero-cinema__side-card span:last-child{border-bottom:0;padding-bottom:0}@media(max-width:980px){.hero-cinema__logo{left:50%;max-width:190px;opacity:.66;width:38vw}.hero-cinema__side-card{display:none}.hero-cinema__hubs text{font-size:12px}}
   </style>
   <style>
-    .hero-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover}.hero-video-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(10,10,10,.04) 0%,rgba(10,10,10,.08) 48%,rgba(10,10,10,.76) 100%),radial-gradient(circle at 72% 32%,rgba(212,175,55,.08),transparent 34%)}.investment-card{border:1px solid rgba(212,175,55,.28);border-radius:8px;background:rgba(10,10,10,.62);box-shadow:0 24px 70px rgba(0,0,0,.42),0 0 34px rgba(212,175,55,.12);backdrop-filter:blur(14px);padding:22px 24px}.investment-card span{display:block;color:rgba(255,255,255,.68);font-size:10px;font-weight:950;letter-spacing:.22em;text-transform:uppercase}.investment-card strong{display:block;margin-top:10px;color:var(--gold);font-size:clamp(42px,7vw,86px);font-weight:950;line-height:1;text-shadow:0 0 18px rgba(212,175,55,.22)}@media(max-width:980px){.investment-card{padding:16px 18px}.investment-card strong{font-size:clamp(40px,13vw,64px)}}
+    .hero-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .3s ease}.hero-video.is-loading{opacity:0}.hero-video-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(10,10,10,.04) 0%,rgba(10,10,10,.08) 48%,rgba(10,10,10,.76) 100%),radial-gradient(circle at 72% 32%,rgba(212,175,55,.08),transparent 34%)}.investment-card{border:1px solid rgba(212,175,55,.28);border-radius:8px;background:rgba(10,10,10,.62);box-shadow:0 24px 70px rgba(0,0,0,.42),0 0 34px rgba(212,175,55,.12);backdrop-filter:blur(14px);padding:22px 24px}.investment-card span{display:block;color:rgba(255,255,255,.68);font-size:10px;font-weight:950;letter-spacing:.22em;text-transform:uppercase}.investment-card strong{display:block;margin-top:10px;color:var(--gold);font-size:clamp(42px,7vw,86px);font-weight:950;line-height:1;text-shadow:0 0 18px rgba(212,175,55,.22)}@media(max-width:980px){.investment-card{padding:16px 18px}.investment-card strong{font-size:clamp(40px,13vw,64px)}.hero-main{padding-top:68px}.hero-grid{gap:34px}h1{font-size:clamp(42px,14vw,66px)}.lead{font-size:16px;line-height:1.72}}
+  </style>
+  <style>
+    html{scroll-padding-top:96px}.radial-stage{width:min(650px,100%);isolation:isolate}.radial-stage svg{overflow:visible}.radial-dot{position:absolute;z-index:3;display:grid;place-items:center;width:28px;height:28px;border:0;border-radius:999px;background:transparent;transform:translate(-50%,-50%);cursor:pointer}.radial-dot:before{content:"";width:18px;height:18px;border:1px solid rgba(212,175,55,.7);border-radius:999px;background:var(--gold);box-shadow:0 0 14px rgba(212,175,55,.35);transition:.22s}.radial-dot.active:before,.radial-dot:hover:before,.radial-dot:focus-visible:before{border-color:#fff;box-shadow:0 0 28px rgba(212,175,55,.9);transform:scale(1.18)}.radial-axis-active{opacity:0;transition:.22s}.radial-axis-active.active{opacity:1}.radial-label{z-index:4}.radial-label span{max-width:112px;line-height:1.15}.nav{z-index:80}@media(max-width:980px){html{scroll-padding-top:112px}section{padding:64px 0}section[id]{scroll-margin-top:112px}.wrap{width:min(100% - 40px,1320px)}.nav-inner{height:72px}.brand strong{font-size:28px}.brand span{font-size:8px}.hero-main{padding:64px 0 58px}.hero-grid{gap:32px}h1{font-size:clamp(42px,14vw,64px);line-height:.98}.section-head h2,h2{font-size:clamp(32px,10vw,48px)}.sports-dashboard{padding:22px;gap:24px}.radial-stage{width:min(100%,calc(100vw - 84px));max-width:520px}.radial-label span{max-width:82px;padding:4px 6px;font-size:9px;letter-spacing:.04em}.radial-label strong{font-size:12px}.radial-center{width:96px;height:96px}.radial-center strong{font-size:34px}.overall strong{font-size:56px}.active-card h3{font-size:26px}.card{padding:20px}.proof-index{display:block}.proof-index strong{margin-top:14px}.proof-panel{top:auto}.proof-capability.dim{opacity:1}}
   </style>
 </head>
 <body>
@@ -44,8 +47,8 @@
   <main>
     <section id="home" class="hero">
       <div class="hero-intro">
-        <video class="hero-video" id="heroVideo" autoplay loop muted playsinline preload="auto" aria-label="MSTRY global management animation">
-          <source src="public/videos/mstry-hero.mp4#t=2.8" type="video/mp4">
+        <video class="hero-video is-loading" id="heroVideo" autoplay loop muted playsinline preload="auto" aria-label="MSTRY global management animation">
+          <source src="public/videos/mstry-hero.mp4#t=5.2" type="video/mp4">
         </video>
         <div class="hero-video-shade"></div>
         <div class="hero-intro-content">
@@ -200,10 +203,17 @@
     window.addEventListener('resize',updateHeroCinemaOpacity);
 
     const heroVideo=document.getElementById('heroVideo');
-    const heroVideoStart=2.8;
+    const heroVideoStart=5.2;
     function startHeroVideoFromGlobe(){
       if(!heroVideo)return;
       if(heroVideo.currentTime<heroVideoStart-.05)heroVideo.currentTime=heroVideoStart;
+      heroVideo.classList.remove('is-loading');
+      heroVideo.play?.().catch?.(()=>{});
+    }
+    function revealHeroVideoFromGlobe(){
+      if(!heroVideo)return;
+      if(heroVideo.currentTime<heroVideoStart-.05)heroVideo.currentTime=heroVideoStart;
+      heroVideo.classList.remove('is-loading');
       heroVideo.play?.().catch?.(()=>{});
     }
     function loopHeroVideoFromGlobe(){
@@ -215,6 +225,8 @@
     }
     if(heroVideo){
       heroVideo.addEventListener('loadedmetadata',startHeroVideoFromGlobe);
+      heroVideo.addEventListener('canplay',revealHeroVideoFromGlobe);
+      heroVideo.addEventListener('seeked',revealHeroVideoFromGlobe);
       heroVideo.addEventListener('timeupdate',loopHeroVideoFromGlobe);
       heroVideo.addEventListener('ended',startHeroVideoFromGlobe);
       startHeroVideoFromGlobe();
@@ -294,14 +306,81 @@
 
     const radialItems=[...document.querySelectorAll('.radial-label')];
     const rows=[...document.querySelectorAll('#breakdown button')];
+    const radialStage=document.querySelector('.radial-stage');
+    const radialSvg=radialStage?.querySelector('svg');
+    const radialCenter=60;
+    const radialRadius=38;
+    const radialLabelRadius=52;
+    const radialSize=120;
+    function radialPoint(index,radius){
+      const angle=(-90+(360/radialItems.length)*index)*Math.PI/180;
+      return {x:radialCenter+Math.cos(angle)*radius,y:radialCenter+Math.sin(angle)*radius};
+    }
+    function radialScorePoint(index,score){
+      return radialPoint(index,radialRadius*(Number(score)/100));
+    }
+    function radialCss(point){
+      return {left:`${point.x/radialSize*100}%`,top:`${point.y/radialSize*100}%`};
+    }
+    function radialPolygon(radius){
+      return radialItems.map((_,index)=>{
+        const point=radialPoint(index,radius);
+        return `${point.x.toFixed(2)},${point.y.toFixed(2)}`;
+      }).join(' ');
+    }
+    function buildRadialGeometry(){
+      if(!radialStage||!radialSvg||!radialItems.length)return;
+      radialSvg.setAttribute('viewBox',`0 0 ${radialSize} ${radialSize}`);
+      const area=radialItems.map((item,index)=>{
+        const point=radialScorePoint(index,item.dataset.score);
+        return `${point.x.toFixed(2)},${point.y.toFixed(2)}`;
+      }).join(' ');
+      const grid=[14,23,32,radialRadius].map((radius,index)=>`<polygon points="${radialPolygon(radius)}" fill="${index===3?'rgba(212,175,55,.035)':'none'}" stroke="${index===3?'rgba(212,175,55,.28)':'rgba(255,255,255,.08)'}" stroke-width="${index===3?'.65':'.32'}"></polygon>`).join('');
+      const axes=radialItems.map((item,index)=>{
+        const point=radialPoint(index,radialRadius);
+        return `<line data-title="${item.dataset.title}" x1="${radialCenter}" y1="${radialCenter}" x2="${point.x.toFixed(2)}" y2="${point.y.toFixed(2)}" stroke="rgba(255,255,255,.08)" stroke-width=".32"></line><line class="radial-axis-active ${index===0?'active':''}" data-title="${item.dataset.title}" x1="${radialCenter}" y1="${radialCenter}" x2="${point.x.toFixed(2)}" y2="${point.y.toFixed(2)}" stroke="rgba(230,195,92,.92)" stroke-linecap="round" stroke-width="1.1"></line>`;
+      }).join('');
+      const dots=radialItems.map((item,index)=>{
+        const point=radialScorePoint(index,item.dataset.score);
+        return `<circle class="radial-svg-dot ${index===0?'active':''}" data-title="${item.dataset.title}" cx="${point.x.toFixed(2)}" cy="${point.y.toFixed(2)}" r="${index===0?'2.5':'1.65'}" fill="${index===0?'#E6C35C':'#D4AF37'}" stroke="${index===0?'rgba(255,255,255,.9)':'rgba(255,255,255,.32)'}" stroke-width=".55"></circle>`;
+      }).join('');
+      radialSvg.innerHTML=`${grid}<polygon class="oct-area" points="${area}" fill="rgba(212,175,55,.22)" stroke="#D4AF37" stroke-width="1.05"></polygon>${axes}${dots}`;
+      radialItems.forEach((item,index)=>{
+        const label=radialCss(radialPoint(index,radialLabelRadius));
+        item.style.left=label.left;
+        item.style.top=label.top;
+        item.setAttribute('aria-label',`${item.dataset.title}, ${item.dataset.score} out of 100`);
+        let dot=[...radialStage.querySelectorAll('.radial-dot')].find((node)=>node.dataset.title===item.dataset.title);
+        if(!dot){
+          dot=document.createElement('button');
+          dot.type='button';
+          dot.className='radial-dot';
+          dot.dataset.title=item.dataset.title;
+          dot.setAttribute('aria-label',`Select ${item.dataset.title}`);
+          radialStage.appendChild(dot);
+          ['mouseenter','click','focus'].forEach(eventName=>dot.addEventListener(eventName,()=>setRadial(item)));
+        }
+        const point=radialCss(radialScorePoint(index,item.dataset.score));
+        dot.style.left=point.left;
+        dot.style.top=point.top;
+      });
+    }
     function setRadial(item){
       if(!item)return;
       const title=item.dataset.title,score=item.dataset.score,copy=item.dataset.copy,value=item.dataset.value,client=item.dataset.client,impact=item.dataset.impact;
       radialItems.forEach(i=>i.classList.toggle('active',i.dataset.title===title));
       rows.forEach(i=>i.classList.toggle('active',i.dataset.title===title));
+      document.querySelectorAll('.radial-dot,.radial-svg-dot,.radial-axis-active').forEach(i=>i.classList.toggle('active',i.dataset.title===title));
+      document.querySelectorAll('.radial-svg-dot').forEach(i=>{
+        const selected=i.dataset.title===title;
+        i.setAttribute('r',selected?'2.5':'1.65');
+        i.setAttribute('fill',selected?'#E6C35C':'#D4AF37');
+        i.setAttribute('stroke',selected?'rgba(255,255,255,.9)':'rgba(255,255,255,.32)');
+      });
       document.getElementById('radialCenter').innerHTML=`<div><span>Strength</span><strong>${score}</strong><span>/100</span></div>`;
       document.getElementById('activeCard').innerHTML=`<div class="eyebrow">Selected capability</div><h3>${title}</h3><div class="score">${score}/100</div><p class="muted">${copy}</p><div class="card"><strong>Strategic Value</strong><p>${value}</p></div><div class="card"><strong>Client Benefit</strong><p>${client||''}</p></div><div class="card gold-card"><strong>Business Impact</strong><p>${impact||''}</p><a class="email" href="book-consultation.html">Discuss Your Objectives</a></div>`;
     }
+    buildRadialGeometry();
     radialItems.forEach(i=>['mouseenter','click','focus'].forEach(e=>i.addEventListener(e,()=>setRadial(i))));
     rows.forEach(r=>['mouseenter','click','focus'].forEach(e=>r.addEventListener(e,()=>setRadial(radialItems.find(i=>i.dataset.title===r.dataset.title)))));
 

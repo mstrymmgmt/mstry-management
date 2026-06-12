@@ -2,24 +2,12 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import {
-  PolarAngleAxis,
-  PolarGrid,
-  Radar,
-  RadarChart,
-  ResponsiveContainer,
-  Tooltip
-} from "recharts";
 import { motion } from "framer-motion";
 import { AnimatedCounter } from "@/components/sections/animated-counter";
 import { sportsCapabilities } from "@/config/site";
 import { SectionHeading } from "@/components/ui/section-heading";
 
 type Capability = (typeof sportsCapabilities)[number];
-
-type TooltipPayload = {
-  payload?: Capability;
-};
 
 const shortLabels: Record<string, string> = {
   "Strategic Leadership": "Leadership",
@@ -32,31 +20,38 @@ const shortLabels: Record<string, string> = {
   "Global Network & Expansion": "Global"
 };
 
-const center = 50;
-const labelRadius = 43;
-const pointRadius = 34;
+const CHART_CENTER = 60;
+const CHART_RADIUS = 38;
+const LABEL_RADIUS = 52;
+const VIEWBOX_SIZE = 120;
 
 function polarPoint(index: number, radius: number) {
   const angle = -90 + (360 / sportsCapabilities.length) * index;
   const radians = (angle * Math.PI) / 180;
   return {
-    x: center + radius * Math.cos(radians),
-    y: center + radius * Math.sin(radians)
+    x: CHART_CENTER + radius * Math.cos(radians),
+    y: CHART_CENTER + radius * Math.sin(radians)
   };
 }
 
-function SportsTooltip({ active, payload }: { active?: boolean; payload?: TooltipPayload[] }) {
-  const item = payload?.[0]?.payload;
-  if (!active || !item) return null;
+function scorePoint(index: number, value: number) {
+  return polarPoint(index, CHART_RADIUS * (value / 100));
+}
 
-  return (
-    <div className="max-w-xs rounded-mstry border border-mstry-gold/35 bg-[#0A0A0A] p-4 text-sm shadow-luxury">
-      <strong className="text-white">{item.subject}</strong>
-      <span className="mt-1 block text-mstry-gold">{item.value}/100 capability strength indicator</span>
-      <p className="mt-2 text-mstry-muted">{item.description}</p>
-      <p className="mt-2 text-mstry-gold">{item.clientBenefit}</p>
-    </div>
-  );
+function cssPosition(point: { x: number; y: number }) {
+  return {
+    left: `${(point.x / VIEWBOX_SIZE) * 100}%`,
+    top: `${(point.y / VIEWBOX_SIZE) * 100}%`
+  };
+}
+
+function polygonPoints(radius: number) {
+  return sportsCapabilities
+    .map((_, pointIndex) => {
+      const point = polarPoint(pointIndex, radius);
+      return `${point.x},${point.y}`;
+    })
+    .join(" ");
 }
 
 export function SportsManagementSection() {
@@ -78,7 +73,7 @@ export function SportsManagementSection() {
   }, []);
 
   return (
-    <section id="capabilities" className="bg-[#0B0B0B] py-24">
+    <section id="capabilities" className="bg-[#0B0B0B] py-16 sm:py-24">
       <div className="mx-auto w-[min(1400px,calc(100%_-_32px))]">
         <SectionHeading
           eyebrow="Management Excellence Framework"
@@ -96,7 +91,7 @@ export function SportsManagementSection() {
           <div className="min-w-0">
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="font-display text-2xl font-black text-white">Integrated Management Capability Framework</h3>
+                <h3 className="font-display text-[clamp(1.625rem,7vw,2.25rem)] font-black leading-tight text-white sm:text-2xl">Integrated Management Capability Framework</h3>
                 <p className="mt-2 text-sm leading-6 text-[#A1A1AA]">
                   This dashboard is interactive. Hover or click any pillar to see the client benefit, strategic value, and business impact behind the capability.
                 </p>
@@ -107,51 +102,43 @@ export function SportsManagementSection() {
             </div>
 
             <motion.div
-              className="relative mx-auto aspect-square w-full max-w-[650px] overflow-visible rounded-full"
+              className="relative mx-auto aspect-square w-full max-w-[min(650px,calc(100vw_-_48px))] overflow-visible rounded-full sm:max-w-[650px]"
               initial={{ opacity: 0, scale: 0.94 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
             >
               <motion.svg
-                className="pointer-events-none absolute inset-0 h-full w-full"
-                viewBox="0 0 100 100"
+                className="absolute inset-0 h-full w-full"
+                viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`}
                 aria-hidden="true"
                 initial={{ opacity: 0, rotate: -4, scale: 0.9 }}
                 whileInView={{ opacity: 1, rotate: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               >
-                {[18, 28, 38, 48].map((radius, index) => {
-                  const points = sportsCapabilities
-                    .map((_, pointIndex) => {
-                      const point = polarPoint(pointIndex, radius);
-                      return `${point.x},${point.y}`;
-                    })
-                    .join(" ");
-                  return (
-                    <motion.polygon
-                      key={radius}
-                      points={points}
-                      fill={index === 3 ? "rgba(212,175,55,.035)" : "none"}
-                      stroke={index === 3 ? "rgba(212,175,55,.28)" : "rgba(255,255,255,.08)"}
-                      strokeWidth={index === 3 ? ".45" : ".25"}
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      whileInView={{ pathLength: 1, opacity: 1 }}
-                      viewport={{ once: true, margin: "-80px" }}
-                      transition={{ duration: 0.75, delay: index * 0.08 }}
-                    />
-                  );
-                })}
+                {[14, 23, 32, CHART_RADIUS].map((radius, index) => (
+                  <motion.polygon
+                    key={radius}
+                    points={polygonPoints(radius)}
+                    fill={index === 3 ? "rgba(212,175,55,.035)" : "none"}
+                    stroke={index === 3 ? "rgba(212,175,55,.28)" : "rgba(255,255,255,.08)"}
+                    strokeWidth={index === 3 ? ".65" : ".32"}
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    whileInView={{ pathLength: 1, opacity: 1 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.75, delay: index * 0.08 }}
+                  />
+                ))}
 
                 {sportsCapabilities.map((item, index) => {
-                  const point = polarPoint(index, 45);
+                  const point = polarPoint(index, CHART_RADIUS);
                   const selected = item.subject === active.subject;
                   return (
                     <motion.line
                       key={item.subject}
-                      x1={center}
-                      y1={center}
+                      x1={CHART_CENTER}
+                      y1={CHART_CENTER}
                       x2={point.x}
                       y2={point.y}
                       stroke={selected ? "#D4AF37" : "rgba(255,255,255,.08)"}
@@ -163,34 +150,64 @@ export function SportsManagementSection() {
                     />
                   );
                 })}
+
+                <motion.polygon
+                  fill="rgba(212,175,55,.22)"
+                  stroke="#D4AF37"
+                  strokeWidth="1.05"
+                  points={sportsCapabilities
+                    .map((item, index) => {
+                      const point = scorePoint(index, item.value);
+                      return `${point.x},${point.y}`;
+                    })
+                    .join(" ")}
+                  initial={{ opacity: 0, scale: 0.72 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  style={{ transformBox: "fill-box", transformOrigin: "center" }}
+                  transition={{ duration: 0.8, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                />
+
+                {sportsCapabilities.map((item, index) => {
+                  const axisEnd = polarPoint(index, CHART_RADIUS);
+                  const selected = item.subject === active.subject;
+                  return (
+                    <motion.line
+                      key={`${item.subject}-active-axis`}
+                      x1={CHART_CENTER}
+                      y1={CHART_CENTER}
+                      x2={axisEnd.x}
+                      y2={axisEnd.y}
+                      stroke="rgba(230,195,92,.92)"
+                      strokeLinecap="round"
+                      strokeWidth="1.1"
+                      animate={{ opacity: selected ? 1 : 0 }}
+                      transition={{ duration: 0.25 }}
+                    />
+                  );
+                })}
+
+                {sportsCapabilities.map((item, index) => {
+                  const point = scorePoint(index, item.value);
+                  const selected = item.subject === active.subject;
+                  return (
+                    <motion.circle
+                      key={`${item.subject}-svg-point`}
+                      cx={point.x}
+                      cy={point.y}
+                      r={selected ? 2.5 : 1.65}
+                      fill={selected ? "#E6C35C" : "#D4AF37"}
+                      stroke={selected ? "rgba(255,255,255,.9)" : "rgba(255,255,255,.32)"}
+                      strokeWidth="0.55"
+                      animate={{ opacity: selected ? 1 : 0.82 }}
+                      transition={{ duration: 0.25 }}
+                    />
+                  );
+                })}
               </motion.svg>
 
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart data={sportsCapabilities} outerRadius="62%">
-                  <PolarGrid stroke="rgba(255,255,255,.08)" />
-                  <PolarAngleAxis dataKey="subject" tick={false} />
-                  <Tooltip
-                    content={(props) => (
-                      <SportsTooltip active={props.active} payload={props.payload as TooltipPayload[]} />
-                    )}
-                  />
-                  <Radar
-                    dataKey="value"
-                    stroke="#D4AF37"
-                    fill="#D4AF37"
-                    fillOpacity={0.22}
-                    animationBegin={350}
-                    animationDuration={1100}
-                    onMouseEnter={(data: { payload?: Capability }) => {
-                      if (data.payload) setHovered(data.payload);
-                    }}
-                    onMouseLeave={() => setHovered(null)}
-                  />
-                </RadarChart>
-              </ResponsiveContainer>
-
               <motion.div
-                className="pointer-events-none absolute left-1/2 top-1/2 grid h-32 w-32 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-mstry-gold/30 bg-[#0B0B0B]/86 text-center shadow-luxury backdrop-blur"
+                className="pointer-events-none absolute left-1/2 top-1/2 grid h-24 w-24 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-mstry-gold/30 bg-[#0B0B0B]/86 text-center shadow-luxury backdrop-blur sm:h-32 sm:w-32"
                 key={active.subject}
                 initial={{ opacity: 0, scale: 0.84 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -204,15 +221,14 @@ export function SportsManagementSection() {
               </motion.div>
 
               {sportsCapabilities.map((item, index) => {
-                const label = polarPoint(index, labelRadius);
-                const point = polarPoint(index, pointRadius);
+                const label = polarPoint(index, LABEL_RADIUS);
                 const selected = item.subject === active.subject;
                 return (
                   <motion.button
                     key={item.subject}
                     type="button"
                     className="absolute -translate-x-1/2 -translate-y-1/2 text-center outline-none"
-                    style={{ left: `${label.x}%`, top: `${label.y}%` }}
+                    style={cssPosition(label)}
                     aria-label={`${item.subject}, ${item.value} out of 100`}
                     initial={{ opacity: 0, scale: 0.82 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -225,7 +241,7 @@ export function SportsManagementSection() {
                     onClick={() => setLocked(item)}
                   >
                     <span
-                      className={`mb-2 block rounded-mstry border px-2 py-1 text-[11px] font-black uppercase tracking-[0.08em] transition ${
+                      className={`mb-1 block max-w-[92px] rounded-mstry border px-2 py-1 text-[9px] font-black uppercase tracking-[0.07em] transition sm:mb-2 sm:max-w-none sm:text-[11px] ${
                         selected
                           ? "border-mstry-gold bg-mstry-gold text-black"
                           : "border-mstry-gold/15 bg-[#0B0B0B]/80 text-white hover:border-mstry-gold/60"
@@ -233,7 +249,7 @@ export function SportsManagementSection() {
                     >
                       {shortLabels[item.subject]}
                     </span>
-                    <span className={`block text-sm font-black ${selected ? "text-mstry-gold" : "text-[#E6C35C]"}`}>
+                    <span className={`block text-xs font-black sm:text-sm ${selected ? "text-mstry-gold" : "text-[#E6C35C]"}`}>
                       {item.value}
                     </span>
                   </motion.button>
@@ -241,14 +257,14 @@ export function SportsManagementSection() {
               })}
 
               {sportsCapabilities.map((item, index) => {
-                const point = polarPoint(index, pointRadius);
+                const point = scorePoint(index, item.value);
                 const selected = item.subject === active.subject;
                 return (
                   <motion.button
                     key={`${item.subject}-point`}
                     type="button"
-                    className="absolute h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-mstry-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]"
-                    style={{ left: `${point.x}%`, top: `${point.y}%` }}
+                    className="absolute h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-mstry-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] sm:h-6 sm:w-6"
+                    style={cssPosition(point)}
                     aria-label={`Select ${item.subject}`}
                     initial={{ opacity: 0, scale: 0.6 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -262,7 +278,7 @@ export function SportsManagementSection() {
                     onClick={() => setLocked(item)}
                   >
                     <span
-                      className={`block h-full w-full rounded-full border transition ${
+                      className={`mx-auto block h-4 w-4 rounded-full border transition sm:h-5 sm:w-5 ${
                         selected
                           ? "border-white bg-mstry-gold shadow-[0_0_28px_rgba(212,175,55,.9)]"
                           : "border-mstry-gold/70 bg-[#D4AF37] shadow-[0_0_14px_rgba(212,175,55,.35)]"
