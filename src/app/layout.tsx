@@ -16,6 +16,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preload" as="image" href="/videos/mstry-hero-poster.svg" />
+      </head>
       <body>
         <SiteShell>{children}</SiteShell>
       </body>

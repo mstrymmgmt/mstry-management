@@ -15,6 +15,7 @@ const commandRows = [
 ];
 
 const HERO_VIDEO_START_SECONDS = 5.2;
+const HERO_POSTER_PATH = "/videos/mstry-hero-poster.svg";
 
 function InvestmentCounter() {
   const [value, setValue] = useState(0);
@@ -93,17 +94,24 @@ export function Hero() {
     <section id="home" className="relative overflow-hidden border-b border-white/10 bg-[#0A0A0A]">
       <div ref={introRef} className="relative h-screen min-h-[760px] overflow-hidden">
         <motion.div className="pointer-events-none absolute inset-0 z-0 bg-[#0A0A0A]" style={{ opacity: videoOpacity, y: videoY }}>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${HERO_POSTER_PATH})` }}
+          />
           <video
             aria-label="MSTRY global management animation"
             autoPlay
             className="h-full w-full object-cover"
             loop
             muted
+            poster={HERO_POSTER_PATH}
             playsInline
             preload="auto"
             ref={videoRef}
             src={`/videos/mstry-hero.mp4#t=${HERO_VIDEO_START_SECONDS}`}
           />
+          <div aria-hidden="true" className="hero-globe-light absolute inset-0" />
         </motion.div>
         <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(10,10,10,.02)_0%,rgba(10,10,10,.10)_54%,rgba(10,10,10,.78)_100%)]" />
         <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(circle_at_50%_45%,rgba(212,175,55,.08),transparent_38%)]" />
