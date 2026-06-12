@@ -320,11 +320,11 @@ a {
 
 @media (max-width: 900px) {
   html {
-    scroll-padding-top: 112px;
+    scroll-padding-top: 32px;
   }
 
   section[id] {
-    scroll-margin-top: 112px;
+    scroll-margin-top: 32px;
   }
 
   .hero-cinema__logo {

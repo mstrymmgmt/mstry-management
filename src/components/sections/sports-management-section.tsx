@@ -21,8 +21,8 @@ const shortLabels: Record<string, string> = {
 };
 
 const CHART_CENTER = 60;
-const CHART_RADIUS = 38;
-const LABEL_RADIUS = 52;
+const CHART_RADIUS = 35;
+const LABEL_RADIUS = 45;
 const VIEWBOX_SIZE = 120;
 
 function polarPoint(index: number, radius: number) {
@@ -82,7 +82,7 @@ export function SportsManagementSection() {
         />
 
         <motion.div
-          className="grid gap-8 rounded-mstry border border-mstry-gold/15 bg-[#111827] p-5 shadow-luxury sm:p-8 xl:grid-cols-[minmax(0,1.85fr)_minmax(360px,1fr)]"
+          className="grid gap-5 rounded-mstry border border-mstry-gold/15 bg-[#111827] p-4 shadow-luxury sm:gap-8 sm:p-8 xl:grid-cols-[minmax(0,1.85fr)_minmax(360px,1fr)]"
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
@@ -102,7 +102,7 @@ export function SportsManagementSection() {
             </div>
 
             <motion.div
-              className="relative mx-auto aspect-square w-full max-w-[min(650px,calc(100vw_-_48px))] overflow-visible rounded-full sm:max-w-[650px]"
+              className="relative mx-auto aspect-square w-full max-w-[min(520px,calc(100vw_-_72px))] overflow-visible rounded-full sm:max-w-[650px]"
               initial={{ opacity: 0, scale: 0.94 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-80px" }}
@@ -207,7 +207,7 @@ export function SportsManagementSection() {
               </motion.svg>
 
               <motion.div
-                className="pointer-events-none absolute left-1/2 top-1/2 grid h-24 w-24 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-mstry-gold/30 bg-[#0B0B0B]/86 text-center shadow-luxury backdrop-blur sm:h-32 sm:w-32"
+                className="pointer-events-none absolute left-1/2 top-1/2 grid h-20 w-20 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-mstry-gold/30 bg-[#0B0B0B]/86 text-center shadow-luxury backdrop-blur sm:h-32 sm:w-32"
                 key={active.subject}
                 initial={{ opacity: 0, scale: 0.84 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -215,8 +215,8 @@ export function SportsManagementSection() {
               >
                 <div>
                   <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-[#A1A1AA]">Strength</span>
-                  <strong className="mt-1 block text-4xl leading-none text-mstry-gold">{active.value}</strong>
-                  <span className="block text-xs font-black uppercase tracking-[0.16em] text-white">/100</span>
+                  <strong className="mt-1 block text-3xl leading-none text-mstry-gold sm:text-4xl">{active.value}</strong>
+                  <span className="block text-[10px] font-black uppercase tracking-[0.16em] text-white sm:text-xs">/100</span>
                 </div>
               </motion.div>
 
@@ -241,7 +241,7 @@ export function SportsManagementSection() {
                     onClick={() => setLocked(item)}
                   >
                     <span
-                      className={`mb-1 block max-w-[92px] rounded-mstry border px-2 py-1 text-[9px] font-black uppercase tracking-[0.07em] transition sm:mb-2 sm:max-w-none sm:text-[11px] ${
+                      className={`mb-1 block max-w-[74px] rounded-mstry border px-1.5 py-1 text-[8px] font-black uppercase tracking-[0.045em] transition sm:mb-2 sm:max-w-[112px] sm:px-2 sm:text-[11px] ${
                         selected
                           ? "border-mstry-gold bg-mstry-gold text-black"
                           : "border-mstry-gold/15 bg-[#0B0B0B]/80 text-white hover:border-mstry-gold/60"
@@ -263,7 +263,7 @@ export function SportsManagementSection() {
                   <motion.button
                     key={`${item.subject}-point`}
                     type="button"
-                    className="absolute h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-mstry-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] sm:h-6 sm:w-6"
+                    className="absolute h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-mstry-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] sm:h-6 sm:w-6"
                     style={cssPosition(point)}
                     aria-label={`Select ${item.subject}`}
                     initial={{ opacity: 0, scale: 0.6 }}
@@ -278,7 +278,7 @@ export function SportsManagementSection() {
                     onClick={() => setLocked(item)}
                   >
                     <span
-                      className={`mx-auto block h-4 w-4 rounded-full border transition sm:h-5 sm:w-5 ${
+                      className={`mx-auto block h-3.5 w-3.5 rounded-full border transition sm:h-5 sm:w-5 ${
                         selected
                           ? "border-white bg-mstry-gold shadow-[0_0_28px_rgba(212,175,55,.9)]"
                           : "border-mstry-gold/70 bg-[#D4AF37] shadow-[0_0_14px_rgba(212,175,55,.35)]"
@@ -290,11 +290,11 @@ export function SportsManagementSection() {
             </motion.div>
           </div>
 
-          <aside className="rounded-mstry border border-mstry-gold/15 bg-[#0B0B0B] p-5 shadow-luxury">
+          <aside className="rounded-mstry border border-mstry-gold/15 bg-[#0B0B0B] p-4 shadow-luxury sm:p-5">
             <div className="border-b border-mstry-gold/15 pb-5">
               <span className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">Management Excellence Index</span>
               <div className="mt-3 flex items-end gap-2">
-                <strong className="text-7xl leading-none text-white">
+                <strong className="text-5xl leading-none text-white sm:text-7xl">
                   <AnimatedCounter value={summary.average} decimals={1} />
                 </strong>
                 <span className="pb-2 text-xl font-black text-[#A1A1AA]">/100</span>

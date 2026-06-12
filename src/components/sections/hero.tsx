@@ -41,7 +41,6 @@ function InvestmentCounter() {
 export function Hero() {
   const introRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isVideoReady, setIsVideoReady] = useState(false);
   const { scrollYProgress } = useScroll({
     target: introRef,
     offset: ["start start", "end start"]
@@ -57,7 +56,6 @@ export function Hero() {
       if (video.currentTime < HERO_VIDEO_START_SECONDS - 0.05) {
         video.currentTime = HERO_VIDEO_START_SECONDS;
       }
-      setIsVideoReady(true);
       void video.play().catch(() => undefined);
     };
 
@@ -65,7 +63,6 @@ export function Hero() {
       if (video.currentTime < HERO_VIDEO_START_SECONDS - 0.05) {
         video.currentTime = HERO_VIDEO_START_SECONDS;
       }
-      setIsVideoReady(true);
       void video.play().catch(() => undefined);
     };
 
@@ -99,7 +96,7 @@ export function Hero() {
           <video
             aria-label="MSTRY global management animation"
             autoPlay
-            className={`h-full w-full object-cover transition-opacity duration-300 ${isVideoReady ? "opacity-100" : "opacity-0"}`}
+            className="h-full w-full object-cover"
             loop
             muted
             playsInline
@@ -129,7 +126,7 @@ export function Hero() {
         </motion.div>
       </div>
 
-      <div className="relative z-10 border-t border-white/10 bg-[#0A0A0A] py-16 sm:py-20 lg:py-28">
+      <div className="relative z-10 border-t border-white/10 bg-[#0A0A0A] py-14 sm:py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,.032)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.032)_1px,transparent_1px)] bg-[size:80px_80px]" />
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_82%_12%,rgba(212,175,55,.10),transparent_34%)]" />
         <div className="relative z-10 mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-10 sm:gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
@@ -140,7 +137,7 @@ export function Hero() {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="text-xs font-black uppercase tracking-[0.22em] text-mstry-gold">Premium management, consulting, partnerships and execution</p>
-            <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.625rem,14vw,4.125rem)] font-black leading-[.95] text-white sm:text-[clamp(3rem,6vw,6.5rem)]">
+            <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.375rem,12vw,3.875rem)] font-black leading-[.96] text-white sm:text-[clamp(3rem,6vw,6.5rem)] sm:leading-[.95]">
               Build, manage, and scale with a private execution partner.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-mstry-muted sm:text-lg sm:leading-8">
@@ -156,7 +153,7 @@ export function Hero() {
           </motion.div>
 
           <motion.div
-            className="relative overflow-hidden rounded-mstry border border-mstry-gold/15 bg-[#111827]/92 p-5 shadow-luxury backdrop-blur-md sm:p-7"
+            className="relative overflow-hidden rounded-mstry border border-mstry-gold/15 bg-[#111827]/92 p-4 shadow-luxury backdrop-blur-md sm:p-7"
             initial={{ opacity: 0, y: 26, scale: 0.985 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-120px" }}
@@ -167,7 +164,7 @@ export function Hero() {
               <div className="flex flex-wrap items-start justify-between gap-4 border-b border-mstry-gold/15 pb-5">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.22em] text-mstry-gold">How MSTRY creates value</p>
-                  <h2 className="mt-3 max-w-xl font-display text-3xl font-black text-white sm:text-4xl">
+                  <h2 className="mt-3 max-w-xl font-display text-[clamp(2rem,8.5vw,3rem)] font-black leading-tight text-white sm:text-4xl">
                     Senior thinking and disciplined follow-through in one engagement model.
                   </h2>
                 </div>
@@ -180,7 +177,7 @@ export function Hero() {
               <div className="mt-5 grid gap-3">
                 {commandRows.map(([title, body], index) => (
                   <motion.div
-                    className="rounded-mstry border border-white/10 bg-[#0A0A0A]/70 p-4"
+                    className="rounded-mstry border border-white/10 bg-[#0A0A0A]/70 p-3.5 sm:p-4"
                     key={title}
                     initial={{ opacity: 0, x: 18 }}
                     whileInView={{ opacity: 1, x: 0 }}

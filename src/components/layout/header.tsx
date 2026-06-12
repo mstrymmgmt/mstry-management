@@ -27,7 +27,7 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-mstry-black/80 backdrop-blur-xl">
+    <header className="relative z-50 border-b border-white/10 bg-mstry-black/80 backdrop-blur-xl md:sticky md:top-0">
       <div className="mx-auto flex h-[72px] w-[min(1320px,calc(100%_-_32px))] items-center justify-between gap-5 sm:h-[76px] sm:w-[min(1320px,calc(100%_-_40px))] sm:gap-6">
         <Link className="relative overflow-hidden transition duration-300 hover:-translate-y-0.5" href="/" aria-label="MSTRY MANAGEMENT home">
           <Image src="/assets/mstry-logo.png" alt="MSTRY MANAGEMENT" width={760} height={540} className="h-12 w-auto object-contain sm:h-16" priority />
