@@ -14,7 +14,7 @@ const commandRows = [
   ["Create visible progress", "Leadership receives clearer priorities, controlled movement, and a stronger route toward measurable outcomes."]
 ];
 
-const HERO_VIDEO_START_SECONDS = 2.8;
+const HERO_VIDEO_START_SECONDS = 5.2;
 
 function InvestmentCounter() {
   const [value, setValue] = useState(0);
@@ -41,6 +41,7 @@ function InvestmentCounter() {
 export function Hero() {
   const introRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const { scrollYProgress } = useScroll({
     target: introRef,
     offset: ["start start", "end start"]
@@ -56,6 +57,15 @@ export function Hero() {
       if (video.currentTime < HERO_VIDEO_START_SECONDS - 0.05) {
         video.currentTime = HERO_VIDEO_START_SECONDS;
       }
+      setIsVideoReady(true);
+      void video.play().catch(() => undefined);
+    };
+
+    const revealVideoFromGlobe = () => {
+      if (video.currentTime < HERO_VIDEO_START_SECONDS - 0.05) {
+        video.currentTime = HERO_VIDEO_START_SECONDS;
+      }
+      setIsVideoReady(true);
       void video.play().catch(() => undefined);
     };
 
@@ -67,12 +77,16 @@ export function Hero() {
     };
 
     video.addEventListener("loadedmetadata", startFromGlobe);
+    video.addEventListener("canplay", revealVideoFromGlobe);
+    video.addEventListener("seeked", revealVideoFromGlobe);
     video.addEventListener("timeupdate", loopFromGlobe);
     video.addEventListener("ended", startFromGlobe);
     startFromGlobe();
 
     return () => {
       video.removeEventListener("loadedmetadata", startFromGlobe);
+      video.removeEventListener("canplay", revealVideoFromGlobe);
+      video.removeEventListener("seeked", revealVideoFromGlobe);
       video.removeEventListener("timeupdate", loopFromGlobe);
       video.removeEventListener("ended", startFromGlobe);
     };
@@ -81,11 +95,11 @@ export function Hero() {
   return (
     <section id="home" className="relative overflow-hidden border-b border-white/10 bg-[#0A0A0A]">
       <div ref={introRef} className="relative h-screen min-h-[760px] overflow-hidden">
-        <motion.div className="pointer-events-none absolute inset-0 z-0" style={{ opacity: videoOpacity, y: videoY }}>
+        <motion.div className="pointer-events-none absolute inset-0 z-0 bg-[#0A0A0A]" style={{ opacity: videoOpacity, y: videoY }}>
           <video
             aria-label="MSTRY global management animation"
             autoPlay
-            className="h-full w-full object-cover"
+            className={`h-full w-full object-cover transition-opacity duration-300 ${isVideoReady ? "opacity-100" : "opacity-0"}`}
             loop
             muted
             playsInline
@@ -115,10 +129,10 @@ export function Hero() {
         </motion.div>
       </div>
 
-      <div className="relative z-10 border-t border-white/10 bg-[#0A0A0A] py-20 lg:py-28">
+      <div className="relative z-10 border-t border-white/10 bg-[#0A0A0A] py-16 sm:py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,.032)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.032)_1px,transparent_1px)] bg-[size:80px_80px]" />
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_82%_12%,rgba(212,175,55,.10),transparent_34%)]" />
-        <div className="relative z-10 mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+        <div className="relative z-10 mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-10 sm:gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <motion.div
             initial={{ opacity: 0, y: 22 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -126,10 +140,10 @@ export function Hero() {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="text-xs font-black uppercase tracking-[0.22em] text-mstry-gold">Premium management, consulting, partnerships and execution</p>
-            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3rem,6vw,6.5rem)] font-black leading-[.95] text-white">
+            <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.625rem,14vw,4.125rem)] font-black leading-[.95] text-white sm:text-[clamp(3rem,6vw,6.5rem)]">
               Build, manage, and scale with a private execution partner.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-mstry-muted">
+            <p className="mt-6 max-w-2xl text-base leading-7 text-mstry-muted sm:text-lg sm:leading-8">
               MSTRY MANAGEMENT helps founders, investors, companies, sports organizations, talent, and international operators turn important objectives into structured strategy, managed execution, strategic partnerships, business development, and operational control.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">

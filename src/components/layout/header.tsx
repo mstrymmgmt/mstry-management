@@ -28,9 +28,9 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-mstry-black/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-[76px] w-[min(1320px,calc(100%_-_40px))] items-center justify-between gap-6">
+      <div className="mx-auto flex h-[72px] w-[min(1320px,calc(100%_-_32px))] items-center justify-between gap-5 sm:h-[76px] sm:w-[min(1320px,calc(100%_-_40px))] sm:gap-6">
         <Link className="relative overflow-hidden transition duration-300 hover:-translate-y-0.5" href="/" aria-label="MSTRY MANAGEMENT home">
-          <Image src="/assets/mstry-logo.png" alt="MSTRY MANAGEMENT" width={760} height={540} className="h-16 w-auto object-contain" priority />
+          <Image src="/assets/mstry-logo.png" alt="MSTRY MANAGEMENT" width={760} height={540} className="h-12 w-auto object-contain sm:h-16" priority />
         </Link>
         <button
           className="grid h-11 w-11 place-items-center border border-white/15 text-mstry-silver md:hidden"
@@ -43,7 +43,7 @@ export function Header() {
         <nav
           className={`${
             open ? "flex" : "hidden"
-          } fixed left-5 right-5 top-[86px] flex-col gap-5 border border-white/10 bg-mstry-black/95 p-5 text-sm text-mstry-muted md:static md:flex md:flex-row md:items-center md:border-0 md:bg-transparent md:p-0`}
+          } fixed left-4 right-4 top-[82px] flex-col gap-5 border border-white/10 bg-mstry-black/95 p-5 text-sm text-mstry-muted md:static md:flex md:flex-row md:items-center md:border-0 md:bg-transparent md:p-0`}
         >
           {siteConfig.nav.map((item) => (
             <Link

@@ -14,6 +14,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
 }
 
 section[id] {
@@ -318,6 +319,14 @@ a {
 }
 
 @media (max-width: 900px) {
+  html {
+    scroll-padding-top: 112px;
+  }
+
+  section[id] {
+    scroll-margin-top: 112px;
+  }
+
   .hero-cinema__logo {
     left: 50%;
     max-width: 190px;
