@@ -14,8 +14,7 @@ const commandRows = [
   ["Create visible progress", "Leadership receives clearer priorities, controlled movement, and a stronger route toward measurable outcomes."]
 ];
 
-const HERO_VIDEO_START_SECONDS = 5.2;
-const HERO_POSTER_PATH = "/videos/mstry-hero-poster.svg";
+const HERO_VIDEO_START_SECONDS = 0;
 const DESKTOP_HERO_VIDEO = "/videos/mstry-hero-desktop.mp4";
 const MOBILE_HERO_VIDEO = "/videos/mstry-hero-mobile.mp4";
 
@@ -108,11 +107,6 @@ export function Hero() {
     <section id="home" className="relative overflow-hidden border-b border-white/10 bg-[#0A0A0A]">
       <div ref={introRef} className="relative h-screen min-h-[760px] overflow-hidden">
         <motion.div className="pointer-events-none absolute inset-0 z-0 bg-[#0A0A0A]" style={{ opacity: videoOpacity, y: videoY }}>
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${HERO_POSTER_PATH})` }}
-          />
           {heroVideoMode ? (
             <video
               aria-label="MSTRY global management animation"
@@ -121,7 +115,6 @@ export function Hero() {
               key={heroVideoMode}
               loop
               muted
-              poster={HERO_POSTER_PATH}
               playsInline
               preload="auto"
               ref={videoRef}
