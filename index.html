@@ -52,9 +52,7 @@
     <section id="home" class="hero">
       <div class="hero-intro">
         <div class="hero-poster-bg" aria-hidden="true"></div>
-        <video class="hero-video" id="heroVideo" autoplay loop muted playsinline preload="auto" poster="public/videos/mstry-hero-poster.svg" aria-label="MSTRY global management animation">
-          <source src="public/videos/mstry-hero.mp4#t=5.2" type="video/mp4">
-        </video>
+        <video class="hero-video" id="heroVideo" autoplay loop muted playsinline preload="auto" poster="public/videos/mstry-hero-poster.svg" data-desktop-src="public/videos/mstry-hero-desktop.mp4" data-mobile-src="public/videos/mstry-hero-mobile.mp4" data-desktop-start="5.2" data-mobile-start="0" aria-label="MSTRY global management animation"></video>
         <div class="hero-globe-light" aria-hidden="true"></div>
         <div class="hero-video-shade"></div>
         <div class="hero-intro-content">
@@ -209,27 +207,45 @@
     window.addEventListener('resize',updateHeroCinemaOpacity);
 
     const heroVideo=document.getElementById('heroVideo');
-    const heroVideoStart=5.2;
+    const heroVideoQuery=window.matchMedia('(max-width: 767px)');
+    function heroVideoStart(){
+      return Number(heroVideo?.dataset.start||0);
+    }
+    function configureHeroVideo(){
+      if(!heroVideo)return;
+      const mode=heroVideoQuery.matches?'mobile':'desktop';
+      if(heroVideo.dataset.mode===mode)return;
+      const source=mode==='mobile'?heroVideo.dataset.mobileSrc:heroVideo.dataset.desktopSrc;
+      const start=Number(mode==='mobile'?heroVideo.dataset.mobileStart:heroVideo.dataset.desktopStart)||0;
+      heroVideo.dataset.mode=mode;
+      heroVideo.dataset.start=String(start);
+      heroVideo.src=`${source}${start>0?`#t=${start}`:''}`;
+      heroVideo.load();
+    }
     function startHeroVideoFromGlobe(){
       if(!heroVideo)return;
-      if(heroVideo.currentTime<heroVideoStart-.05)heroVideo.currentTime=heroVideoStart;
+      const start=heroVideoStart();
+      if(start>0&&heroVideo.currentTime<start-.05)heroVideo.currentTime=start;
       heroVideo.classList.remove('is-loading');
       heroVideo.play?.().catch?.(()=>{});
     }
     function revealHeroVideoFromGlobe(){
       if(!heroVideo)return;
-      if(heroVideo.currentTime<heroVideoStart-.05)heroVideo.currentTime=heroVideoStart;
+      const start=heroVideoStart();
+      if(start>0&&heroVideo.currentTime<start-.05)heroVideo.currentTime=start;
       heroVideo.classList.remove('is-loading');
       heroVideo.play?.().catch?.(()=>{});
     }
     function loopHeroVideoFromGlobe(){
       if(!heroVideo||!heroVideo.duration)return;
       if(heroVideo.currentTime>=heroVideo.duration-.18){
-        heroVideo.currentTime=heroVideoStart;
+        heroVideo.currentTime=heroVideoStart();
         heroVideo.play?.().catch?.(()=>{});
       }
     }
     if(heroVideo){
+      configureHeroVideo();
+      heroVideoQuery.addEventListener('change',configureHeroVideo);
       heroVideo.addEventListener('loadedmetadata',startHeroVideoFromGlobe);
       heroVideo.addEventListener('canplay',revealHeroVideoFromGlobe);
       heroVideo.addEventListener('seeked',revealHeroVideoFromGlobe);
