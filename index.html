@@ -320,7 +320,7 @@
         const elapsed=now%loopDuration;
         const progress=Math.min(elapsed/countDuration,1);
         const eased=1-Math.pow(1-progress,3);
-        heroRevenue.textContent=`$${(eased*65).toFixed(1)}M+`;
+        heroRevenue.textContent=`$${(eased*265).toFixed(1)}M+`;
       }
       requestAnimationFrame(updateHeroRevenue);
     }
