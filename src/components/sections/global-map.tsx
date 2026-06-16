@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { globalMarkets } from "@/config/site";
+import { companyFootprint, globalMarkets } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/ui/section-heading";
 
@@ -79,6 +79,16 @@ export function GlobalMap() {
             <p className="mt-2 text-sm leading-6 text-mstry-muted">
               Clients gain a more controlled route into new markets, with fewer disconnected conversations and clearer accountability around execution.
             </p>
+            <div className="mt-5 border-t border-mstry-gold/15 pt-5">
+              <span className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">Operations & Projects Across</span>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {companyFootprint.operationsProjectsAcross.map((country) => (
+                  <span className="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs font-bold text-mstry-silver" key={country}>
+                    {country}
+                  </span>
+                ))}
+              </div>
+            </div>
             <div className="mt-4">
               <Button href="/contact">Explore Strategic Opportunities</Button>
             </div>

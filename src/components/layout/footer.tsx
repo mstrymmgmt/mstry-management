@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
+import { companyFootprint, siteConfig } from "@/config/site";
 
 export function Footer() {
   return (
     <footer className="border-t border-white/10 bg-[#0A0A0A] py-12 text-sm text-mstry-muted">
-      <div className="mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-8 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+      <div className="mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-8 md:grid-cols-2 lg:grid-cols-[1.15fr_0.8fr_0.8fr_0.95fr]">
         <div>
           <div className="font-display text-3xl font-black tracking-[0.16em] text-white">MSTRY</div>
           <div className="mt-2 text-xs font-black uppercase tracking-[0.32em] text-mstry-gold">Management</div>
@@ -24,6 +24,16 @@ export function Footer() {
         <div>
           <strong className="text-white">Focus</strong>
           <p className="mt-3 leading-6">Business management, strategic consulting, partnerships, international operations, project execution, and sports management.</p>
+        </div>
+        <div>
+          <strong className="text-white">Head Office</strong>
+          <p className="mt-3 leading-6">
+            {companyFootprint.headOffice.lines.map((line) => (
+              <span className="block" key={line}>
+                {line}
+              </span>
+            ))}
+          </p>
         </div>
       </div>
       <div className="mx-auto mt-8 flex w-[min(1320px,calc(100%_-_40px))] flex-wrap justify-between gap-4 border-t border-white/10 pt-6">

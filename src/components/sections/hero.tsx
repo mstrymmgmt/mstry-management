@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AnimatedCounter } from "@/components/sections/animated-counter";
-import { executiveMetrics, siteConfig } from "@/config/site";
+import { companyFootprint, executiveMetrics, siteConfig } from "@/config/site";
 
 const heroStats = executiveMetrics.slice(0, 4);
 const commandRows = [
@@ -136,6 +136,18 @@ export function Hero() {
             <strong className="mt-2 block font-display text-[clamp(2.6rem,7vw,5.4rem)] font-black leading-none text-mstry-gold drop-shadow-[0_0_18px_rgba(212,175,55,.22)]">
               $<InvestmentCounter />
             </strong>
+            <div className="mt-4 text-center">
+              <p className="font-display text-[clamp(1.05rem,3vw,1.45rem)] font-semibold leading-tight text-white/82">
+                From London to the World
+              </p>
+              <div className="mt-2 flex items-center justify-center gap-3">
+                <span aria-hidden="true" className="h-px w-10 bg-gradient-to-r from-transparent to-mstry-gold/70 sm:w-14" />
+                <span className="text-[10px] font-black uppercase tracking-[0.34em] text-mstry-gold/90 sm:text-[11px]">
+                  Since {companyFootprint.operatingSince}
+                </span>
+                <span aria-hidden="true" className="h-px w-10 bg-gradient-to-l from-transparent to-mstry-gold/70 sm:w-14" />
+              </div>
+            </div>
           </div>
           <div className="hidden w-fit items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-white/55 sm:inline-flex">
             <span className="h-px w-10 bg-mstry-gold" />

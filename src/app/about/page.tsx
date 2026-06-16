@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/page-hero";
 import { CTA } from "@/components/sections/cta";
-import { siteConfig } from "@/config/site";
+import { companyFootprint, siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "About"
@@ -50,6 +50,34 @@ export default function AboutPage() {
               <h3 className="mt-3 font-display text-2xl font-black text-white">{item}</h3>
             </div>
           ))}
+        </div>
+      </section>
+      <section className="py-20">
+        <div className="mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-10 border-t border-mstry-gold/20 pt-12 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-mstry-gold">Company footprint</p>
+            <h2 className="mt-3 font-display text-4xl font-black text-white">A London head office with international operating reach.</h2>
+            <p className="mt-4 text-sm leading-7 text-mstry-muted">
+              From London to the world since {companyFootprint.operatingSince}, MSTRY operates from {companyFootprint.headOffice.address}, supporting client mandates across Europe, North America, and Asia.
+            </p>
+          </div>
+          <div className="space-y-7">
+            <div className="border-b border-white/10 pb-7">
+              <div>
+                <span className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">Active Clients</span>
+                <strong className="mt-3 block font-display text-4xl font-black text-white">{companyFootprint.activeClients.toLocaleString("en-US")}+</strong>
+                <p className="mt-2 text-sm leading-6 text-mstry-muted">
+                  Approximately {companyFootprint.activeClients.toLocaleString("en-US")} active clients supported through the operating network.
+                </p>
+              </div>
+            </div>
+            <div>
+              <span className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">Operations & Projects Across</span>
+              <p className="mt-3 text-sm leading-7 text-mstry-muted">
+                {companyFootprint.operationsProjectsAcross.join(" • ")}
+              </p>
+            </div>
+          </div>
         </div>
       </section>
       <CTA />

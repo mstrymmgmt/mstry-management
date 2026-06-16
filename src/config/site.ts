@@ -29,10 +29,33 @@ export const imagery = {
     "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80"
 };
 
+export const companyFootprint = {
+  headOffice: {
+    label: "Head Office",
+    address: "One Tudor Street, London, United Kingdom",
+    lines: ["One Tudor Street", "London", "United Kingdom"]
+  },
+  operatingSince: "2006",
+  activeClients: 11000,
+  operationsProjectsAcross: [
+    "United Kingdom",
+    "Romania",
+    "Canada",
+    "United States",
+    "Switzerland",
+    "Singapore",
+    "Germany",
+    "Italy",
+    "Malta",
+    "China",
+    "Malaysia"
+  ]
+};
+
 export const executiveMetrics = [
   { label: "Countries Served", value: 18, suffix: "+", detail: "UAE, Europe, UK, GCC, and global markets" },
   { label: "Active Partnerships", value: 42, suffix: "+", detail: "Corporate, investment, sports, and operating partners" },
-  { label: "Projects Delivered", value: 120, suffix: "+", detail: "Launch, growth, restructuring, and execution mandates" },
+  { label: "Projects Delivered", value: 7956, suffix: "+", detail: "Launch, growth, restructuring, and execution mandates" },
   { label: "Advisory Engagements", value: 65, suffix: "+", detail: "Board, founder, investor, and leadership support" },
   { label: "Sports Operations", value: 14, suffix: "+", detail: "Athlete, club, event, pathway, and talent mandates" },
   { label: "Growth Metrics", value: 3.8, suffix: "x", detail: "Average tracked expansion velocity across select mandates" }
