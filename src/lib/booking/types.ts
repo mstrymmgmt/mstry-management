@@ -25,6 +25,7 @@ export type BookingPayload = {
   selectedDate?: string;
   selectedTime?: string;
   timezone?: string;
+  submittedPageUrl?: string;
   website?: string;
   startedAt?: string;
 };
@@ -47,6 +48,7 @@ export type BookingRecord = {
   selectedDate: string;
   selectedTime: string;
   timezone: string;
+  submittedPageUrl: string;
   startUtc: string;
   endUtc: string;
   durationMinutes: number;

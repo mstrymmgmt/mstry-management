@@ -3,7 +3,7 @@ import { displayDateTime } from "./time";
 import type { BookingRecord } from "./types";
 import { escapeHtml } from "./validation";
 
-const internalEmail = "onboarding@themstry.com";
+const internalEmail = process.env.BOOKING_INTERNAL_EMAIL || "Info@themstry.com";
 
 export function emailConfigured() {
   return Boolean(process.env.RESEND_API_KEY);
@@ -86,26 +86,34 @@ export async function sendBookingEmails(booking: BookingRecord) {
   const localDisplay = displayDateTime(booking.selectedDate, booking.selectedTime, booking.timezone);
   const timestamp = booking.createdAt;
   const commonRows: Array<[string, string]> = [
+    ["Booking ID", booking.id],
+    ["Booking Status", booking.status],
     ["Name", booking.fullName],
     ["Organization", booking.organization || "Not provided"],
     ["Email", booking.email],
     ["Phone", booking.phone || "Not provided"],
     ["Service Interest", booking.serviceInterest],
     ["Consultation Notes", booking.message || "Not provided"],
+    ["Meeting Type", "Zoom / Online Call"],
+    ["Date & Time", localDisplay],
     ["Selected Date", booking.selectedDate],
     ["Selected Time", booking.selectedTime],
     ["Timezone", booking.timezone],
+    ["Meeting Duration", `${booking.durationMinutes} minutes`],
+    ["Start Time UTC", booking.startUtc],
+    ["End Time UTC", booking.endUtc],
     ["Zoom Meeting Link", booking.zoom.joinUrl || "To be assigned"],
     ["Meeting ID", booking.zoom.meetingId || "To be assigned"],
     ["Passcode", booking.zoom.passcode || "Not required"],
+    ["Submitted Page URL", booking.submittedPageUrl || "Not provided"],
     ["Submission Timestamp", timestamp]
   ];
 
   await sendEmail({
     to: [internalEmail],
     replyTo: booking.email,
-    subject: `Confirmed MSTRY Consultation - ${booking.serviceInterest}`,
-    html: brandShell("New Confirmed Consultation Booking", table(commonRows)),
+    subject: "New Themstry Appointment Booking",
+    html: brandShell("New Themstry Appointment Booking", table(commonRows)),
     text: commonRows.map(([label, value]) => `${label}: ${value}`).join("\n"),
     attachments: [{ filename: "mstry-consultation-call.ics", content: Buffer.from(ics).toString("base64") }]
   });

@@ -32,6 +32,7 @@ export function sanitizePayload(payload: BookingPayload) {
     selectedDate: clean(payload.selectedDate, 20),
     selectedTime: clean(payload.selectedTime, 10),
     timezone: clean(payload.timezone, 80) || "UTC",
+    submittedPageUrl: clean(payload.submittedPageUrl, 500),
     website: clean(payload.website, 100),
     startedAt: Number(payload.startedAt || 0)
   };

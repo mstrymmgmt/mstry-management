@@ -13,10 +13,14 @@ import {
 } from "@/lib/booking/storage";
 import { addMinutes } from "@/lib/booking/time";
 import type { BookingPayload, BookingRecord, ServiceInterest } from "@/lib/booking/types";
-import { sanitizePayload, validateBooking } from "@/lib/booking/validation";
+import { clean, sanitizePayload, validateBooking } from "@/lib/booking/validation";
 import { createZoomMeeting, deleteZoomMeeting, zoomConfigured } from "@/lib/booking/zoom";
 
 export const runtime = "nodejs";
+
+function submittedPageUrl(request: NextRequest, payloadUrl: string) {
+  return payloadUrl || clean(request.headers.get("referer"), 500) || clean(request.headers.get("origin"), 500);
+}
 
 export async function POST(request: NextRequest) {
   let reservedStartUtc = "";
@@ -99,6 +103,7 @@ export async function POST(request: NextRequest) {
       selectedDate: payload.selectedDate,
       selectedTime: payload.selectedTime,
       timezone: payload.timezone,
+      submittedPageUrl: submittedPageUrl(request, payload.submittedPageUrl),
       startUtc: matchingSlot.startUtc,
       endUtc: addMinutes(new Date(matchingSlot.startUtc), bookingDurationMinutes).toISOString(),
       durationMinutes: bookingDurationMinutes,
@@ -116,7 +121,12 @@ export async function POST(request: NextRequest) {
     try {
       await sendBookingEmails(booking);
       booking.emailStatus = "Sent";
-    } catch {
+    } catch (emailError) {
+      console.error("Booking email delivery failed", {
+        bookingId: booking.id,
+        error: emailError instanceof Error ? emailError.message : "Unknown email delivery error"
+      });
+      // The appointment remains confirmed if notification delivery fails; emailStatus records the failure for admin review.
       booking.emailStatus = "Failed";
     }
     booking.updatedAt = new Date().toISOString();
@@ -150,9 +160,8 @@ export async function POST(request: NextRequest) {
       await deleteZoomMeeting(createdZoomMeetingId).catch(() => undefined);
     }
 
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "We could not complete your booking. Please try again." },
-      { status: 500 }
-    );
+    console.error("Booking request failed", error);
+
+    return NextResponse.json({ error: "We could not complete your booking. Please try again." }, { status: 500 });
   }
 }

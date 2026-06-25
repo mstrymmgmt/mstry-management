@@ -161,6 +161,7 @@ export function ConsultationForm() {
       selectedDate,
       selectedTime,
       timezone,
+      submittedPageUrl: window.location.href,
       message: String(formData.get("message") || ""),
       website: String(formData.get("website") || ""),
       startedAt: String(formData.get("startedAt") || startedAt)
