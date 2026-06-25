@@ -35,6 +35,8 @@ type AvailabilityStatus = "idle" | "loading" | "ready" | "error";
 
 const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const availabilityUnavailableMessage =
+  "Availability is currently being updated. Please contact Info@themstry.com or try again shortly.";
 
 function dateKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -117,7 +119,7 @@ export function CallBookingForm() {
       setAvailabilityError("");
 
       try {
-        const response = await fetch(`/api/availability?timezone=${encodeURIComponent(timezone)}&days=60`);
+        const response = await fetch(`/api/availability?timezone=${encodeURIComponent(timezone)}&days=30`);
         const data = (await response.json()) as { slots?: AvailabilitySlot[]; error?: string };
         if (!response.ok) throw new Error(data.error || "Availability could not be loaded.");
         if (cancelled) return;
@@ -126,7 +128,7 @@ export function CallBookingForm() {
       } catch (requestError) {
         if (cancelled) return;
         setAvailabilityStatus("error");
-        setAvailabilityError(requestError instanceof Error ? requestError.message : "Availability could not be loaded.");
+        setAvailabilityError(availabilityUnavailableMessage);
       }
     }
 

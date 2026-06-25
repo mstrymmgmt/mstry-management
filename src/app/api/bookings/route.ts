@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { bookingDurationMinutes, generateAvailabilitySlots } from "@/lib/booking/availability";
+import { bookingDurationMinutes, bookingWindowDays, generateAvailabilitySlots } from "@/lib/booking/availability";
 import { emailConfigured, sendBookingEmails } from "@/lib/booking/email";
 import { clientIp, rateLimited } from "@/lib/booking/rate-limit";
 import {
@@ -18,6 +18,9 @@ import { createZoomMeeting, deleteZoomMeeting, zoomConfigured } from "@/lib/book
 
 export const runtime = "nodejs";
 
+const bookingUnavailableMessage =
+  "Availability is currently being updated. Please contact Info@themstry.com or try again shortly.";
+
 function submittedPageUrl(request: NextRequest, payloadUrl: string) {
   return payloadUrl || clean(request.headers.get("referer"), 500) || clean(request.headers.get("origin"), 500);
 }
@@ -29,10 +32,10 @@ export async function POST(request: NextRequest) {
 
   try {
     if (!storageConfigured()) {
-      return NextResponse.json({ error: "Booking database is not configured." }, { status: 500 });
+      return NextResponse.json({ error: bookingUnavailableMessage }, { status: 500 });
     }
     if (!emailConfigured()) {
-      return NextResponse.json({ error: "Booking email delivery is not configured." }, { status: 500 });
+      return NextResponse.json({ error: bookingUnavailableMessage }, { status: 500 });
     }
 
     const payload = sanitizePayload((await request.json()) as BookingPayload);
@@ -52,7 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     const rules = await getAvailabilityRules();
-    const slots = generateAvailabilitySlots(payload.timezone, 60, rules);
+    const slots = generateAvailabilitySlots(payload.timezone, bookingWindowDays, rules);
     const matchingSlot = slots.find((slot) => slot.date === payload.selectedDate && slot.time === payload.selectedTime);
 
     if (!matchingSlot) {

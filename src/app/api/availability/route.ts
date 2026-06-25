@@ -1,25 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateAvailabilitySlots } from "@/lib/booking/availability";
+import { bookingWindowDays, generateAvailabilitySlots } from "@/lib/booking/availability";
 import { getAvailabilityRules, getBookedSlotStarts, storageConfigured } from "@/lib/booking/storage";
 import { isValidTimezone } from "@/lib/booking/validation";
 
 export const runtime = "nodejs";
 
+const availabilityUnavailableMessage =
+  "Availability is currently being updated. Please contact Info@themstry.com or try again shortly.";
+
 export async function GET(request: NextRequest) {
   try {
-    if (!storageConfigured()) {
-      return NextResponse.json({ error: "Booking database is not configured." }, { status: 500 });
-    }
-
     const timezone = request.nextUrl.searchParams.get("timezone") || "UTC";
     if (!isValidTimezone(timezone)) {
       return NextResponse.json({ error: "Please select a valid timezone." }, { status: 400 });
     }
-    const requestedDays = Number(request.nextUrl.searchParams.get("days") || 21);
-    const days = Math.min(Number.isFinite(requestedDays) && requestedDays > 0 ? requestedDays : 21, 60);
-    const rules = await getAvailabilityRules();
+    const requestedDays = Number(request.nextUrl.searchParams.get("days") || bookingWindowDays);
+    const days = Math.min(Number.isFinite(requestedDays) && requestedDays > 0 ? requestedDays : bookingWindowDays, bookingWindowDays);
+    const hasStorage = storageConfigured();
+    const rules = hasStorage ? await getAvailabilityRules() : {};
     const slots = generateAvailabilitySlots(timezone, days, rules);
-    const bookedStarts = await getBookedSlotStarts(slots.map((slot) => slot.startUtc));
+    const bookedStarts = hasStorage ? await getBookedSlotStarts(slots.map((slot) => slot.startUtc)) : new Set<string>();
     const availableSlots = slots.map((slot) => ({
       ...slot,
       available: !bookedStarts.has(slot.startUtc)
@@ -31,9 +31,7 @@ export async function GET(request: NextRequest) {
       slots: availableSlots
     });
   } catch (error) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Availability could not be loaded." },
-      { status: 500 }
-    );
+    console.error("Availability request failed", error);
+    return NextResponse.json({ error: availabilityUnavailableMessage }, { status: 500 });
   }
 }

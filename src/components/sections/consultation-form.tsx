@@ -63,6 +63,8 @@ type BookingConfirmation = {
   };
 };
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const availabilityUnavailableMessage =
+  "Availability is currently being updated. Please contact Info@themstry.com or try again shortly.";
 
 export function ConsultationForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -103,9 +105,7 @@ export function ConsultationForm() {
       } catch (availabilityRequestError) {
         if (cancelled) return;
         setAvailabilityStatus("error");
-        setAvailabilityError(
-          availabilityRequestError instanceof Error ? availabilityRequestError.message : "Availability could not be loaded."
-        );
+        setAvailabilityError(availabilityUnavailableMessage);
       }
     }
 
