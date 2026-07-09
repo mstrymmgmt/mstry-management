@@ -15,8 +15,9 @@ const commandRows = [
 ];
 
 const HERO_VIDEO_START_SECONDS = 0;
-const DESKTOP_HERO_VIDEO = "/videos/mstry-hero-desktop.mp4";
-const MOBILE_HERO_VIDEO = "/videos/mstry-hero-mobile.mp4";
+const HERO_VIDEO = "/videos/mstry-hero-kling-20260709.mp4";
+const DESKTOP_HERO_VIDEO = HERO_VIDEO;
+const MOBILE_HERO_VIDEO = HERO_VIDEO;
 
 function InvestmentCounter() {
   const [value, setValue] = useState(0);
@@ -43,7 +44,7 @@ function InvestmentCounter() {
 export function Hero() {
   const introRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [heroVideoMode, setHeroVideoMode] = useState<"desktop" | "mobile" | null>(null);
+  const [heroVideoMode, setHeroVideoMode] = useState<"desktop" | "mobile">("desktop");
   const { scrollYProgress } = useScroll({
     target: introRef,
     offset: ["start start", "end start"]
@@ -112,7 +113,7 @@ export function Hero() {
               aria-label="MSTRY global management animation"
               autoPlay
               className="h-full w-full object-cover"
-              key={heroVideoMode}
+              key={heroVideoSource}
               loop
               muted
               playsInline

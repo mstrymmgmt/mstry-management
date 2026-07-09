@@ -17,8 +17,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="en">
       <head>
-        <link rel="preload" as="video" href="/videos/mstry-hero-desktop.mp4" type="video/mp4" media="(min-width: 768px)" />
-        <link rel="preload" as="video" href="/videos/mstry-hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
+        <link rel="preload" as="video" href="/videos/mstry-hero-kling-20260709.mp4" type="video/mp4" />
       </head>
       <body>
         <SiteShell>{children}</SiteShell>
