@@ -9,12 +9,12 @@
   <style>
     body.booking-page { background:#0A0A0A; color:#fff; }
     .booking-main { position:relative; overflow:hidden; }
-    .booking-main:before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 78% 8%,rgba(212,175,55,.15),transparent 32%),linear-gradient(180deg,#0A0A0A 0%,#111827 54%,#0A0A0A 100%); pointer-events:none; }
+    .booking-main:before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 78% 8%,rgba(212,175,55,.15),transparent 32%),linear-gradient(180deg,#020202 0%,#111827 54%,#0A0A0A 100%); pointer-events:none; }
     .booking-hero, .booking-section { position:relative; z-index:1; }
-    .booking-hero { padding:110px 0 48px; border-bottom:1px solid rgba(212,175,55,.14); }
+    .booking-hero { padding:110px 0 48px; border-bottom:1px solid rgba(212,175,55,.14); background:linear-gradient(90deg,rgba(0,0,0,.92),rgba(0,0,0,.7) 58%,rgba(0,0,0,.34)); }
     .booking-hero .container { max-width:1040px; }
-    .booking-hero h1 { max-width:860px; margin:16px 0 0; font-size:clamp(3rem,7vw,6.4rem); line-height:.92; letter-spacing:-.04em; }
-    .booking-hero .lead { max-width:780px; color:#D9D9D9; font-size:clamp(1.02rem,1.8vw,1.28rem); line-height:1.65; }
+    .booking-hero h1 { max-width:860px; margin:16px 0 0; color:#fff; font-size:clamp(3rem,7vw,6.4rem); line-height:.92; letter-spacing:-.04em; text-shadow:0 3px 26px rgba(0,0,0,.72); }
+    .booking-hero .lead { max-width:780px; color:#F3F4F6; font-size:clamp(1.02rem,1.8vw,1.28rem); line-height:1.65; text-shadow:0 2px 18px rgba(0,0,0,.62); }
     .booking-section { padding:64px 0 92px; }
     .booking-shell { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr); gap:28px; align-items:start; }
     .booking-card { border:1px solid rgba(212,175,55,.2); border-radius:12px; background:linear-gradient(180deg,rgba(17,24,39,.94),rgba(10,10,10,.92)); box-shadow:0 30px 100px rgba(0,0,0,.38); padding:26px; }
@@ -178,6 +178,6 @@
   </main>
 
   <footer><div class="container footer-grid"><div>MSTRY MANAGEMENT © 2026</div><a href="mailto:team@themstry.com">team@themstry.com</a><a href="contact.html">Contact MSTRY</a></div></footer>
-  <script src="script.js"></script>
+  <script src="script.js?v=booking-preview-fallback"></script>
 </body>
 </html>

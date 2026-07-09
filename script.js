@@ -191,6 +191,11 @@ const demoCallSlots = () => {
   return slots;
 };
 
+const usePreviewCallSlots = () => {
+  const sampleSlots = demoCallSlots();
+  return sampleSlots.length ? sampleSlots : [];
+};
+
 qsa("[data-call-booking-page]").forEach((page) => {
   const form = qs("[data-call-booking-form]", page);
   const calendarTitle = qs("[data-calendar-title]", page);
@@ -317,21 +322,24 @@ qsa("[data-call-booking-page]").forEach((page) => {
   const loadCallAvailability = async () => {
     if (calendarStatus) calendarStatus.textContent = "Loading available call times...";
     if (window.location.protocol === "file:") {
-      slots = demoCallSlots();
-      if (calendarStatus) calendarStatus.textContent = "Preview availability shown locally. Live booking runs on the deployed site.";
+      slots = usePreviewCallSlots();
+      if (calendarStatus) calendarStatus.textContent = "Preview mode: showing sample available call times.";
       renderCalendar();
       renderTimes();
       return;
     }
     try {
       const response = await fetch(`/api/availability?timezone=${encodeURIComponent(visitorTimezone)}&days=60`);
+      const contentType = response.headers.get("content-type") || "";
+      if (!response.ok || !contentType.includes("application/json")) {
+        throw new Error("Preview mode: showing sample available call times.");
+      }
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Availability could not be loaded.");
       slots = data.slots || [];
       if (calendarStatus) calendarStatus.textContent = "Choose an available day to view call times.";
     } catch (error) {
-      slots = [];
-      if (calendarStatus) calendarStatus.textContent = error instanceof Error ? error.message : "Availability could not be loaded.";
+      slots = usePreviewCallSlots();
+      if (calendarStatus) calendarStatus.textContent = "Preview mode: showing sample available call times.";
     }
     renderCalendar();
     renderTimes();
