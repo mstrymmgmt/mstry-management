@@ -9,6 +9,21 @@ export function emailConfigured() {
   return Boolean(process.env.RESEND_API_KEY);
 }
 
+function resendErrorDetails(status: number, value: unknown) {
+  if (!value || typeof value !== "object") {
+    return `Email delivery failed with status ${status}.`;
+  }
+
+  const error = value as { name?: unknown; message?: unknown };
+  const fields = [
+    `status ${status}`,
+    typeof error.name === "string" && error.name ? `name: ${error.name}` : "",
+    typeof error.message === "string" && error.message ? `message: ${error.message}` : ""
+  ].filter(Boolean);
+
+  return `Email delivery failed with ${fields.join(", ")}.`;
+}
+
 async function sendEmail({
   to,
   replyTo,
@@ -50,7 +65,8 @@ async function sendEmail({
   });
 
   if (!response.ok) {
-    throw new Error("Email delivery failed.");
+    const errorBody = await response.json().catch(() => null);
+    throw new Error(resendErrorDetails(response.status, errorBody));
   }
 }
 
