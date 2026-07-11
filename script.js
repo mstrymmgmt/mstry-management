@@ -191,10 +191,14 @@ const demoCallSlots = () => {
   return slots;
 };
 
-const usePreviewCallSlots = () => {
+const getPreviewCallSlots = () => {
   const sampleSlots = demoCallSlots();
   return sampleSlots.length ? sampleSlots : [];
 };
+
+const isStaticPreview = () => window.location.protocol === "file:" || (
+  /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/.test(window.location.hostname) && window.location.pathname.endsWith(".html")
+);
 
 qsa("[data-call-booking-page]").forEach((page) => {
   const form = qs("[data-call-booking-form]", page);
@@ -319,10 +323,38 @@ qsa("[data-call-booking-page]").forEach((page) => {
     });
   };
 
+  const showBookingConfirmation = (booking) => {
+    lastBooking = booking;
+    const links = callCalendarLinks(lastBooking);
+    if (confirmationTime) confirmationTime.textContent = `Your selected time: ${formatCallDateTime(selectedSlot)}`;
+    if (googleCalendar) googleCalendar.href = links.google;
+    if (outlookCalendar) outlookCalendar.href = links.outlook;
+    if (meetingNote) meetingNote.textContent = lastBooking.zoom?.joinUrl ? `Zoom link: ${lastBooking.zoom.joinUrl}` : "Meeting format: Zoom / Online Call. Meeting link will be provided by the MSTRY team.";
+    confirmationPanel?.classList.add("visible");
+  };
+
+  const previewBookingConfirmation = () => ({
+    id: `preview-${Date.now()}`,
+    status: "Preview",
+    selectedDate,
+    selectedTime: selectedSlot.time,
+    timezone: visitorTimezone,
+    durationMinutes: Math.round((new Date(selectedSlot.endUtc).getTime() - new Date(selectedSlot.startUtc).getTime()) / 60000),
+    startUtc: selectedSlot.startUtc,
+    endUtc: selectedSlot.endUtc,
+    meetingStatus: "Preview",
+    emailStatus: "Preview",
+    zoom: {
+      joinUrl: "",
+      meetingId: "",
+      passcode: ""
+    }
+  });
+
   const loadCallAvailability = async () => {
     if (calendarStatus) calendarStatus.textContent = "Loading available call times...";
     if (window.location.protocol === "file:") {
-      slots = usePreviewCallSlots();
+      slots = getPreviewCallSlots();
       if (calendarStatus) calendarStatus.textContent = "Preview mode: showing sample available call times.";
       renderCalendar();
       renderTimes();
@@ -338,7 +370,7 @@ qsa("[data-call-booking-page]").forEach((page) => {
       slots = data.slots || [];
       if (calendarStatus) calendarStatus.textContent = "Choose an available day to view call times.";
     } catch (error) {
-      slots = usePreviewCallSlots();
+      slots = getPreviewCallSlots();
       if (calendarStatus) calendarStatus.textContent = "Preview mode: showing sample available call times.";
     }
     renderCalendar();
@@ -387,37 +419,43 @@ qsa("[data-call-booking-page]").forEach((page) => {
       return;
     }
 
-    if (window.location.protocol === "file:") {
-      setFormMessage("Live booking confirmation requires the deployed website API.", "error");
-      return;
-    }
-
     if (button) {
       button.textContent = "Confirming Call";
       button.disabled = true;
     }
 
     try {
+      if (window.location.protocol === "file:") {
+        throw new Error("STATIC_PREVIEW_BOOKING");
+      }
+
       const response = await fetch(form.dataset.endpoint || "/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok || !data.booking) throw new Error(data.error || "We could not confirm your booking.");
+      const contentType = response.headers.get("content-type") || "";
+      if (!contentType.includes("application/json")) {
+        if (isStaticPreview()) throw new Error("STATIC_PREVIEW_BOOKING");
+        throw new Error(response.ok ? "We could not read the booking confirmation. Please try again." : "We could not confirm your booking. Please try again.");
+      }
+      const data = await response.json();
+      if (!response.ok || !data.booking) throw new Error(data.error || "We could not confirm your booking. Please try again.");
 
-      lastBooking = data.booking;
+      showBookingConfirmation(data.booking);
       slots = slots.map((slot) => slot.startUtc === lastBooking.startUtc ? { ...slot, available: false } : slot);
-      const links = callCalendarLinks(lastBooking);
-      if (confirmationTime) confirmationTime.textContent = `Your selected time: ${formatCallDateTime(selectedSlot)}`;
-      if (googleCalendar) googleCalendar.href = links.google;
-      if (outlookCalendar) outlookCalendar.href = links.outlook;
-      if (meetingNote) meetingNote.textContent = lastBooking.zoom?.joinUrl ? `Zoom link: ${lastBooking.zoom.joinUrl}` : "Meeting format: Zoom / Online Call. Meeting link will be provided by the MSTRY team.";
-      confirmationPanel?.classList.add("visible");
       setFormMessage("");
       renderCalendar();
     } catch (error) {
-      setFormMessage(error instanceof Error ? error.message : "We could not confirm your booking.", "error");
+      if (isStaticPreview()) {
+        showBookingConfirmation(previewBookingConfirmation());
+        setFormMessage("Preview mode: booking request captured locally. Production will send the real booking email.", "success");
+        return;
+      }
+      const message = error instanceof Error && error.message !== "STATIC_PREVIEW_BOOKING"
+        ? error.message
+        : "We could not confirm your booking. Please try again.";
+      setFormMessage(message, "error");
     } finally {
       if (button) {
         button.textContent = originalLabel;
