@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { bookingWindowDays, generateAvailabilitySlots } from "@/lib/booking/availability";
 import { getAvailabilityRules, getBookedSlotStarts, storageConfigured } from "@/lib/booking/storage";
+import { customerBookingTimezone, customerBookingTimezoneLabel } from "@/lib/booking/time";
 import { isValidTimezone } from "@/lib/booking/validation";
 
 export const runtime = "nodejs";
@@ -10,7 +11,7 @@ const availabilityUnavailableMessage =
 
 export async function GET(request: NextRequest) {
   try {
-    const timezone = request.nextUrl.searchParams.get("timezone") || "UTC";
+    const timezone = request.nextUrl.searchParams.get("timezone") || customerBookingTimezone;
     if (!isValidTimezone(timezone)) {
       return NextResponse.json({ error: "Please select a valid timezone." }, { status: 400 });
     }
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       timezone,
-      message: "Times shown in your local timezone",
+      message: `Times shown in ${customerBookingTimezoneLabel}`,
       slots: availableSlots
     });
   } catch (error) {

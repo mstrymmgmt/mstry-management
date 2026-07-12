@@ -1,5 +1,8 @@
 const timeFormatterCache = new Map<string, Intl.DateTimeFormat>();
 
+export const customerBookingTimezone = "America/Toronto";
+export const customerBookingTimezoneLabel = "Eastern Time";
+
 function formatter(timezone: string) {
   const existing = timeFormatterCache.get(timezone);
   if (existing) return existing;
@@ -65,3 +68,10 @@ export function displayDateTime(date: string, time: string, timezone: string) {
   }).format(start);
 }
 
+export function displayInstantDateTime(value: string, timezone = customerBookingTimezone) {
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: timezone,
+    dateStyle: "full",
+    timeStyle: "short"
+  }).format(new Date(value));
+}

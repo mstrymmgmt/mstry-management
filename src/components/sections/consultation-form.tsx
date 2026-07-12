@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { customerBookingTimezone, customerBookingTimezoneLabel } from "@/lib/booking/time";
 import { serviceOptions } from "@/lib/booking/types";
 
 const benefits = [
@@ -71,7 +72,7 @@ export function ConsultationForm() {
   const [availabilityStatus, setAvailabilityStatus] = useState<AvailabilityStatus>("idle");
   const [error, setError] = useState("");
   const [availabilityError, setAvailabilityError] = useState("");
-  const [timezone, setTimezone] = useState("UTC");
+  const [timezone] = useState(customerBookingTimezone);
   const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
@@ -83,10 +84,6 @@ export function ConsultationForm() {
     () => availableSlots.filter((slot) => slot.date === selectedDate),
     [availableSlots, selectedDate]
   );
-
-  useEffect(() => {
-    setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC");
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -206,7 +203,13 @@ export function ConsultationForm() {
       form.reset();
       setConfirmation(data.booking || null);
       setStatus("success");
-      setSlots((current) => current.map((slot) => (slot.date === selectedDate && slot.time === selectedTime ? { ...slot, available: false } : slot)));
+      const availabilityResponse = await fetch(`/api/availability?timezone=${encodeURIComponent(timezone)}&days=30`);
+      const availabilityData = (await availabilityResponse.json()) as { slots?: AvailabilitySlot[] };
+      if (availabilityResponse.ok) {
+        setSlots(availabilityData.slots || []);
+      } else {
+        setSlots((current) => current.map((slot) => (slot.date === selectedDate && slot.time === selectedTime ? { ...slot, available: false } : slot)));
+      }
     } catch (requestError) {
       setStatus("error");
       setError(requestError instanceof Error ? requestError.message : "We could not send your request. Please try again.");
@@ -269,7 +272,7 @@ export function ConsultationForm() {
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">Schedule consultation</p>
-            <p className="mt-1 text-sm leading-6 text-mstry-muted">Times shown in your local timezone: {timezone}</p>
+            <p className="mt-1 text-sm leading-6 text-mstry-muted">Times shown in {customerBookingTimezoneLabel}.</p>
           </div>
           {availabilityStatus === "loading" ? (
             <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.14em] text-mstry-muted">
@@ -361,18 +364,16 @@ export function ConsultationForm() {
           <p className="font-black text-white">Your consultation has been confirmed.</p>
           <p className="mt-2">
             {confirmation?.emailStatus === "Failed"
-              ? "Your Zoom meeting has been created. Email delivery may be delayed, so please save the details below."
-              : "A confirmation email has been sent with your Zoom details."}
+              ? "Your booking is reserved. Email delivery may be delayed, so please save the booking details below."
+              : "A confirmation email has been sent with your booking details."}
           </p>
           {confirmation ? (
             <div className="mt-3 grid gap-2">
               <span>Booking ID: {confirmation.id}</span>
               <span>
-                Time: {confirmation.selectedDate} at {confirmation.selectedTime} ({confirmation.timezone})
+                Time: {confirmation.selectedDate} at {confirmation.selectedTime} ({customerBookingTimezoneLabel})
               </span>
-              <a className="font-black text-mstry-gold" href={confirmation.zoom.joinUrl}>
-                Open Zoom Meeting
-              </a>
+              <span>Meeting joining details will be provided approximately 15 minutes before the scheduled meeting time.</span>
             </div>
           ) : null}
         </div>

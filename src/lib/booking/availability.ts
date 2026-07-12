@@ -1,4 +1,4 @@
-import { addMinutes, utcToZonedParts, zonedTimeToUtc } from "./time";
+import { addMinutes, customerBookingTimezone, utcToZonedParts, zonedTimeToUtc } from "./time";
 import type { AvailabilitySlot } from "./types";
 
 function numberFromEnv(value: string | undefined, fallback: number) {
@@ -19,7 +19,7 @@ function buildWeekdaySlots(startHour = 9, endHour = 17, intervalMinutes = 30) {
 export const bookingDurationMinutes = numberFromEnv(process.env.BOOKING_DURATION_MINUTES, 30);
 export const bookingWindowDays = numberFromEnv(process.env.BOOKING_WINDOW_DAYS, 30);
 export const bookingMinimumNoticeHours = numberFromEnv(process.env.BOOKING_MIN_NOTICE_HOURS, 24);
-export const businessTimezone = process.env.BOOKING_BUSINESS_TIMEZONE || "Europe/London";
+export const businessTimezone = process.env.BOOKING_BUSINESS_TIMEZONE || customerBookingTimezone;
 
 const defaultRecurringAvailability: Record<number, string[]> = {
   1: buildWeekdaySlots(),

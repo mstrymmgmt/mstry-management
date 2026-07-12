@@ -11,7 +11,7 @@ import {
   storageConfigured,
   storeBooking
 } from "@/lib/booking/storage";
-import { addMinutes } from "@/lib/booking/time";
+import { addMinutes, customerBookingTimezone } from "@/lib/booking/time";
 import type { BookingPayload, BookingRecord, ServiceInterest } from "@/lib/booking/types";
 import { clean, sanitizePayload, validateBooking } from "@/lib/booking/validation";
 import { createZoomMeeting, deleteZoomMeeting, zoomConfigured } from "@/lib/booking/zoom";
@@ -38,7 +38,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: bookingUnavailableMessage }, { status: 500 });
     }
 
-    const payload = sanitizePayload((await request.json()) as BookingPayload);
+    const payload = {
+      ...sanitizePayload((await request.json()) as BookingPayload),
+      timezone: customerBookingTimezone
+    };
     const ip = clientIp(request);
 
     if (payload.website) {

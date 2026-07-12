@@ -1,4 +1,4 @@
-import { displayDateTime } from "./time";
+import { customerBookingTimezone, customerBookingTimezoneLabel, displayInstantDateTime } from "./time";
 import type { BookingRecord } from "./types";
 import { escapeHtml } from "./validation";
 
@@ -12,8 +12,8 @@ const sampleBooking: BookingRecord = {
   message:
     "We are evaluating a cross-border expansion and want to discuss operating structure, partner selection, and execution support.",
   selectedDate: "2026-07-16",
-  selectedTime: "14:30",
-  timezone: "Europe/London",
+  selectedTime: "09:30",
+  timezone: customerBookingTimezone,
   submittedPageUrl: "https://themstry.com/book-consultation",
   startUtc: "2026-07-16T13:30:00.000Z",
   endUtc: "2026-07-16T14:00:00.000Z",
@@ -32,11 +32,22 @@ const sampleBooking: BookingRecord = {
 
 function emailShell(title: string, body: string) {
   return `
-    <div style="font-family:Arial,sans-serif;background:#0A0A0A;color:#FFFFFF;padding:32px">
-      <div style="max-width:720px;margin:0 auto;border:1px solid rgba(212,175,55,.28);background:#111827;padding:30px;border-radius:10px;box-shadow:0 28px 80px rgba(0,0,0,.38)">
+    <div style="margin:0;padding:0;background:#0A0A0A;color:#FFFFFF;font-family:Arial,Helvetica,sans-serif">
+      <style>
+        @media only screen and (max-width: 480px) {
+          .mstry-shell { padding: 18px 12px !important; }
+          .mstry-card { padding: 22px 18px !important; }
+          .mstry-title { font-size: 23px !important; line-height: 1.22 !important; }
+          .mstry-row-label, .mstry-row-value { display: block !important; width: 100% !important; padding-right: 0 !important; }
+          .mstry-row-value { padding-top: 2px !important; }
+        }
+      </style>
+      <div class="mstry-shell" style="background:#0A0A0A;color:#FFFFFF;padding:32px 16px">
+      <div class="mstry-card" style="max-width:720px;margin:0 auto;border:1px solid rgba(212,175,55,.28);background:#111827;padding:30px;border-radius:10px;box-shadow:0 28px 80px rgba(0,0,0,.38)">
         <p style="color:#D4AF37;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin:0 0 12px">MSTRY MANAGEMENT</p>
-        <h1 style="font-size:28px;line-height:1.2;margin:0 0 16px;color:#FFFFFF">${escapeHtml(title)}</h1>
+        <h1 class="mstry-title" style="font-size:28px;line-height:1.2;margin:0 0 16px;color:#FFFFFF">${escapeHtml(title)}</h1>
         ${body}
+      </div>
       </div>
     </div>
   `;
@@ -45,8 +56,8 @@ function emailShell(title: string, body: string) {
 function row(label: string, value: string) {
   return `
     <tr>
-      <td style="width:34%;vertical-align:top;border-top:1px solid rgba(255,255,255,.1);padding:13px 12px 13px 0;color:#D4AF37;font-weight:800">${escapeHtml(label)}</td>
-      <td style="vertical-align:top;border-top:1px solid rgba(255,255,255,.1);padding:13px 0;color:#FFFFFF;line-height:1.55">${escapeHtml(value).replaceAll("\n", "<br />")}</td>
+      <td class="mstry-row-label" style="width:34%;vertical-align:top;border-top:1px solid rgba(255,255,255,.1);padding:13px 12px 13px 0;color:#D4AF37;font-weight:800;word-break:break-word">${escapeHtml(label)}</td>
+      <td class="mstry-row-value" style="vertical-align:top;border-top:1px solid rgba(255,255,255,.1);padding:13px 0;color:#FFFFFF;line-height:1.55;word-break:break-word;overflow-wrap:anywhere">${escapeHtml(value).replaceAll("\n", "<br />")}</td>
     </tr>
   `;
 }
@@ -60,6 +71,15 @@ function actionLink(href: string, label: string) {
     <p style="margin:22px 0 0">
       <a href="${escapeHtml(href)}" style="display:inline-block;border:1px solid #D4AF37;background:#D4AF37;color:#0A0A0A;text-decoration:none;border-radius:8px;padding:12px 18px;font-weight:800">${escapeHtml(label)}</a>
     </p>
+  `;
+}
+
+function section(title: string, body: string) {
+  return `
+    <div style="border:1px solid rgba(212,175,55,.24);background:rgba(212,175,55,.08);border-radius:10px;padding:18px;margin:22px 0 0">
+      <h2 style="color:#FFFFFF;font-size:18px;line-height:1.3;margin:0 0 8px">${escapeHtml(title)}</h2>
+      <p style="color:#D9D9DE;line-height:1.65;margin:0">${escapeHtml(body)}</p>
+    </div>
   `;
 }
 
@@ -88,15 +108,14 @@ export function getSampleBooking() {
 }
 
 export function renderClientBookingEmail(booking: BookingRecord = sampleBooking) {
-  const localDisplay = displayDateTime(booking.selectedDate, booking.selectedTime, booking.timezone);
+  const localDisplay = displayInstantDateTime(booking.startUtc, customerBookingTimezone);
   const rows: Array<[string, string]> = [
     ["Client Name", booking.fullName],
     ["Date & Time", localDisplay],
-    ["Timezone", booking.timezone],
+    ["Timezone", customerBookingTimezoneLabel],
     ["Meeting Format", "Zoom / Online Call"],
-    ["Meeting Link", booking.zoom.joinUrl || "To be assigned"],
-    ["Meeting ID", booking.zoom.meetingId || "To be assigned"],
-    ["Passcode", booking.zoom.passcode || "Not required"]
+    ["Meeting Duration", `${booking.durationMinutes} minutes`],
+    ["Next Steps", "Please join from a quiet setting and be prepared to discuss your objectives, timeline, stakeholders, and the type of support you are seeking."]
   ];
 
   return {
@@ -107,6 +126,7 @@ export function renderClientBookingEmail(booking: BookingRecord = sampleBooking)
         <p style="color:#E5E7EB;line-height:1.7;margin:0 0 18px">Hello ${escapeHtml(booking.fullName)},</p>
         <p style="color:#A1A1AA;line-height:1.7;margin:0 0 22px">Your MSTRY Management call is confirmed. We look forward to speaking with you about your objectives, priorities, and next steps.</p>
         ${table(rows)}
+        ${section("Meeting Joining Details", "A member of our team will provide the meeting joining details approximately 15 minutes before the scheduled meeting time.")}
         <p style="color:#A1A1AA;line-height:1.7;margin:22px 0 0">If you need to reschedule or update any details before the call, you can reply directly to this email.</p>
         <p style="color:#FFFFFF;line-height:1.7;margin:22px 0 0">MSTRY Management</p>
       `
@@ -115,7 +135,7 @@ export function renderClientBookingEmail(booking: BookingRecord = sampleBooking)
 }
 
 export function renderInternalBookingEmail(booking: BookingRecord = sampleBooking) {
-  const localDisplay = displayDateTime(booking.selectedDate, booking.selectedTime, booking.timezone);
+  const localDisplay = displayInstantDateTime(booking.startUtc, customerBookingTimezone);
   const calendarLink = googleCalendarLink(booking);
   const rows: Array<[string, string]> = [
     ["Client Name", booking.fullName],
@@ -125,7 +145,7 @@ export function renderInternalBookingEmail(booking: BookingRecord = sampleBookin
     ["Service Interest", booking.serviceInterest],
     ["Notes", booking.message || "Not provided"],
     ["Selected Date / Time", localDisplay],
-    ["Timezone", booking.timezone],
+    ["Timezone", customerBookingTimezoneLabel],
     ["Meeting Format", "Zoom / Online Call"],
     ["Booking ID", booking.id],
     ["Status", booking.status],
@@ -138,7 +158,7 @@ export function renderInternalBookingEmail(booking: BookingRecord = sampleBookin
     ["Event Title", `MSTRY Call - ${booking.fullName}`],
     ["Start Time", booking.startUtc],
     ["End Time", booking.endUtc],
-    ["Timezone", booking.timezone],
+    ["Timezone", customerBookingTimezoneLabel],
     ["Description", calendarDescription(booking)],
     ["Meeting Link", booking.zoom.joinUrl || "To be assigned"]
   ];

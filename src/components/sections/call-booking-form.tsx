@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Download, Loader2 } from "lucide-react";
+import { customerBookingTimezone, customerBookingTimezoneLabel } from "@/lib/booking/time";
 
 type AvailabilitySlot = {
   date: string;
@@ -57,10 +58,10 @@ function formatIcsDate(value: string) {
   return value.replace(/[-:]/g, "").replace(/\.\d{3}/, "");
 }
 
-function calendarDescription(zoomUrl?: string) {
+function calendarDescription() {
   return [
     "Scheduled call with the MSTRY team to discuss objectives, ideas, opportunities, and next steps.",
-    zoomUrl ? `Zoom Link: ${zoomUrl}` : "Meeting format: Zoom / Online Call"
+    "Meeting joining details will be provided approximately 15 minutes before the scheduled meeting time."
   ].join("\\n");
 }
 
@@ -75,7 +76,7 @@ function createIcs(booking: BookingConfirmation) {
     `DTSTART:${formatIcsDate(booking.startUtc)}`,
     `DTEND:${formatIcsDate(booking.endUtc)}`,
     "SUMMARY:MSTRY Consultation Call",
-    `DESCRIPTION:${calendarDescription(booking.zoom.joinUrl)}`,
+    `DESCRIPTION:${calendarDescription()}`,
     "LOCATION:Zoom / Online Meeting",
     "END:VEVENT",
     "END:VCALENDAR"
@@ -84,7 +85,7 @@ function createIcs(booking: BookingConfirmation) {
 
 function calendarLinks(booking: BookingConfirmation) {
   const title = encodeURIComponent("MSTRY Consultation Call");
-  const details = encodeURIComponent(calendarDescription(booking.zoom.joinUrl));
+  const details = encodeURIComponent(calendarDescription());
   const location = encodeURIComponent("Zoom / Online Meeting");
   const googleDates = `${formatIcsDate(booking.startUtc)}/${formatIcsDate(booking.endUtc)}`;
 
@@ -99,17 +100,13 @@ export function CallBookingForm() {
   const [availabilityStatus, setAvailabilityStatus] = useState<AvailabilityStatus>("idle");
   const [error, setError] = useState("");
   const [availabilityError, setAvailabilityError] = useState("");
-  const [timezone, setTimezone] = useState("UTC");
+  const [timezone] = useState(customerBookingTimezone);
   const [month, setMonth] = useState(() => new Date());
   const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [confirmation, setConfirmation] = useState<BookingConfirmation | null>(null);
   const startedAt = useMemo(() => Date.now(), []);
-
-  useEffect(() => {
-    setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC");
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -147,11 +144,15 @@ export function CallBookingForm() {
     return grouped;
   }, [slots]);
 
-  const selectedSlots = useMemo(
-    () => (slotsByDate.get(selectedDate) || []).filter((slot) => slot.available),
+  const selectedDaySlots = useMemo(
+    () => slotsByDate.get(selectedDate) || [],
     [selectedDate, slotsByDate]
   );
-  const selectedSlot = selectedSlots.find((slot) => slot.time === selectedTime);
+  const selectedAvailableSlots = useMemo(
+    () => selectedDaySlots.filter((slot) => slot.available),
+    [selectedDaySlots]
+  );
+  const selectedSlot = selectedAvailableSlots.find((slot) => slot.time === selectedTime);
   const days = useMemo(() => calendarDays(month), [month]);
   const monthLabel = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(month);
 
@@ -233,7 +234,13 @@ export function CallBookingForm() {
       if (!response.ok || !data.booking) throw new Error(data.error || "We could not confirm your booking.");
 
       setConfirmation(data.booking);
-      setSlots((current) => current.map((slot) => (slot.startUtc === data.booking?.startUtc ? { ...slot, available: false } : slot)));
+      const availabilityResponse = await fetch(`/api/availability?timezone=${encodeURIComponent(timezone)}&days=30`);
+      const availabilityData = (await availabilityResponse.json()) as { slots?: AvailabilitySlot[] };
+      if (availabilityResponse.ok) {
+        setSlots(availabilityData.slots || []);
+      } else {
+        setSlots((current) => current.map((slot) => (slot.startUtc === data.booking?.startUtc ? { ...slot, available: false } : slot)));
+      }
       setStatus("success");
     } catch (requestError) {
       setStatus("error");
@@ -268,7 +275,7 @@ export function CallBookingForm() {
             <div>
               <p className="text-xs font-black uppercase tracking-[0.2em] text-mstry-gold">Calendar</p>
               <h2 className="mt-2 font-display text-3xl font-black text-white">{monthLabel}</h2>
-              <p className="mt-2 text-sm leading-6 text-mstry-muted">Times shown in your local timezone: {timezone}</p>
+              <p className="mt-2 text-sm leading-6 text-mstry-muted">Times shown in {customerBookingTimezoneLabel}.</p>
             </div>
             <div className="flex gap-2">
               <button className="rounded-mstry border border-white/10 bg-[#0A0A0A] px-3 py-3 text-xs font-black text-white transition hover:border-mstry-gold" onClick={() => moveYear(-1)} type="button" aria-label="Previous year">
@@ -319,7 +326,7 @@ export function CallBookingForm() {
                 >
                   <span>{day.getDate()}</span>
                   <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.08em]">
-                    {hasAvailable ? "Open" : isBooked ? "Booked" : "Closed"}
+                    {hasAvailable ? "Open" : isBooked ? "Fully booked" : "Closed"}
                   </span>
                 </motion.button>
               );
@@ -352,17 +359,21 @@ export function CallBookingForm() {
 
           <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
             {selectedDate ? (
-              selectedSlots.length ? (
-                selectedSlots.map((slot) => (
+              selectedDate && !selectedAvailableSlots.length ? (
+                <p className="col-span-full rounded-mstry border border-white/10 bg-[#0A0A0A] p-4 text-sm text-mstry-muted">This date is fully booked. Please choose another available date.</p>
+              ) : selectedDaySlots.length ? (
+                selectedDaySlots.map((slot) => (
                   <motion.button
-                    className={`min-h-12 rounded-mstry border px-3 text-sm font-black transition ${selectedTime === slot.time ? "border-mstry-gold bg-mstry-gold text-black" : "border-white/10 bg-[#0A0A0A] text-white hover:border-mstry-gold"}`}
+                    className={`min-h-12 rounded-mstry border px-3 text-sm font-black transition ${selectedTime === slot.time ? "border-mstry-gold bg-mstry-gold text-black" : slot.available ? "border-white/10 bg-[#0A0A0A] text-white hover:border-mstry-gold" : "cursor-not-allowed border-white/5 bg-white/[.04] text-mstry-muted opacity-60"}`}
+                    disabled={!slot.available}
                     key={slot.startUtc}
-                    onClick={() => setSelectedTime(slot.time)}
+                    onClick={() => slot.available && setSelectedTime(slot.time)}
                     type="button"
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={slot.available ? { scale: 1.04 } : undefined}
+                    whileTap={slot.available ? { scale: 0.98 } : undefined}
                   >
                     {formatTime(slot)}
+                    {!slot.available ? <span className="mt-1 block text-[10px] uppercase tracking-[0.08em]">Busy</span> : null}
                   </motion.button>
                 ))
               ) : (
@@ -416,7 +427,7 @@ export function CallBookingForm() {
                   Download Calendar Invite
                 </button>
               </div>
-              {confirmation.zoom.joinUrl ? <a className="mt-4 block font-black text-mstry-gold" href={confirmation.zoom.joinUrl}>Open Zoom Meeting</a> : <p className="mt-4">Meeting link will be provided by the MSTRY team.</p>}
+              <p className="mt-4">Meeting joining details will be provided approximately 15 minutes before the scheduled meeting time.</p>
             </motion.div>
           ) : null}
         </motion.form>
