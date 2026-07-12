@@ -91,7 +91,7 @@ function calendarDescription(booking: BookingRecord) {
     `Organization/company: ${booking.organization || "Not provided"}`,
     `Service interest: ${booking.serviceInterest}`,
     `Notes: ${booking.message || "Not provided"}`,
-    `Meeting link: ${booking.zoom.joinUrl || "To be assigned"}`
+    "Meeting joining details will be provided approximately 15 minutes before the scheduled meeting time."
   ].join("\n");
 }
 
@@ -99,7 +99,7 @@ function googleCalendarLink(booking: BookingRecord) {
   const title = encodeURIComponent(`MSTRY Call - ${booking.fullName}`);
   const dates = `${booking.startUtc.replace(/[-:]/g, "").replace(/\.\d{3}/, "")}/${booking.endUtc.replace(/[-:]/g, "").replace(/\.\d{3}/, "")}`;
   const details = encodeURIComponent(calendarDescription(booking));
-  const location = encodeURIComponent(booking.zoom.joinUrl || "Zoom / Online Meeting");
+  const location = encodeURIComponent("Zoom / Online Meeting");
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
 }
 
@@ -149,18 +149,14 @@ export function renderInternalBookingEmail(booking: BookingRecord = sampleBookin
     ["Meeting Format", "Zoom / Online Call"],
     ["Booking ID", booking.id],
     ["Status", booking.status],
-    ["Submitted At", booking.createdAt],
-    ["Meeting Link", booking.zoom.joinUrl || "To be assigned"],
-    ["Meeting ID", booking.zoom.meetingId || "To be assigned"],
-    ["Passcode", booking.zoom.passcode || "Not required"]
+    ["Submitted At", booking.createdAt]
   ];
   const calendarRows: Array<[string, string]> = [
     ["Event Title", `MSTRY Call - ${booking.fullName}`],
     ["Start Time", booking.startUtc],
     ["End Time", booking.endUtc],
     ["Timezone", customerBookingTimezoneLabel],
-    ["Description", calendarDescription(booking)],
-    ["Meeting Link", booking.zoom.joinUrl || "To be assigned"]
+    ["Description", calendarDescription(booking)]
   ];
 
   return {
@@ -171,10 +167,10 @@ export function renderInternalBookingEmail(booking: BookingRecord = sampleBookin
       `
         <p style="color:#A1A1AA;line-height:1.7;margin:0 0 22px">A new MSTRY call booking has been confirmed.</p>
         ${table(rows)}
+        ${section("Meeting Joining Details", "A member of our team will provide the meeting joining details approximately 15 minutes before the scheduled meeting time.")}
         <h2 style="color:#FFFFFF;font-size:20px;line-height:1.3;margin:28px 0 12px">Calendar-ready section</h2>
         ${table(calendarRows)}
         ${actionLink(calendarLink, "Open Google Calendar Draft")}
-        <p style="color:#A1A1AA;line-height:1.7;margin:18px 0 0">An .ics calendar file is planned for the final Resend email attachment.</p>
       `
     )
   };

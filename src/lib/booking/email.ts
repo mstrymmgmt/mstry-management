@@ -115,46 +115,90 @@ function section(title: string, body: string) {
   `;
 }
 
+function actionLink(href: string, label: string) {
+  return `
+    <p style="margin:22px 0 0">
+      <a href="${escapeHtml(href)}" style="display:inline-block;border:1px solid #D4AF37;background:#D4AF37;color:#0A0A0A;text-decoration:none;border-radius:8px;padding:12px 18px;font-weight:800">${escapeHtml(label)}</a>
+    </p>
+  `;
+}
+
+function calendarDescription(booking: BookingRecord) {
+  return [
+    `MSTRY call with ${booking.fullName}`,
+    `Email: ${booking.email}`,
+    `Phone: ${booking.phone || "Not provided"}`,
+    `Organization/company: ${booking.organization || "Not provided"}`,
+    `Service interest: ${booking.serviceInterest}`,
+    `Notes: ${booking.message || "Not provided"}`,
+    "Meeting joining details will be provided approximately 15 minutes before the scheduled meeting time."
+  ].join("\n");
+}
+
+function googleCalendarLink(booking: BookingRecord) {
+  const title = encodeURIComponent(`MSTRY Call - ${booking.fullName}`);
+  const dates = `${formatIcsDate(booking.startUtc)}/${formatIcsDate(booking.endUtc)}`;
+  const details = encodeURIComponent(calendarDescription(booking));
+  const location = encodeURIComponent("Zoom / Online Meeting");
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
+}
+
 export async function sendBookingEmails(booking: BookingRecord) {
   if (!emailConfigured()) throw new Error("Email delivery is not configured.");
 
   const ics = buildCalendarInvite(booking);
   const localDisplay = displayInstantDateTime(booking.startUtc, customerBookingTimezone);
   const timestamp = booking.createdAt;
-  const commonRows: Array<[string, string]> = [
-    ["Booking ID", booking.id],
-    ["Booking Status", booking.status],
-    ["Name", booking.fullName],
-    ["Organization", booking.organization || "Not provided"],
+  const calendarLink = googleCalendarLink(booking);
+  const internalRows: Array<[string, string]> = [
+    ["Client Name", booking.fullName],
     ["Email", booking.email],
     ["Phone", booking.phone || "Not provided"],
+    ["Organization / Company", booking.organization || "Not provided"],
     ["Service Interest", booking.serviceInterest],
-    ["Consultation Notes", booking.message || "Not provided"],
-    ["Meeting Type", "Zoom / Online Call"],
-    ["Date & Time", localDisplay],
-    ["Selected Date", booking.selectedDate],
-    ["Selected Time", booking.selectedTime],
+    ["Notes", booking.message || "Not provided"],
+    ["Selected Date / Time", localDisplay],
     ["Timezone", customerBookingTimezoneLabel],
-    ["Meeting Duration", `${booking.durationMinutes} minutes`],
-    ["Start Time UTC", booking.startUtc],
-    ["End Time UTC", booking.endUtc],
-    ["Zoom Meeting Link", booking.zoom.joinUrl || "To be assigned"],
-    ["Meeting ID", booking.zoom.meetingId || "To be assigned"],
-    ["Passcode", booking.zoom.passcode || "Not required"],
-    ["Submitted Page URL", booking.submittedPageUrl || "Not provided"],
-    ["Submission Timestamp", timestamp]
+    ["Meeting Format", "Zoom / Online Call"],
+    ["Booking ID", booking.id],
+    ["Status", booking.status],
+    ["Submitted At", timestamp]
+  ];
+  const calendarRows: Array<[string, string]> = [
+    ["Event Title", `MSTRY Call - ${booking.fullName}`],
+    ["Start Time", booking.startUtc],
+    ["End Time", booking.endUtc],
+    ["Timezone", customerBookingTimezoneLabel],
+    ["Description", calendarDescription(booking)]
   ];
 
   await sendEmail({
     to: [internalEmail],
     replyTo: booking.email,
-    subject: "New Themstry Appointment Booking",
-    html: brandShell("New Themstry Appointment Booking", table(commonRows)),
-    text: commonRows.map(([label, value]) => `${label}: ${value}`).join("\n"),
+    subject: "New MSTRY Call Booking",
+    html: brandShell(
+      "New MSTRY Call Booking",
+      `
+        <p style="color:#A1A1AA;line-height:1.7;margin:0 0 22px">A new MSTRY call booking has been confirmed.</p>
+        ${table(internalRows)}
+        ${section("Meeting Joining Details", "A member of our team will provide the meeting joining details approximately 15 minutes before the scheduled meeting time.")}
+        <h2 style="color:#FFFFFF;font-size:20px;line-height:1.3;margin:28px 0 12px">Calendar-ready section</h2>
+        ${table(calendarRows)}
+        ${actionLink(calendarLink, "Open Google Calendar Draft")}
+      `
+    ),
+    text: [
+      "New MSTRY Call Booking",
+      ...internalRows.map(([label, value]) => `${label}: ${value}`),
+      "Meeting Joining Details: A member of our team will provide the meeting joining details approximately 15 minutes before the scheduled meeting time.",
+      ...calendarRows.map(([label, value]) => `${label}: ${value}`),
+      `Google Calendar Draft: ${calendarLink}`
+    ].join("\n"),
     attachments: [{ filename: "mstry-consultation-call.ics", content: Buffer.from(ics).toString("base64") }]
   });
 
   const clientRows: Array<[string, string]> = [
+    ["Client Name", booking.fullName],
     ["Date & Time", localDisplay],
     ["Timezone", customerBookingTimezoneLabel],
     ["Meeting Format", "Zoom / Online Call"],
@@ -164,15 +208,26 @@ export async function sendBookingEmails(booking: BookingRecord) {
 
   await sendEmail({
     to: [booking.email],
-    subject: "Your Consultation Has Been Confirmed",
+    subject: "Your MSTRY Management Call Is Confirmed",
     html: brandShell(
-      "Your Consultation Has Been Confirmed",
-      `<p style="color:#A1A1AA;line-height:1.7;margin:0 0 22px">Thank you for scheduling a strategic discussion with MSTRY Management. Your meeting details are below.</p>${table(clientRows)}${section("Meeting Joining Details", "A member of our team will provide the meeting joining details approximately 15 minutes before the scheduled meeting time.")}`
+      "Your MSTRY Management Call Is Confirmed",
+      `
+        <p style="color:#E5E7EB;line-height:1.7;margin:0 0 18px">Hello ${escapeHtml(booking.fullName)},</p>
+        <p style="color:#A1A1AA;line-height:1.7;margin:0 0 22px">Your MSTRY Management call is confirmed. We look forward to speaking with you about your objectives, priorities, and next steps.</p>
+        ${table(clientRows)}
+        ${section("Meeting Joining Details", "A member of our team will provide the meeting joining details approximately 15 minutes before the scheduled meeting time.")}
+        <p style="color:#A1A1AA;line-height:1.7;margin:22px 0 0">If you need to reschedule or update any details before the call, you can reply directly to this email.</p>
+        <p style="color:#FFFFFF;line-height:1.7;margin:22px 0 0">MSTRY Management</p>
+      `
     ),
     text: [
-      "Your Consultation Has Been Confirmed",
+      "Your MSTRY Management Call Is Confirmed",
+      `Hello ${booking.fullName},`,
+      "Your MSTRY Management call is confirmed. We look forward to speaking with you about your objectives, priorities, and next steps.",
       ...clientRows.map(([label, value]) => `${label}: ${value}`),
-      "Meeting Joining Details: A member of our team will provide the meeting joining details approximately 15 minutes before the scheduled meeting time."
+      "Meeting Joining Details: A member of our team will provide the meeting joining details approximately 15 minutes before the scheduled meeting time.",
+      "If you need to reschedule or update any details before the call, you can reply directly to this email.",
+      "MSTRY Management"
     ].join("\n"),
     attachments: [{ filename: "mstry-consultation-call.ics", content: Buffer.from(ics).toString("base64") }]
   });
