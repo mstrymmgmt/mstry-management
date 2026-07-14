@@ -176,7 +176,7 @@ export function Hero() {
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Button href="/book-consultation">Request a Strategic Review</Button>
-              <Button href="/#proof" variant="ghost">Explore Management Solutions</Button>
+              <Button href="/#services" variant="ghost">Explore Management Solutions</Button>
             </div>
             <a className="mt-5 inline-flex font-black text-mstry-gold" href={`mailto:${siteConfig.email}`}>
               {siteConfig.email}

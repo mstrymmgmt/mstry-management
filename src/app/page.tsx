@@ -1,6 +1,5 @@
 import { CTA } from "@/components/sections/cta";
 import { Hero } from "@/components/sections/hero";
-import { HomepageProof } from "@/components/sections/homepage-proof";
 import { Operations } from "@/components/sections/operations";
 import { ProcessSection } from "@/components/sections/process-section";
 import { ServiceGrid } from "@/components/sections/service-grid";
@@ -17,7 +16,6 @@ export default function HomePage() {
       <SportsManagementSection />
       <StrategicOverview />
       <Operations />
-      <HomepageProof />
       <ProcessSection />
       <CTA />
     </>
