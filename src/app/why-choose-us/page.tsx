@@ -19,12 +19,12 @@ export default function WhyChooseUsPage() {
   return (
     <>
       <PageHero eyebrow="Why leaders choose us" title="A private operating office for serious international decisions." body="MSTRY combines business management, strategic consulting, investment readiness, partnership development, sports management, and execution discipline into one premium client experience." />
-      <section className="py-24">
-        <div className="mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto grid w-[min(1320px,calc(100%_-_24px))] gap-4 sm:w-[min(1320px,calc(100%_-_40px))] md:grid-cols-2 lg:grid-cols-3">
           {reasons.map(([reason, body], index) => (
-            <article className="min-h-60 rounded-mstry border border-white/10 bg-[#111827]/60 p-7 transition hover:border-mstry-gold/35" key={reason}>
-              <span className="text-xs font-black uppercase tracking-[0.16em] text-mstry-gold">Advantage 0{index + 1}</span>
-              <h2 className="mt-4 font-display text-2xl font-black text-mstry-silver">{reason}</h2>
+            <article className="rounded-mstry border border-white/10 bg-[#111827]/60 p-5 transition hover:border-mstry-gold/35 sm:min-h-60 sm:p-7" key={reason}>
+              <span className="text-[11px] font-black uppercase tracking-[0.14em] text-mstry-gold sm:text-xs sm:tracking-[0.16em]">Advantage 0{index + 1}</span>
+              <h2 className="mt-4 font-display text-xl font-black leading-tight text-mstry-silver sm:text-2xl">{reason}</h2>
               <p className="mt-4 text-sm leading-7 text-mstry-muted">{body}</p>
             </article>
           ))}

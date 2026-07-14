@@ -12,8 +12,8 @@ const pillars = [
 
 export function StrategicOverview() {
   return (
-    <section id="about" className="py-24">
-      <div className="mx-auto grid w-[min(1320px,calc(100%_-_40px))] items-center gap-10 lg:grid-cols-[0.92fr_1.08fr]">
+    <section id="about" className="py-16 sm:py-24">
+      <div className="mx-auto grid w-[min(1320px,calc(100%_-_24px))] items-center gap-8 sm:w-[min(1320px,calc(100%_-_40px))] sm:gap-10 lg:grid-cols-[0.92fr_1.08fr]">
         <Reveal>
           <SectionHeading
             eyebrow="Who we help"
@@ -30,18 +30,18 @@ export function StrategicOverview() {
           <div className="rounded-mstry border border-mstry-gold/15 bg-[#111827] p-5 shadow-luxury sm:p-7">
             <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-mstry-gold">Management framework</p>
-                <h3 className="mt-3 font-display text-4xl font-black text-white">How an objective becomes a controlled mandate.</h3>
+                <p className="text-[11px] font-black uppercase tracking-[0.16em] text-mstry-gold sm:text-xs sm:tracking-[0.22em]">Management framework</p>
+                <h3 className="mt-3 font-display text-[clamp(1.9rem,8vw,2.5rem)] font-black leading-tight text-white">How an objective becomes a controlled mandate.</h3>
               </div>
-              <span className="rounded-full border border-mstry-gold/25 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-mstry-gold">
+              <span className="rounded-full border border-mstry-gold/25 px-3 py-2 text-[11px] font-black uppercase tracking-[0.12em] text-mstry-gold sm:px-4 sm:text-xs sm:tracking-[0.16em]">
                 Client-facing model
               </span>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               {pillars.map(([title, body], index) => (
                 <div className="rounded-mstry border border-white/10 bg-[#0A0A0A]/70 p-5" key={title}>
-                  <span className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">0{index + 1}</span>
-                  <h4 className="mt-3 font-display text-2xl font-black text-white">{title}</h4>
+                  <span className="text-[11px] font-black uppercase tracking-[0.14em] text-mstry-gold sm:text-xs sm:tracking-[0.18em]">0{index + 1}</span>
+                  <h4 className="mt-3 font-display text-xl font-black text-white sm:text-2xl">{title}</h4>
                   <p className="mt-3 text-sm leading-6 text-mstry-muted">{body}</p>
                 </div>
               ))}
@@ -51,7 +51,7 @@ export function StrategicOverview() {
               <p className="mt-2 text-sm leading-6 text-mstry-muted">
                 To reduce operational pressure, improve decision quality, unlock strategic relationships, and keep important work moving with a discreet partner built for follow-through.
               </p>
-              </div>
+            </div>
           </div>
         </Reveal>
       </div>

@@ -67,9 +67,9 @@ export function HomepageProof() {
   const activeOuter = outerPoint(activeIndex, 45);
 
   return (
-    <section id="proof" className="relative overflow-hidden border-y border-white/10 bg-[#0B0B0B] py-24">
+    <section id="proof" className="relative overflow-hidden border-y border-white/10 bg-[#0B0B0B] py-16 sm:py-24">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(212,175,55,.12),transparent_30%),radial-gradient(circle_at_78%_70%,rgba(212,175,55,.08),transparent_34%)]" />
-      <div className="relative mx-auto w-[min(1400px,calc(100%_-_40px))]">
+      <div className="relative mx-auto w-[min(1400px,calc(100%_-_24px))] sm:w-[min(1400px,calc(100%_-_40px))]">
         <SectionHeading
           eyebrow="Proof of capability"
           title="An interactive view of the capabilities clients gain access to."
@@ -78,7 +78,7 @@ export function HomepageProof() {
 
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1.15fr)_minmax(380px,.85fr)] xl:items-start">
           <motion.div
-            className="grid gap-4 md:grid-cols-2"
+            className="grid gap-3 md:grid-cols-2 md:gap-4"
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-90px" }}
@@ -92,7 +92,7 @@ export function HomepageProof() {
               return (
                 <motion.article
                   aria-label={`${item.subject} capability, ${item.value} out of 100`}
-                  className="group relative cursor-pointer overflow-hidden rounded-mstry border bg-[#111827]/80 p-5 outline-none"
+                  className="group relative cursor-pointer overflow-hidden rounded-mstry border bg-[#111827]/80 p-4 outline-none sm:p-5"
                   key={item.subject}
                   layout
                   role="button"
@@ -127,10 +127,10 @@ export function HomepageProof() {
                   <div className="relative">
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <span className="text-[11px] font-black uppercase tracking-[0.18em] text-mstry-gold">
+                        <span className="text-[10px] font-black uppercase tracking-[0.12em] text-mstry-gold sm:text-[11px] sm:tracking-[0.18em]">
                           Capability pillar
                         </span>
-                        <h3 className="mt-3 font-display text-2xl font-black text-white">{item.subject}</h3>
+                        <h3 className="mt-3 font-display text-xl font-black leading-tight text-white sm:text-2xl">{item.subject}</h3>
                       </div>
                       <div className="rounded-mstry border border-mstry-gold/25 bg-[#0A0A0A] px-3 py-2 text-right">
                         <strong className="block text-2xl leading-none text-mstry-gold">{item.value}</strong>
@@ -171,7 +171,7 @@ export function HomepageProof() {
           </motion.div>
 
           <motion.aside
-            className="sticky top-28 overflow-hidden rounded-mstry border border-mstry-gold/20 bg-[#111827] p-6 shadow-luxury"
+            className="overflow-hidden rounded-mstry border border-mstry-gold/20 bg-[#111827] p-4 shadow-luxury sm:p-6 xl:sticky xl:top-28"
             initial={{ opacity: 0, y: 24, scale: 0.985 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-90px" }}
@@ -179,20 +179,20 @@ export function HomepageProof() {
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,.14),transparent_38%)]" />
             <div className="relative">
-              <div className="flex items-start justify-between gap-4 border-b border-mstry-gold/15 pb-5">
+              <div className="grid gap-4 border-b border-mstry-gold/15 pb-5 sm:flex sm:items-start sm:justify-between">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">Management Excellence Index</p>
+                  <p className="text-[11px] font-black uppercase tracking-[0.14em] text-mstry-gold sm:text-xs sm:tracking-[0.18em]">Management Excellence Index</p>
                   <p className="mt-2 max-w-sm text-sm leading-6 text-mstry-muted">
                     A client-facing measure of integrated capability across strategy, growth, partnerships, execution, brand, and expansion.
                   </p>
                 </div>
                 <div className="text-right">
-                  <strong className="block text-5xl leading-none text-white">{average}</strong>
+                  <strong className="block text-4xl leading-none text-white sm:text-5xl">{average}</strong>
                   <span className="text-sm font-black text-mstry-muted">/100</span>
                 </div>
               </div>
 
-              <div className="mx-auto mt-6 aspect-square max-w-[440px]">
+              <div className="mx-auto mt-6 aspect-square max-w-[min(440px,calc(100vw_-_72px))] sm:max-w-[440px]">
                 <motion.svg viewBox="0 0 100 100" aria-label="Integrated management capability radar" className="h-full w-full">
                   {[18, 30, 42].map((radius) => {
                     const points = sportsCapabilities
@@ -279,11 +279,11 @@ export function HomepageProof() {
                   transition={{ duration: 0.25 }}
                 >
                   <div className="mt-5 rounded-mstry border border-mstry-gold/25 bg-mstry-gold/10 p-5">
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">
+                    <p className="text-[11px] font-black uppercase tracking-[0.14em] text-mstry-gold sm:text-xs sm:tracking-[0.18em]">
                       Active capability
                     </p>
-                    <div className="mt-3 flex items-start justify-between gap-4">
-                      <h3 className="font-display text-3xl font-black text-white">{active.subject}</h3>
+                    <div className="mt-3 flex items-start justify-between gap-3">
+                      <h3 className="font-display text-2xl font-black leading-tight text-white sm:text-3xl">{active.subject}</h3>
                       <strong className="text-3xl text-mstry-gold">{active.value}</strong>
                     </div>
                     <p className="mt-3 text-sm leading-6 text-mstry-muted">{active.valueText}</p>

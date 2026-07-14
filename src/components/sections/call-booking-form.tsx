@@ -262,44 +262,44 @@ export function CallBookingForm() {
   const links = confirmation ? calendarLinks(confirmation) : null;
 
   return (
-    <section className="relative overflow-hidden py-20">
+    <section className="relative overflow-hidden py-14 sm:py-20">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_10%,rgba(212,175,55,.12),transparent_34%)]" />
-      <div className="relative mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-6 lg:grid-cols-[1.05fr_.95fr]">
+      <div className="relative mx-auto grid w-[min(1320px,calc(100%_-_24px))] gap-5 sm:w-[min(1320px,calc(100%_-_40px))] sm:gap-6 lg:grid-cols-[1.05fr_.95fr]">
         <motion.div
-          className="rounded-mstry border border-mstry-gold/20 bg-[#111827]/82 p-5 shadow-luxury sm:p-7"
+          className="min-w-0 rounded-mstry border border-mstry-gold/20 bg-[#111827]/82 p-4 shadow-luxury sm:p-7"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-mstry-gold">Calendar</p>
-              <h2 className="mt-2 font-display text-3xl font-black text-white">{monthLabel}</h2>
+          <div className="grid gap-4 sm:flex sm:flex-wrap sm:items-end sm:justify-between">
+            <div className="min-w-0">
+              <p className="text-[11px] font-black uppercase tracking-[0.16em] text-mstry-gold sm:text-xs sm:tracking-[0.2em]">Calendar</p>
+              <h2 className="mt-2 font-display text-[clamp(1.75rem,8vw,2.25rem)] font-black leading-tight text-white">{monthLabel}</h2>
               <p className="mt-2 text-sm leading-6 text-mstry-muted">Times shown in {customerBookingTimezoneLabel}.</p>
             </div>
-            <div className="flex gap-2">
-              <button className="rounded-mstry border border-white/10 bg-[#0A0A0A] px-3 py-3 text-xs font-black text-white transition hover:border-mstry-gold" onClick={() => moveYear(-1)} type="button" aria-label="Previous year">
+            <div className="grid grid-cols-4 gap-2 sm:flex">
+              <button className="min-h-11 rounded-mstry border border-white/10 bg-[#0A0A0A] px-2 py-2 text-xs font-black text-white transition hover:border-mstry-gold sm:px-3 sm:py-3" onClick={() => moveYear(-1)} type="button" aria-label="Previous year">
                 YY-
               </button>
-              <button className="rounded-mstry border border-white/10 bg-[#0A0A0A] p-3 text-white transition hover:border-mstry-gold" onClick={() => moveMonth(-1)} type="button" aria-label="Previous month">
+              <button className="grid min-h-11 place-items-center rounded-mstry border border-white/10 bg-[#0A0A0A] p-2 text-white transition hover:border-mstry-gold sm:p-3" onClick={() => moveMonth(-1)} type="button" aria-label="Previous month">
                 <ChevronLeft size={18} />
               </button>
-              <button className="rounded-mstry border border-white/10 bg-[#0A0A0A] p-3 text-white transition hover:border-mstry-gold" onClick={() => moveMonth(1)} type="button" aria-label="Next month">
+              <button className="grid min-h-11 place-items-center rounded-mstry border border-white/10 bg-[#0A0A0A] p-2 text-white transition hover:border-mstry-gold sm:p-3" onClick={() => moveMonth(1)} type="button" aria-label="Next month">
                 <ChevronRight size={18} />
               </button>
-              <button className="rounded-mstry border border-white/10 bg-[#0A0A0A] px-3 py-3 text-xs font-black text-white transition hover:border-mstry-gold" onClick={() => moveYear(1)} type="button" aria-label="Next year">
+              <button className="min-h-11 rounded-mstry border border-white/10 bg-[#0A0A0A] px-2 py-2 text-xs font-black text-white transition hover:border-mstry-gold sm:px-3 sm:py-3" onClick={() => moveYear(1)} type="button" aria-label="Next year">
                 YY+
               </button>
             </div>
           </div>
 
-          <div className="mt-7 grid grid-cols-7 gap-2 text-center text-xs font-black uppercase tracking-[0.12em] text-mstry-muted">
+          <div className="mt-6 grid grid-cols-7 gap-1 text-center text-[10px] font-black uppercase tracking-[0.06em] text-mstry-muted sm:mt-7 sm:gap-2 sm:text-xs sm:tracking-[0.12em]">
             {weekdays.map((day) => (
               <span key={day}>{day}</span>
             ))}
           </div>
 
-          <motion.div className="mt-3 grid grid-cols-7 gap-2" key={`${month.getFullYear()}-${month.getMonth()}`} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.28 }}>
+          <motion.div className="mt-2 grid grid-cols-7 gap-1 sm:mt-3 sm:gap-2" key={`${month.getFullYear()}-${month.getMonth()}`} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.28 }}>
             {days.map((day) => {
               const key = dateKey(day);
               const daySlots = slotsByDate.get(key) || [];
@@ -311,7 +311,7 @@ export function CallBookingForm() {
               return (
                 <motion.button
                   className={[
-                    "min-h-14 rounded-mstry border p-2 text-sm font-black transition sm:min-h-16",
+                    "min-h-[3.35rem] rounded-mstry border p-1 text-xs font-black leading-tight transition sm:min-h-16 sm:p-2 sm:text-sm",
                     isSelected ? "border-mstry-gold bg-mstry-gold text-black" : "",
                     !isSelected && hasAvailable ? "border-white/10 bg-[#0A0A0A] text-white hover:border-mstry-gold hover:bg-mstry-gold/10" : "",
                     !hasAvailable ? "cursor-not-allowed border-white/5 bg-white/[.03] text-mstry-muted opacity-55" : "",
@@ -325,7 +325,7 @@ export function CallBookingForm() {
                   whileTap={hasAvailable ? { scale: 0.98 } : undefined}
                 >
                   <span>{day.getDate()}</span>
-                  <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.08em]">
+                  <span className="mt-1 block text-[8px] font-bold uppercase tracking-[0.02em] sm:text-[10px] sm:tracking-[0.08em]">
                     {hasAvailable ? "Open" : isBooked ? "Fully booked" : "Closed"}
                   </span>
                 </motion.button>
@@ -340,7 +340,7 @@ export function CallBookingForm() {
         </motion.div>
 
         <motion.form
-          className="rounded-mstry border border-mstry-gold/20 bg-[#111827] p-5 shadow-luxury sm:p-7"
+          className="min-w-0 rounded-mstry border border-mstry-gold/20 bg-[#111827] p-4 shadow-luxury sm:p-7"
           onSubmit={submitBooking}
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -353,18 +353,18 @@ export function CallBookingForm() {
             <input name="website" tabIndex={-1} autoComplete="off" />
           </label>
 
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-mstry-gold">Available times</p>
-          <h2 className="mt-2 font-display text-3xl font-black text-white">Select a call time.</h2>
+          <p className="text-[11px] font-black uppercase tracking-[0.16em] text-mstry-gold sm:text-xs sm:tracking-[0.2em]">Available times</p>
+          <h2 className="mt-2 font-display text-[clamp(1.75rem,8vw,2.25rem)] font-black leading-tight text-white">Select a call time.</h2>
           <p className="mt-2 text-sm leading-6 text-mstry-muted">Meeting format: Zoom / Online Call. Duration: 30 minutes.</p>
 
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
             {selectedDate ? (
               selectedDate && !selectedAvailableSlots.length ? (
                 <p className="col-span-full rounded-mstry border border-white/10 bg-[#0A0A0A] p-4 text-sm text-mstry-muted">This date is fully booked. Please choose another available date.</p>
               ) : selectedDaySlots.length ? (
                 selectedDaySlots.map((slot) => (
                   <motion.button
-                    className={`min-h-12 rounded-mstry border px-3 text-sm font-black transition ${selectedTime === slot.time ? "border-mstry-gold bg-mstry-gold text-black" : slot.available ? "border-white/10 bg-[#0A0A0A] text-white hover:border-mstry-gold" : "cursor-not-allowed border-white/5 bg-white/[.04] text-mstry-muted opacity-60"}`}
+                    className={`min-h-12 rounded-mstry border px-2 text-sm font-black transition sm:px-3 ${selectedTime === slot.time ? "border-mstry-gold bg-mstry-gold text-black" : slot.available ? "border-white/10 bg-[#0A0A0A] text-white hover:border-mstry-gold" : "cursor-not-allowed border-white/5 bg-white/[.04] text-mstry-muted opacity-60"}`}
                     disabled={!slot.available}
                     key={slot.startUtc}
                     onClick={() => slot.available && setSelectedTime(slot.time)}

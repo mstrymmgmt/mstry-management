@@ -22,14 +22,14 @@ export default function StoriesPage() {
         title="Examples of the outcomes MSTRY is built to support."
         body="These representative scenarios show how strategy, operations, partnerships, investment readiness, sports management, and execution discipline can create clarity and momentum."
       />
-      <section className="py-24">
-        <div className="mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto grid w-[min(1320px,calc(100%_-_24px))] gap-4 sm:w-[min(1320px,calc(100%_-_40px))] md:grid-cols-2 lg:grid-cols-3">
           {stories.map(([story, body], index) => (
-            <article className="min-h-72 rounded-mstry border border-white/10 bg-[#111827]/60 p-7 transition hover:border-mstry-gold/35" key={story}>
-              <span className="text-xs font-black uppercase tracking-[0.16em] text-mstry-gold">Scenario 0{index + 1}</span>
-              <h2 className="mt-4 font-display text-2xl font-black text-white">{story}</h2>
+            <article className="rounded-mstry border border-white/10 bg-[#111827]/60 p-5 transition hover:border-mstry-gold/35 sm:min-h-72 sm:p-7" key={story}>
+              <span className="text-[11px] font-black uppercase tracking-[0.14em] text-mstry-gold sm:text-xs sm:tracking-[0.16em]">Scenario 0{index + 1}</span>
+              <h2 className="mt-4 font-display text-xl font-black leading-tight text-white sm:text-2xl">{story}</h2>
               <p className="mt-4 text-sm leading-7 text-mstry-muted">{body}</p>
-              <div className="mt-6 flex items-center justify-between gap-4">
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
                 <span className="font-black text-mstry-gold">Structured outcome</span>
                 <span className="text-xs font-black uppercase tracking-[0.18em] text-mstry-muted">Private mandate</span>
               </div>

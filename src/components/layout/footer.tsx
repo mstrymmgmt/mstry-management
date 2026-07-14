@@ -3,11 +3,11 @@ import { companyFootprint, siteConfig } from "@/config/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-[#0A0A0A] py-12 text-sm text-mstry-muted">
-      <div className="mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-8 md:grid-cols-2 lg:grid-cols-[1.15fr_0.8fr_0.8fr_0.95fr]">
+    <footer className="border-t border-white/10 bg-[#0A0A0A] py-10 text-sm text-mstry-muted sm:py-12">
+      <div className="mx-auto grid w-[min(1320px,calc(100%_-_24px))] gap-7 sm:w-[min(1320px,calc(100%_-_40px))] sm:gap-8 md:grid-cols-2 lg:grid-cols-[1.15fr_0.8fr_0.8fr_0.95fr]">
         <div>
-          <div className="font-display text-3xl font-black tracking-[0.16em] text-white">MSTRY</div>
-          <div className="mt-2 text-xs font-black uppercase tracking-[0.32em] text-mstry-gold">Management</div>
+          <div className="font-display text-3xl font-black tracking-[0.14em] text-white sm:tracking-[0.16em]">MSTRY</div>
+          <div className="mt-2 text-xs font-black uppercase tracking-[0.22em] text-mstry-gold sm:tracking-[0.32em]">Management</div>
           <p className="mt-4 max-w-md leading-6">
             Premium management, consulting, partnerships, business development, sports management, talent capability, and project execution.
           </p>
@@ -36,7 +36,7 @@ export function Footer() {
           </p>
         </div>
       </div>
-      <div className="mx-auto mt-8 flex w-[min(1320px,calc(100%_-_40px))] flex-wrap justify-between gap-4 border-t border-white/10 pt-6">
+      <div className="mx-auto mt-8 flex w-[min(1320px,calc(100%_-_24px))] flex-col gap-4 border-t border-white/10 pt-6 sm:w-[min(1320px,calc(100%_-_40px))] sm:flex-row sm:flex-wrap sm:justify-between">
         <span>MSTRY MANAGEMENT © 2026</span>
         <Link className="text-mstry-gold" href="/contact">
           Start the Conversation

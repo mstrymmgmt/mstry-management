@@ -10,9 +10,9 @@ export function GlobalMap() {
   const [active, setActive] = useState(globalMarkets[0]);
 
   return (
-    <section id="global" className="border-y border-white/10 bg-[#111827]/55 py-24">
-      <div className="mx-auto grid w-[min(1320px,calc(100%_-_40px))] items-center gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="relative min-h-[560px] overflow-hidden rounded-mstry border border-white/10 bg-[#0A0A0A] p-4 shadow-luxury">
+    <section id="global" className="border-y border-white/10 bg-[#111827]/55 py-16 sm:py-24">
+      <div className="mx-auto grid w-[min(1320px,calc(100%_-_24px))] items-center gap-8 sm:w-[min(1320px,calc(100%_-_40px))] lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="relative min-h-[430px] overflow-hidden rounded-mstry border border-white/10 bg-[#0A0A0A] p-3 shadow-luxury sm:min-h-[560px] sm:p-4">
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.035)_1px,transparent_1px)] bg-[size:54px_54px]" />
           <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 60" role="img" aria-label="MSTRY global operations map">
             <defs>
@@ -30,7 +30,7 @@ export function GlobalMap() {
           </svg>
           {globalMarkets.map((market) => (
             <button
-              className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full border border-mstry-gold/60 bg-mstry-gold/20 p-2 backdrop-blur transition hover:scale-110 hover:bg-mstry-gold/35"
+              className="absolute min-h-9 min-w-9 -translate-x-1/2 -translate-y-1/2 rounded-full border border-mstry-gold/60 bg-mstry-gold/20 p-2 backdrop-blur transition hover:scale-110 hover:bg-mstry-gold/35"
               key={market.region}
               style={{ left: `${market.x}%`, top: `${market.y}%` }}
               type="button"
@@ -42,14 +42,14 @@ export function GlobalMap() {
             </button>
           ))}
           <motion.div
-            className="absolute bottom-6 left-6 right-6 rounded-mstry border border-white/10 bg-black/75 p-6 backdrop-blur"
+            className="absolute bottom-3 left-3 right-3 rounded-mstry border border-white/10 bg-black/78 p-4 backdrop-blur sm:bottom-6 sm:left-6 sm:right-6 sm:p-6"
             key={active.region}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <span className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">Selected market</span>
-            <strong className="mt-2 block font-display text-3xl text-white">{active.region}</strong>
+            <span className="text-[11px] font-black uppercase tracking-[0.14em] text-mstry-gold sm:text-xs sm:tracking-[0.18em]">Selected market</span>
+            <strong className="mt-2 block font-display text-2xl text-white sm:text-3xl">{active.region}</strong>
             <p className="mt-2 text-sm leading-6 text-mstry-muted">{active.focus}</p>
           </motion.div>
         </div>

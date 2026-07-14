@@ -106,7 +106,7 @@ export function Hero() {
 
   return (
     <section id="home" className="relative overflow-hidden border-b border-white/10 bg-[#0A0A0A]">
-      <div ref={introRef} className="relative h-screen min-h-[760px] overflow-hidden">
+      <div ref={introRef} className="relative h-[78svh] min-h-[560px] overflow-hidden sm:h-screen sm:min-h-[760px]">
         <motion.div className="pointer-events-none absolute inset-0 z-0 bg-[#0A0A0A]" style={{ opacity: videoOpacity, y: videoY }}>
           {heroVideoMode ? (
             <video
@@ -127,14 +127,14 @@ export function Hero() {
         <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(10,10,10,.02)_0%,rgba(10,10,10,.10)_54%,rgba(10,10,10,.78)_100%)]" />
         <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(circle_at_50%_45%,rgba(212,175,55,.08),transparent_38%)]" />
         <motion.div
-          className="pointer-events-none relative z-[5] mx-auto flex h-full w-[min(1320px,calc(100%_-_40px))] items-end justify-between gap-6 pb-8 sm:pb-10 lg:pb-14"
+          className="pointer-events-none relative z-[5] mx-auto flex h-full w-[min(1320px,calc(100%_-_24px))] items-end justify-center gap-6 pb-6 sm:w-[min(1320px,calc(100%_-_40px))] sm:justify-between sm:pb-10 lg:pb-14"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
         >
-          <div className="rounded-mstry border border-mstry-gold/25 bg-[#0A0A0A]/62 p-5 shadow-luxury backdrop-blur-md sm:p-6">
-            <span className="block text-[10px] font-black uppercase tracking-[0.22em] text-white/62">Global Investment Activity</span>
-            <strong className="mt-2 block font-display text-[clamp(2.6rem,7vw,5.4rem)] font-black leading-none text-mstry-gold drop-shadow-[0_0_18px_rgba(212,175,55,.22)]">
+          <div className="w-full max-w-[360px] rounded-mstry border border-mstry-gold/25 bg-[#0A0A0A]/68 p-4 shadow-luxury backdrop-blur-md sm:w-auto sm:max-w-none sm:p-6">
+            <span className="block text-[10px] font-black uppercase tracking-[0.16em] text-white/62 sm:tracking-[0.22em]">Global Investment Activity</span>
+            <strong className="mt-2 block font-display text-[clamp(2.35rem,17vw,4.4rem)] font-black leading-none text-mstry-gold drop-shadow-[0_0_18px_rgba(212,175,55,.22)] sm:text-[clamp(2.6rem,7vw,5.4rem)]">
               $<InvestmentCounter />
             </strong>
             <div className="mt-4 text-center">
@@ -143,7 +143,7 @@ export function Hero() {
               </p>
               <div className="mt-2 flex items-center justify-center gap-3">
                 <span aria-hidden="true" className="h-px w-10 bg-gradient-to-r from-transparent to-mstry-gold/70 sm:w-14" />
-                <span className="text-[10px] font-black uppercase tracking-[0.34em] text-mstry-gold/90 sm:text-[11px]">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-mstry-gold/90 sm:text-[11px] sm:tracking-[0.34em]">
                   Since {companyFootprint.operatingSince}
                 </span>
                 <span aria-hidden="true" className="h-px w-10 bg-gradient-to-l from-transparent to-mstry-gold/70 sm:w-14" />
@@ -157,7 +157,7 @@ export function Hero() {
         </motion.div>
       </div>
 
-      <div className="relative z-10 border-t border-white/10 bg-[#0A0A0A] py-14 sm:py-20 lg:py-28">
+        <div className="relative z-10 border-t border-white/10 bg-[#0A0A0A] py-12 sm:py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,.032)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.032)_1px,transparent_1px)] bg-[size:80px_80px]" />
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_82%_12%,rgba(212,175,55,.10),transparent_34%)]" />
         <div className="relative z-10 mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-10 sm:gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
@@ -238,7 +238,7 @@ export function Hero() {
           </motion.div>
         </div>
 
-        <div className="relative z-10 mx-auto mt-12 grid w-[min(1320px,calc(100%_-_40px))] gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="relative z-10 mx-auto mt-10 grid w-[min(1320px,calc(100%_-_24px))] gap-3 sm:mt-12 sm:w-[min(1320px,calc(100%_-_40px))] sm:grid-cols-2 lg:grid-cols-4">
           {heroStats.map((metric, index) => (
             <motion.article
               className="rounded-mstry border border-white/10 bg-[#111827]/72 p-5"
@@ -248,7 +248,7 @@ export function Hero() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.05 }}
             >
-              <strong className="block text-4xl text-mstry-gold">
+              <strong className="block text-3xl text-mstry-gold sm:text-4xl">
                 <AnimatedCounter value={metric.value} suffix={metric.suffix} decimals={metric.value % 1 ? 1 : 0} />
               </strong>
               <span className="mt-3 block font-black text-white">{metric.label}</span>

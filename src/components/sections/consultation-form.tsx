@@ -218,14 +218,14 @@ export function ConsultationForm() {
 
   return (
     <form
-      className="relative grid gap-6 overflow-hidden rounded-mstry border border-mstry-gold/20 bg-[#111827] p-6 shadow-luxury sm:p-8"
+      className="relative grid min-w-0 gap-5 overflow-hidden rounded-mstry border border-mstry-gold/20 bg-[#111827] p-4 shadow-luxury sm:gap-6 sm:p-8"
       onSubmit={handleSubmit}
       noValidate
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_10%,rgba(212,175,55,.12),transparent_34%)]" />
       <div className="relative">
-        <p className="text-xs font-black uppercase tracking-[0.22em] text-mstry-gold">Private consultation request</p>
-        <h2 className="mt-3 font-display text-4xl font-black leading-tight text-white">Let&apos;s Discuss Your Objectives</h2>
+        <p className="text-[11px] font-black uppercase tracking-[0.16em] text-mstry-gold sm:text-xs sm:tracking-[0.22em]">Private consultation request</p>
+        <h2 className="mt-3 font-display text-[clamp(1.9rem,9vw,2.5rem)] font-black leading-tight text-white">Let&apos;s Discuss Your Objectives</h2>
         <p className="mt-4 text-sm leading-7 text-mstry-muted">
           Whether you&apos;re seeking management support, strategic partnerships, business development, project leadership, or sports management solutions, our team is ready to explore how we can help.
         </p>
@@ -242,25 +242,25 @@ export function ConsultationForm() {
       <div className="relative grid gap-4 md:grid-cols-2">
         <label className="grid gap-2 text-sm font-black text-mstry-silver">
           Full Name <span className="sr-only">required</span>
-          <input className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-mstry-silver outline-none transition focus:border-mstry-gold" name="fullName" required type="text" autoComplete="name" />
+          <input className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-base text-mstry-silver outline-none transition focus:border-mstry-gold" name="fullName" required type="text" autoComplete="name" />
         </label>
         <label className="grid gap-2 text-sm font-black text-mstry-silver">
           Organization / Company
-          <input className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-mstry-silver outline-none transition focus:border-mstry-gold" name="organization" type="text" autoComplete="organization" />
+          <input className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-base text-mstry-silver outline-none transition focus:border-mstry-gold" name="organization" type="text" autoComplete="organization" />
         </label>
         <label className="grid gap-2 text-sm font-black text-mstry-silver">
           Email Address <span className="sr-only">required</span>
-          <input className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-mstry-silver outline-none transition focus:border-mstry-gold" name="email" required type="email" autoComplete="email" />
+          <input className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-base text-mstry-silver outline-none transition focus:border-mstry-gold" name="email" required type="email" autoComplete="email" />
         </label>
         <label className="grid gap-2 text-sm font-black text-mstry-silver">
           Phone Number <span className="text-xs text-mstry-muted">(optional)</span>
-          <input className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-mstry-silver outline-none transition focus:border-mstry-gold" name="phone" type="tel" autoComplete="tel" />
+          <input className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-base text-mstry-silver outline-none transition focus:border-mstry-gold" name="phone" type="tel" autoComplete="tel" />
         </label>
       </div>
 
       <label className="relative grid gap-2 text-sm font-black text-mstry-silver">
         Service Interest <span className="sr-only">required</span>
-        <select className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-mstry-silver outline-none transition focus:border-mstry-gold" name="serviceInterest" required defaultValue="">
+        <select className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-base text-mstry-silver outline-none transition focus:border-mstry-gold" name="serviceInterest" required defaultValue="">
           <option value="" disabled>Select a service area</option>
           {serviceOptions.map((option) => (
             <option key={option}>{option}</option>
@@ -271,7 +271,7 @@ export function ConsultationForm() {
       <div className="relative rounded-mstry border border-mstry-gold/15 bg-[#0A0A0A]/55 p-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">Schedule consultation</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-mstry-gold sm:text-xs sm:tracking-[0.18em]">Schedule consultation</p>
             <p className="mt-1 text-sm leading-6 text-mstry-muted">Times shown in {customerBookingTimezoneLabel}.</p>
           </div>
           {availabilityStatus === "loading" ? (
@@ -286,7 +286,7 @@ export function ConsultationForm() {
           <label className="grid gap-2 text-sm font-black text-mstry-silver">
             Selected Date <span className="sr-only">required</span>
             <select
-              className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-mstry-silver outline-none transition focus:border-mstry-gold"
+              className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-base text-mstry-silver outline-none transition focus:border-mstry-gold"
               disabled={availabilityStatus !== "ready" || !availableDates.length}
               name="selectedDate"
               onChange={(event) => setSelectedDate(event.target.value)}
@@ -305,7 +305,7 @@ export function ConsultationForm() {
           <label className="grid gap-2 text-sm font-black text-mstry-silver">
             Selected Time <span className="sr-only">required</span>
             <select
-              className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-mstry-silver outline-none transition focus:border-mstry-gold"
+              className="min-h-12 rounded-mstry border border-white/15 bg-mstry-black px-4 text-base text-mstry-silver outline-none transition focus:border-mstry-gold"
               disabled={availabilityStatus !== "ready" || !timesForSelectedDate.length}
               name="selectedTime"
               onChange={(event) => setSelectedTime(event.target.value)}
@@ -332,7 +332,7 @@ export function ConsultationForm() {
       <label className="relative grid gap-2 text-sm font-black text-mstry-silver">
         Message / Project Details <span className="sr-only">required</span>
         <textarea
-          className="min-h-40 rounded-mstry border border-white/15 bg-mstry-black px-4 py-3 text-mstry-silver outline-none transition focus:border-mstry-gold"
+          className="min-h-40 rounded-mstry border border-white/15 bg-mstry-black px-4 py-3 text-base text-mstry-silver outline-none transition focus:border-mstry-gold"
           name="message"
           required
           placeholder="Briefly describe your objective, timeline, market, organization, and the type of support you are seeking."
@@ -351,7 +351,7 @@ export function ConsultationForm() {
       </div>
 
       <button
-        className="relative inline-flex min-h-12 items-center justify-center gap-2 rounded-mstry border border-mstry-gold bg-mstry-gold px-5 font-black text-black transition hover:-translate-y-0.5 hover:bg-[#C19D2C] disabled:cursor-not-allowed disabled:opacity-70"
+        className="relative inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-mstry border border-mstry-gold bg-mstry-gold px-5 text-center font-black text-black transition hover:-translate-y-0.5 hover:bg-[#C19D2C] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
         disabled={status === "loading" || availabilityStatus !== "ready" || !selectedDate || !selectedTime}
         type="submit"
       >
@@ -411,10 +411,10 @@ function ConsultationBenefits() {
 
       <div className="relative mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">Consultation capabilities</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.14em] text-mstry-gold sm:text-xs sm:tracking-[0.18em]">Consultation capabilities</p>
           <p className="mt-1 text-sm leading-6 text-mstry-muted">Explore the value behind each advisory capability.</p>
         </div>
-        <span className="text-xs font-bold uppercase tracking-[0.14em] text-mstry-muted">Hover or tap to expand</span>
+        <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-mstry-muted sm:text-xs sm:tracking-[0.14em]">Hover or tap to expand</span>
       </div>
 
       <div className="relative grid gap-3 sm:grid-cols-2">

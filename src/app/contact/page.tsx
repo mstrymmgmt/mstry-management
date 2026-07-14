@@ -30,15 +30,15 @@ export default function ContactPage() {
         title="Let's Discuss Your Objectives"
         body={`Whether you're seeking management support, strategic partnerships, business development, project leadership, or sports management solutions, our team is ready to explore how we can help. For direct enquiries, reach MSTRY at ${siteConfig.email}.`}
       />
-      <section className="relative overflow-hidden py-24">
+      <section className="relative overflow-hidden py-16 sm:py-24">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_8%,rgba(212,175,55,.10),transparent_34%)]" />
-        <div className="relative mx-auto grid w-[min(1320px,calc(100%_-_40px))] gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="relative mx-auto grid w-[min(1320px,calc(100%_-_24px))] gap-6 sm:w-[min(1320px,calc(100%_-_40px))] sm:gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <ConsultationForm />
 
           <div className="grid gap-5">
-            <div className="rounded-mstry border border-mstry-gold/20 bg-[#111827]/70 p-8 shadow-luxury">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-mstry-gold">Why contact MSTRY</p>
-              <h2 className="mt-3 font-display text-3xl font-black text-white">A focused path into a professional client engagement.</h2>
+            <div className="rounded-mstry border border-mstry-gold/20 bg-[#111827]/70 p-5 shadow-luxury sm:p-8">
+              <p className="text-[11px] font-black uppercase tracking-[0.16em] text-mstry-gold sm:text-xs sm:tracking-[0.2em]">Why contact MSTRY</p>
+              <h2 className="mt-3 font-display text-[clamp(1.75rem,8vw,2.25rem)] font-black leading-tight text-white">A focused path into a professional client engagement.</h2>
               <p className="mt-4 text-sm leading-7 text-mstry-muted">
                 The contact request helps MSTRY understand your objective before proposing a discussion, structure, or engagement route. It is designed for qualified inquiries where discretion, clarity, and execution matter.
               </p>
@@ -51,12 +51,12 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="rounded-mstry border border-white/10 bg-[#0A0A0A]/70 p-8">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-mstry-gold">What happens next</p>
+            <div className="rounded-mstry border border-white/10 bg-[#0A0A0A]/70 p-5 sm:p-8">
+              <p className="text-[11px] font-black uppercase tracking-[0.16em] text-mstry-gold sm:text-xs sm:tracking-[0.2em]">What happens next</p>
               {nextSteps.map(([item, body], index) => (
                 <div className="border-b border-white/10 py-5 last:border-b-0" key={item}>
-                  <span className="text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">Step 0{index + 1}</span>
-                  <h3 className="mt-2 font-display text-2xl text-mstry-silver">{item}</h3>
+                  <span className="text-[11px] font-black uppercase tracking-[0.14em] text-mstry-gold sm:text-xs sm:tracking-[0.18em]">Step 0{index + 1}</span>
+                  <h3 className="mt-2 font-display text-xl text-mstry-silver sm:text-2xl">{item}</h3>
                   <p className="mt-2 text-sm leading-6 text-mstry-muted">{body}</p>
                 </div>
               ))}

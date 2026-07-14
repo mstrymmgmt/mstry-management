@@ -15,6 +15,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
+  overflow-x: clip;
 }
 
 section[id] {
@@ -31,6 +32,30 @@ body {
 
 a {
   text-decoration: none;
+}
+
+img,
+video,
+svg,
+canvas {
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(h1, h2, h3, h4, p, span, strong, a, button, label, summary, dt, dd, li) {
+  overflow-wrap: anywhere;
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid rgba(212, 175, 55, 0.9);
+  outline-offset: 3px;
 }
 
 .hero-cinema {
@@ -347,10 +372,40 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
   .hero-globe-light {
     animation: none;
     opacity: 0.24;
     transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  html {
+    scroll-padding-top: 24px;
+  }
+
+  section[id] {
+    scroll-margin-top: 24px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+    min-width: 0;
+  }
+
+  textarea {
+    line-height: 1.55;
   }
 }
 

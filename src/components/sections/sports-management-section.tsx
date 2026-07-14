@@ -111,7 +111,7 @@ export function SportsManagementSection() {
 
   return (
     <section id="capabilities" className="bg-[#0B0B0B] py-16 sm:py-24">
-      <div className="mx-auto w-[min(1400px,calc(100%_-_32px))]">
+      <div className="mx-auto w-[min(1400px,calc(100%_-_24px))] sm:w-[min(1400px,calc(100%_-_32px))]">
         <SectionHeading
           eyebrow="Management Excellence Framework"
           title="Explore the management capabilities that support client success."
@@ -133,13 +133,13 @@ export function SportsManagementSection() {
                   This dashboard is interactive. Hover or click any pillar to see the client benefit, strategic value, and business impact behind the capability.
                 </p>
               </div>
-              <span className="rounded-full border border-mstry-gold/30 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-mstry-gold">
+              <span className="rounded-full border border-mstry-gold/30 px-3 py-2 text-[11px] font-black uppercase tracking-[0.12em] text-mstry-gold sm:px-4 sm:text-xs sm:tracking-[0.18em]">
                 Capability strength
               </span>
             </div>
 
             <motion.div
-              className="relative mx-auto aspect-square w-full max-w-[min(540px,calc(100vw_-_72px))] overflow-visible rounded-full sm:max-w-[700px]"
+              className="relative mx-auto hidden aspect-square w-full max-w-[min(540px,calc(100vw_-_72px))] overflow-visible rounded-full sm:block sm:max-w-[700px]"
               initial={{ opacity: 0, scale: 0.94 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-80px" }}
@@ -281,7 +281,7 @@ export function SportsManagementSection() {
             </motion.div>
 
             <motion.div
-              className="mx-auto mt-4 flex w-fit items-center justify-center gap-2 rounded-full border border-mstry-gold/30 bg-[#0B0B0B]/86 px-4 py-2.5 text-center shadow-luxury backdrop-blur"
+              className="mx-auto mt-4 flex w-full max-w-xs items-center justify-center gap-2 rounded-full border border-mstry-gold/30 bg-[#0B0B0B]/86 px-4 py-2.5 text-center shadow-luxury backdrop-blur sm:w-fit"
               key={active.subject}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -291,6 +291,30 @@ export function SportsManagementSection() {
               <strong className="text-2xl leading-none text-mstry-gold">{active.value}</strong>
               <span className="text-[10px] font-black uppercase tracking-[0.16em] text-white">/100</span>
             </motion.div>
+
+            <div className="mt-5 grid gap-3 sm:hidden">
+              {sportsCapabilities.map((item) => {
+                const selected = item.subject === active.subject;
+                return (
+                  <button
+                    className={`rounded-mstry border p-3 text-left transition ${
+                      selected ? "border-mstry-gold/60 bg-mstry-gold/10" : "border-white/10 bg-white/[.03]"
+                    }`}
+                    key={item.subject}
+                    type="button"
+                    onClick={() => setLocked(item)}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="min-w-0 text-sm font-black leading-5 text-white">{item.subject}</span>
+                      <span className="shrink-0 text-sm font-black text-mstry-gold">{item.value}</span>
+                    </div>
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+                      <div className="h-full rounded-full bg-mstry-gold" style={{ width: `${item.value}%` }} />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <aside className="rounded-mstry border border-mstry-gold/15 bg-[#0B0B0B] p-4 shadow-luxury sm:p-5">
